@@ -382,6 +382,38 @@ if (cm.life <= 0 || cm.x > canvas.width + 200 || cm.y > canvas.height + 200) {
 comets.splice(c, 1);
 }
 }
+/* DRAW CONSTELLATION LINES */
+var cx = canvas.width / 2;
+var cy = canvas.height / 2;
+var isMobile = window.innerWidth <= 768;
+
+var elpisX = canvas.width * (isMobile ? 0.72 : 0.66);
+var elpisY = canvas.height * (isMobile ? 0.32 : 0.36);
+
+var dorm1X = canvas.width * (isMobile ? 0.28 : 0.34);
+var dorm1Y = canvas.height * (isMobile ? 0.68 : 0.64);
+
+var dorm2X = canvas.width * (isMobile ? 0.70 : 0.62);
+var dorm2Y = canvas.height * (isMobile ? 0.72 : 0.68);
+
+ctx.save();
+// Active line to ELPIS
+ctx.beginPath();
+ctx.moveTo(cx, cy);
+ctx.lineTo(elpisX, elpisY);
+ctx.strokeStyle = "rgba(255, 255, 255, 0.28)";
+ctx.lineWidth = 1;
+ctx.stroke();
+
+// Faint lines to dormant stars
+ctx.beginPath();
+ctx.moveTo(cx, cy);
+ctx.lineTo(dorm1X, dorm1Y);
+ctx.moveTo(elpisX, elpisY);
+ctx.lineTo(dorm2X, dorm2Y);
+ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+ctx.stroke();
+ctx.restore();
 
 requestAnimationFrame(animateSpace);
 }
