@@ -298,12 +298,10 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* 3D CONSTELLATION & DIRECT VIEW-HUB DRAG ENGINE */
+/* 3D CONSTELLATION & BULLETPROOF DRAG ENGINE */
 var canvas = document.getElementById("space-canvas");
 var rotX = 0.18;
 var rotY = -0.25;
-var velX = 0;
-var velY = 0.0012;
 var isDragging = false;
 var dragMoved = false;
 var lastMouseX = 0;
@@ -325,10 +323,10 @@ var edges3D = [
 { from: 2, to: 5, active: false }
 ];
 
-/* DIRECT DRAG LISTENERS ON VIEW-HUB */
-if (viewHub) {
-viewHub.addEventListener("mousedown", function (e) {
-if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
+/* GLOBAL WINDOW MOUSE & TOUCH DRAG LISTENERS */
+window.addEventListener("mousedown", function (e) {
+if (!viewHub || !viewHub.classList.contains("active")) return;
+if (e.target.closest("#radio-toggle")) return;
 isDragging = true;
 dragMoved = false;
 lastMouseX = e.clientX;
@@ -336,8 +334,29 @@ lastMouseY = e.clientY;
 viewHub.classList.add("dragging");
 });
 
-viewHub.addEventListener("touchstart", function (e) {
-if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
+window.addEventListener("mousemove", function (e) {
+if (!isDragging) return;
+var dx = e.clientX - lastMouseX;
+var dy = e.clientY - lastMouseY;
+if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+dragMoved = true;
+}
+rotY += dx * 0.007;
+rotX -= dy * 0.007;
+rotX = Math.max(-1.2, Math.min(1.2, rotX));
+lastMouseX = e.clientX;
+lastMouseY = e.clientY;
+});
+
+window.addEventListener("mouseup", function () {
+if (isDragging) {
+isDragging = false;
+if (viewHub) viewHub.classList.remove("dragging");
+}
+});
+
+window.addEventListener("touchstart", function (e) {
+if (!viewHub || !viewHub.classList.contains("active")) return;
 if (e.touches && e.touches.length === 1) {
 isDragging = true;
 dragMoved = false;
@@ -346,46 +365,20 @@ lastMouseY = e.touches[0].clientY;
 viewHub.classList.add("dragging");
 }
 }, { passive: true });
-}
-
-window.addEventListener("mousemove", function (e) {
-if (!isDragging) return;
-var dx = e.clientX - lastMouseX;
-var dy = e.clientY - lastMouseY;
-if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-dragMoved = true;
-}
-velY = dx * 0.0055;
-velX = -dy * 0.0055;
-rotY += velY;
-rotX += velX;
-rotX = Math.max(-1.2, Math.min(1.2, rotX));
-lastMouseX = e.clientX;
-lastMouseY = e.clientY;
-});
 
 window.addEventListener("touchmove", function (e) {
 if (!isDragging || !e.touches || e.touches.length !== 1) return;
 var dx = e.touches[0].clientX - lastMouseX;
 var dy = e.touches[0].clientY - lastMouseY;
-if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
 dragMoved = true;
 }
-velY = dx * 0.006;
-velX = -dy * 0.006;
-rotY += velY;
-rotX += velX;
+rotY += dx * 0.007;
+rotX -= dy * 0.007;
 rotX = Math.max(-1.2, Math.min(1.2, rotX));
 lastMouseX = e.touches[0].clientX;
 lastMouseY = e.touches[0].clientY;
 }, { passive: true });
-
-window.addEventListener("mouseup", function () {
-if (isDragging) {
-isDragging = false;
-if (viewHub) viewHub.classList.remove("dragging");
-}
-});
 
 window.addEventListener("touchend", function () {
 if (isDragging) {
@@ -458,13 +451,7 @@ spawnComet();
 
 function animateSpace() {
 ctx.clearRect(0, 0, canvas.width, canvas.height);
-if (!isDragging) {
-rotY += velY;
-rotX += velX;
-velX *= 0.94;
-velY = velY * 0.95 + 0.0012 * 0.05;
-rotX = Math.max(-1.2, Math.min(1.2, rotX));
-}
+
 var cx = canvas.width / 2;
 var cy = canvas.height / 2;
 var fov = Math.min(canvas.width, canvas.height) * 0.85;
