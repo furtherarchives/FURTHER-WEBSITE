@@ -298,6 +298,91 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
+/* ==========================================
+   CLEAN CSS-TRANSFORM CONSTELLATION SPIN ENGINE
+   ========================================== */
+var rotX = 0;
+var rotY = 0;
+var isDragging = false;
+var dragMoved = false;
+var lastMouseX = 0;
+var lastMouseY = 0;
+
+function updateConstellationTransform() {
+  if (constellationMap) {
+    constellationMap.style.transform = "perspective(1000px) rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
+  }
+}
+updateConstellationTransform();
+
+window.addEventListener("mousedown", function (e) {
+  if (!viewHub || !viewHub.classList.contains("active")) return;
+  if (e.target.closest("#radio-toggle")) return;
+  isDragging = true;
+  dragMoved = false;
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+  if (viewHub) viewHub.classList.add("dragging");
+});
+
+window.addEventListener("mousemove", function (e) {
+  if (!isDragging) return;
+  var dx = e.clientX - lastMouseX;
+  var dy = e.clientY - lastMouseY;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    dragMoved = true;
+  }
+  rotY += dx * 0.5;
+  rotX -= dy * 0.5;
+  rotX = Math.max(-50, Math.min(50, rotX));
+  
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+  updateConstellationTransform();
+});
+
+window.addEventListener("mouseup", function () {
+  if (isDragging) {
+    isDragging = false;
+    if (viewHub) viewHub.classList.remove("dragging");
+  }
+});
+
+window.addEventListener("touchstart", function (e) {
+  if (!viewHub || !viewHub.classList.contains("active")) return;
+  if (e.target.closest("#radio-toggle")) return;
+  if (e.touches && e.touches.length === 1) {
+    isDragging = true;
+    dragMoved = false;
+    lastMouseX = e.touches[0].clientX;
+    lastMouseY = e.touches[0].clientY;
+    if (viewHub) viewHub.classList.add("dragging");
+  }
+}, { passive: true });
+
+window.addEventListener("touchmove", function (e) {
+  if (!isDragging || !e.touches || e.touches.length !== 1) return;
+  var dx = e.touches[0].clientX - lastMouseX;
+  var dy = e.touches[0].clientY - lastMouseY;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    dragMoved = true;
+  }
+  rotY += dx * 0.5;
+  rotX -= dy * 0.5;
+  rotX = Math.max(-50, Math.min(50, rotX));
+  
+  lastMouseX = e.touches[0].clientX;
+  lastMouseY = e.touches[0].clientY;
+  updateConstellationTransform();
+}, { passive: true });
+
+window.addEventListener("touchend", function () {
+  if (isDragging) {
+    isDragging = false;
+    if (viewHub) viewHub.classList.remove("dragging");
+  }
+});
+
 /* BACKGROUND STARS & COMETS CANVAS LOOP */
 var canvas = document.getElementById("space-canvas");
 if (canvas) {
@@ -382,38 +467,6 @@ if (cm.life <= 0 || cm.x > canvas.width + 200 || cm.y > canvas.height + 200) {
 comets.splice(c, 1);
 }
 }
-/* DRAW CONSTELLATION LINES */
-var cx = canvas.width / 2;
-var cy = canvas.height / 2;
-var isMobile = window.innerWidth <= 768;
-
-var elpisX = canvas.width * (isMobile ? 0.72 : 0.66);
-var elpisY = canvas.height * (isMobile ? 0.32 : 0.36);
-
-var dorm1X = canvas.width * (isMobile ? 0.28 : 0.34);
-var dorm1Y = canvas.height * (isMobile ? 0.68 : 0.64);
-
-var dorm2X = canvas.width * (isMobile ? 0.70 : 0.62);
-var dorm2Y = canvas.height * (isMobile ? 0.72 : 0.68);
-
-ctx.save();
-// Active line to ELPIS
-ctx.beginPath();
-ctx.moveTo(cx, cy);
-ctx.lineTo(elpisX, elpisY);
-ctx.strokeStyle = "rgba(255, 255, 255, 0.28)";
-ctx.lineWidth = 1;
-ctx.stroke();
-
-// Faint lines to dormant stars
-ctx.beginPath();
-ctx.moveTo(cx, cy);
-ctx.lineTo(dorm1X, dorm1Y);
-ctx.moveTo(elpisX, elpisY);
-ctx.lineTo(dorm2X, dorm2Y);
-ctx.strokeStyle = "rgba(255, 255, 255, 0.08)";
-ctx.stroke();
-ctx.restore();
 
 requestAnimationFrame(animateSpace);
 }
@@ -423,6 +476,10 @@ requestAnimationFrame(animateSpace);
 /* PLANET WARP TRANSITION & NAVIGATION */
 if (nodeElpis) {
 nodeElpis.addEventListener("click", function (e) {
+if (dragMoved) {
+e.preventDefault();
+return;
+}
 stopBlackHoleStatic();
 playWarpAudio();
 if (constellationMap) {

@@ -28,6 +28,10 @@ html, body {
     min-height: 100vh;
     -webkit-overflow-scrolling: touch;
   }
+  #view-hub {
+    overflow: auto;
+    min-height: 100vh;
+  }
 }
 
 body.state-light {
@@ -200,8 +204,12 @@ body.full-page-glitch {
 #view-hub {
   position: fixed;
   inset: 0;
+  cursor: grab;
   background: transparent;
   z-index: 10;
+}
+#view-hub.dragging {
+  cursor: grabbing;
 }
 #space-canvas {
   position: fixed;
@@ -209,7 +217,7 @@ body.full-page-glitch {
   width: 100%;
   height: 100%;
   z-index: 1;
-  pointer-events: none;
+  pointer-events: none; /* Let clicks pass directly to view-hub handler */
 }
 .hub-header {
   position: fixed;
@@ -258,6 +266,7 @@ body.full-page-glitch {
   color: inherit;
   font-family: inherit;
   pointer-events: auto;
+  will-change: transform, opacity;
 }
 .node-label {
   margin-top: 14px;
@@ -787,45 +796,13 @@ input:checked + .slider::before {
   letter-spacing: 0.25em;
   color: #ffffff;
 }
-/* POSITIONING THE CONSTELLATION NODES PROPERLY */
-#node-blackhole {
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
+#view-hub {
+  cursor: grab;
 }
-
-#node-elpis {
-  left: 66%;
-  top: 36%;
-  transform: translate(-50%, -50%);
+#view-hub.dragging {
+  cursor: grabbing;
 }
-
-#node-dormant-1 {
-  left: 34%;
-  top: 64%;
-  transform: translate(-50%, -50%);
-  opacity: 0.35;
-}
-
-#node-dormant-2 {
-  left: 62%;
-  top: 68%;
-  transform: translate(-50%, -50%);
-  opacity: 0.3;
-}
-
-/* Mobile adjustment so nothing goes off-screen */
-@media (max-width: 768px) {
-  #node-elpis {
-    left: 72%;
-    top: 32%;
-  }
-  #node-dormant-1 {
-    left: 28%;
-    top: 68%;
-  }
-  #node-dormant-2 {
-    left: 70%;
-    top: 72%;
-  }
+.constellation-map {
+  transform-style: preserve-3d;
+  will-change: transform;
 }
