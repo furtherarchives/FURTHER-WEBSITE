@@ -298,120 +298,99 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* 3D CONSTELLATION & DIRECT DRAG SPIN ENGINE */
-var canvas = document.getElementById("space-canvas");
-var rotX = 0.18;
-var rotY = -0.25;
+/* ==========================================
+   CLEAN CSS-TRANSFORM CONSTELLATION SPIN ENGINE
+   ========================================== */
+var rotX = 0;
+var rotY = 0;
 var isDragging = false;
 var dragMoved = false;
 var lastMouseX = 0;
 var lastMouseY = 0;
 
-var nodes3D = [
-{ id: "origin", el: nodeBlackhole, x: 0, y: 0, z: 0, baseOpacity: 1 },
-{ id: "elpis", el: nodeElpis, x: 210, y: -95, z: 95, baseOpacity: 1 },
-{ id: "dormant1", el: nodeDormant1, x: -200, y: 105, z: -110, baseOpacity: 0.32 },
-{ id: "dormant2", el: nodeDormant2, x: 140, y: 125, z: -145, baseOpacity: 0.28 },
-{ id: "ghost1", el: null, x: -130, y: -140, z: 120, baseOpacity: 0.4 },
-{ id: "ghost2", el: null, x: -260, y: -30, z: -60, baseOpacity: 0.3 }
-];
-var edges3D = [
-{ from: 0, to: 1, active: true },
-{ from: 0, to: 2, active: false },
-{ from: 1, to: 3, active: false },
-{ from: 0, to: 4, active: false },
-{ from: 2, to: 5, active: false }
-];
+function updateConstellationTransform() {
+  if (constellationMap) {
+    constellationMap.style.transform = "perspective(1000px) rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
+  }
+}
+updateConstellationTransform();
 
-/* DIRECT DRAG & SPIN LISTENERS ON WINDOW & HUB */
 window.addEventListener("mousedown", function (e) {
-if (!viewHub || !viewHub.classList.contains("active")) return;
-if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
-isDragging = true;
-dragMoved = false;
-lastMouseX = e.clientX;
-lastMouseY = e.clientY;
-viewHub.classList.add("dragging");
+  if (!viewHub || !viewHub.classList.contains("active")) return;
+  if (e.target.closest("#radio-toggle")) return;
+  isDragging = true;
+  dragMoved = false;
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+  if (viewHub) viewHub.classList.add("dragging");
 });
 
 window.addEventListener("mousemove", function (e) {
-if (!isDragging) return;
-var dx = e.clientX - lastMouseX;
-var dy = e.clientY - lastMouseY;
-if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
-dragMoved = true;
-}
-rotY += dx * 0.008;
-rotX -= dy * 0.008;
-rotX = Math.max(-1.2, Math.min(1.2, rotX));
-lastMouseX = e.clientX;
-lastMouseY = e.clientY;
+  if (!isDragging) return;
+  var dx = e.clientX - lastMouseX;
+  var dy = e.clientY - lastMouseY;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    dragMoved = true;
+  }
+  rotY += dx * 0.5;
+  rotX -= dy * 0.5;
+  rotX = Math.max(-50, Math.min(50, rotX));
+  
+  lastMouseX = e.clientX;
+  lastMouseY = e.clientY;
+  updateConstellationTransform();
 });
 
 window.addEventListener("mouseup", function () {
-if (isDragging) {
-isDragging = false;
-if (viewHub) viewHub.classList.remove("dragging");
-}
+  if (isDragging) {
+    isDragging = false;
+    if (viewHub) viewHub.classList.remove("dragging");
+  }
 });
 
 window.addEventListener("touchstart", function (e) {
-if (!viewHub || !viewHub.classList.contains("active")) return;
-if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
-if (e.touches && e.touches.length === 1) {
-isDragging = true;
-dragMoved = false;
-lastMouseX = e.touches[0].clientX;
-lastMouseY = e.touches[0].clientY;
-viewHub.classList.add("dragging");
-}
+  if (!viewHub || !viewHub.classList.contains("active")) return;
+  if (e.target.closest("#radio-toggle")) return;
+  if (e.touches && e.touches.length === 1) {
+    isDragging = true;
+    dragMoved = false;
+    lastMouseX = e.touches[0].clientX;
+    lastMouseY = e.touches[0].clientY;
+    if (viewHub) viewHub.classList.add("dragging");
+  }
 }, { passive: true });
 
 window.addEventListener("touchmove", function (e) {
-if (!isDragging || !e.touches || e.touches.length !== 1) return;
-var dx = e.touches[0].clientX - lastMouseX;
-var dy = e.touches[0].clientY - lastMouseY;
-if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
-dragMoved = true;
-}
-rotY += dx * 0.008;
-rotX -= dy * 0.008;
-rotX = Math.max(-1.2, Math.min(1.2, rotX));
-lastMouseX = e.touches[0].clientX;
-lastMouseY = e.touches[0].clientY;
+  if (!isDragging || !e.touches || e.touches.length !== 1) return;
+  var dx = e.touches[0].clientX - lastMouseX;
+  var dy = e.touches[0].clientY - lastMouseY;
+  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+    dragMoved = true;
+  }
+  rotY += dx * 0.5;
+  rotX -= dy * 0.5;
+  rotX = Math.max(-50, Math.min(50, rotX));
+  
+  lastMouseX = e.touches[0].clientX;
+  lastMouseY = e.touches[0].clientY;
+  updateConstellationTransform();
 }, { passive: true });
 
 window.addEventListener("touchend", function () {
-if (isDragging) {
-isDragging = false;
-if (viewHub) viewHub.classList.remove("dragging");
-}
+  if (isDragging) {
+    isDragging = false;
+    if (viewHub) viewHub.classList.remove("dragging");
+  }
 });
 
-function project3D(x, y, z, cx, cy, fov) {
-var cosY = Math.cos(rotY);
-var sinY = Math.sin(rotY);
-var x1 = x * cosY - z * sinY;
-var z1 = z * cosY + x * sinY;
-var cosX = Math.cos(rotX);
-var sinX = Math.sin(rotX);
-var y2 = y * cosX - z1 * sinX;
-var z2 = z1 * cosX + y * sinX;
-var depth = Math.max(120, fov + z2);
-var scale = fov / depth;
-return {
-sx: cx + x1 * scale,
-sy: cy + y2 * scale,
-scale: scale,
-z: z2
-};
-}
-
+/* BACKGROUND STARS & COMETS CANVAS LOOP */
+var canvas = document.getElementById("space-canvas");
 if (canvas) {
 var ctx = canvas.getContext("2d");
 var bgStars = [];
 var comets = [];
 var starCount = 220;
+
 function resizeCanvas() {
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -420,24 +399,19 @@ resizeCanvas();
 window.addEventListener("resize", resizeCanvas);
 
 for (var s = 0; s < starCount; s++) {
-var theta = Math.random() * Math.PI * 2;
-var phi = Math.acos(Math.random() * 2 - 1);
-var radius = 500 + Math.random() * 650;
 bgStars.push({
-x: radius * Math.sin(phi) * Math.cos(theta),
-y: radius * Math.sin(phi) * Math.sin(theta),
-z: radius * Math.cos(phi),
+x: Math.random() * window.innerWidth,
+y: Math.random() * window.innerHeight,
 r: Math.random() * 1.5 + 0.4,
 alpha: Math.random() * 0.8 + 0.1,
-twinkleSpeed: Math.random() * 0.03 + 0.01 // ENHANCED TWINKLE SPEED
+twinkleSpeed: Math.random() * 0.03 + 0.01
 });
 }
 
 function spawnComet() {
-var startFromLeft = Math.random() > 0.5;
 comets.push({
-x: startFromLeft ? -50 : Math.random() * canvas.width,
-y: startFromLeft ? Math.random() * (canvas.height * 0.7) : -50,
+x: -50,
+y: Math.random() * (window.innerHeight * 0.7),
 vx: Math.random() * 6 + 5,
 vy: Math.random() * 3 + 2,
 length: Math.random() * 120 + 80,
@@ -445,7 +419,6 @@ life: 1
 });
 }
 
-/* FREQUENT COMET SPAWN INTERVAL */
 setInterval(function () {
 if (viewHub && viewHub.classList.contains("active")) {
 spawnComet();
@@ -455,27 +428,20 @@ spawnComet();
 function animateSpace() {
 ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-var cx = canvas.width / 2;
-var cy = canvas.height / 2;
-var fov = Math.min(canvas.width, canvas.height) * 0.85;
-
-/* BACKGROUND STARS WITH VIBRANT TWINKLE */
+/* DRAW TWINKLING STARS */
 for (var i = 0; i < bgStars.length; i++) {
 var st = bgStars[i];
 st.alpha += st.twinkleSpeed;
 if (st.alpha > 0.98 || st.alpha < 0.1) {
 st.twinkleSpeed *= -1;
 }
-var pStar = project3D(st.x, st.y, st.z, cx, cy, fov);
-if (pStar.z > -fov * 0.8) {
 ctx.beginPath();
-ctx.arc(pStar.sx, pStar.sy, Math.max(0.5, st.r * pStar.scale), 0, Math.PI * 2);
+ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
 ctx.fillStyle = "rgba(255, 255, 255," + st.alpha.toFixed(2) + ")";
 ctx.fill();
 }
-}
 
-/* COMETS */
+/* DRAW COMETS */
 for (var c = comets.length - 1; c >= 0; c--) {
 var cm = comets[c];
 cm.x += cm.vx;
@@ -502,41 +468,9 @@ comets.splice(c, 1);
 }
 }
 
-var projected = [];
-for (var n = 0; n < nodes3D.length; n++) {
-var nd = nodes3D[n];
-var pr = project3D(nd.x, nd.y, nd.z, cx, cy, fov);
-projected.push(pr);
-if (nd.el) {
-var depthFade = Math.max(0.25, Math.min(1.15, pr.scale));
-nd.el.style.transform = "translate3d(" + pr.sx.toFixed(1) + "px, " + pr.sy.toFixed(1) + "px, 0) translate(-50%, -50%) scale(" + pr.scale.toFixed(3) + ")";
-nd.el.style.opacity = (nd.baseOpacity * depthFade).toFixed(2);
-nd.el.style.zIndex = String(Math.round(500 + pr.z));
-} else {
-ctx.beginPath();
-ctx.arc(pr.sx, pr.sy, Math.max(0.8, 2 * pr.scale), 0, Math.PI * 2);
-ctx.fillStyle = "rgba(255, 255, 255, 0.25)";
-ctx.fill();
-}
-}
-
-for (var e = 0; e < edges3D.length; e++) {
-var edge = edges3D[e];
-var pA = projected[edge.from];
-var pB = projected[edge.to];
-ctx.save();
-ctx.beginPath();
-ctx.setLineDash([]);
-ctx.moveTo(pA.sx, pA.sy);
-ctx.lineTo(pB.sx, pB.sy);
-ctx.strokeStyle = edge.active ? "rgba(255, 255, 255, 0.28)" : "rgba(255, 255, 255, 0.08)";
-ctx.lineWidth = 1;
-ctx.stroke();
-ctx.restore();
-}
+requestAnimationFrame(animateSpace);
 }
 requestAnimationFrame(animateSpace);
-animateSpace();
 }
 
 /* PLANET WARP TRANSITION & NAVIGATION */

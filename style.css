@@ -796,3 +796,13 @@ input:checked + .slider::before {
   letter-spacing: 0.25em;
   color: #ffffff;
 }
+#view-hub {
+  cursor: grab;
+}
+#view-hub.dragging {
+  cursor: grabbing;
+}
+.constellation-map {
+  transform-style: preserve-3d;
+  will-change: transform;
+}
