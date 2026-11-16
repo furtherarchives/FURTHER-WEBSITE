@@ -28,7 +28,8 @@ body.state-light {
   color: var(--fg-light);
 }
 
-.hidden-yt-players {
+/* YOUTUBE PLAYERS (KEPT RENDERABLE SO BROWSERS ALLOW AUDIO) */
+.yt-hidden-box {
   position: fixed;
   bottom: 0;
   right: 0;
@@ -36,9 +37,8 @@ body.state-light {
   height: 140px;
   opacity: 0.01;
   pointer-events: none;
-  z-index: -1;
+  z-index: 1;
 }
-
 
 /* FILM GRAIN */
 .grain {
@@ -400,6 +400,8 @@ body.full-page-glitch {
   align-items: center;
   text-align: center;
   padding: 20px;
+  position: relative;
+  z-index: 30;
 }
 
 .phrase-text {
@@ -409,6 +411,7 @@ body.full-page-glitch {
   letter-spacing: 0.22em;
   margin-bottom: 48px;
   position: relative;
+  z-index: 35;
 }
 
 body:not(.state-light) .phrase-text {
@@ -426,6 +429,9 @@ body:not(.state-light) .phrase-text {
   cursor: pointer;
   position: relative;
   display: inline-block;
+  padding: 4px 6px;
+  z-index: 40;
+  pointer-events: auto;
   transition: text-shadow 0.35s ease, transform 0.25s ease, color 0.35s ease;
 }
 
@@ -473,16 +479,14 @@ body:not(.state-light) .hope-glitch:hover {
   text-shadow:
     0 0 10px #ffffff,
     0 0 24px #ffffff,
-    0 0 48px rgba(255, 248, 220, 0.95),
-    0 0 90px rgba(255, 240, 190, 0.85);
-  transform: scale(1.06);
+0 0 48px rgba(255, 248, 220, 0.95),
+0 0 90px rgba(255, 240, 190, 0.85);
+transform: scale(1.06);
 }
-
 .hope-angelic:hover::before {
-  opacity: 1;
-  transform: translate(-50%, -50%) scaleX(1.2);
+opacity: 1;
+transform: translate(-50%, -50%) scaleX(1.2);
 }
-
 .word-cage:hover {
 text-decoration: underline;
 text-underline-offset: 8px;
@@ -498,6 +502,8 @@ transform: scale(1.05);
 display: flex;
 align-items: center;
 gap: 16px;
+position: relative;
+z-index: 35;
 }
 .switch-tag {
 font-size: 0.7rem;

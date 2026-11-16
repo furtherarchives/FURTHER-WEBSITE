@@ -12,7 +12,8 @@ function onYouTubeIframeAPIReady() {
       loop: 1,
       playlist: "7rgG3sboipg",
       controls: 0,
-      playsinline: 1
+      playsinline: 1,
+      origin: window.location.origin
     },
     events: {
       onReady: function (e) {
@@ -30,7 +31,8 @@ function onYouTubeIframeAPIReady() {
       loop: 1,
       playlist: "cAZpMtl9ZeE",
       controls: 0,
-      playsinline: 1
+      playsinline: 1,
+      origin: window.location.origin
     },
     events: {
       onReady: function (e) {
@@ -75,6 +77,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var passwordFeedback = document.getElementById("password-feedback");
   var timerTooltip = document.getElementById("elpis-timer-tooltip");
 
+  var audioSpaceBg = document.getElementById("audio-space-bg");
+  var audioNasaBg = document.getElementById("audio-nasa-bg");
   var audioWarp = document.getElementById("audio-warp");
   var audioSideA = document.getElementById("audio-side-a");
   var audioSideB = document.getElementById("audio-side-b");
@@ -93,27 +97,24 @@ document.addEventListener("DOMContentLoaded", function () {
     { letter: "S", label: "TRANSMISSION 05 // SIDE B", title: "[ ENCRYPTED // WEEK 05 ]" }
   ];
 
-  /* WEB AUDIO API SOUND DESIGN ENGINE */
+  /* BLACK HOLE RADIO STATIC ONLY (NO SYNTH FX) */
   var audioCtx = null;
   var staticNode = null;
   var staticGain = null;
 
-  function ensureAudioCtx() {
+  function startBlackHoleStatic() {
+    if (!radioEnabled) return;
     if (!audioCtx) {
       var AudioContextClass = window.AudioContext || window.webkitAudioContext;
       if (AudioContextClass) {
         audioCtx = new AudioContextClass();
       }
     }
-    if (audioCtx && audioCtx.state === "suspended") {
+    if (!audioCtx) return;
+    if (audioCtx.state === "suspended") {
       audioCtx.resume();
     }
-  }
-
-  function startBlackHoleStatic() {
-    if (!radioEnabled) return;
-    ensureAudioCtx();
-    if (!audioCtx || staticNode) return;
+    if (staticNode) return;
 
     var bufferSize = audioCtx.sampleRate * 2;
     var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
@@ -151,89 +152,37 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  function playGlitchBurst() {
-    if (!radioEnabled) return;
-    ensureAudioCtx();
-    if (!audioCtx) return;
-
-    var duration = 0.22;
-    var bufferSize = Math.floor(audioCtx.sampleRate * duration);
-    var buffer = audioCtx.createBuffer(1, bufferSize, audioCtx.sampleRate);
-    var data = buffer.getChannelData(0);
-    for (var i = 0; i < bufferSize; i++) {
-      data[i] = (Math.random() * 2 - 1) * (1 - i / bufferSize);
-    }
-
-    var noise = audioCtx.createBufferSource();
-    noise.buffer = buffer;
-
-    var gain = audioCtx.createGain();
-    gain.gain.value = 0.18;
-
-    noise.connect(gain);
-    gain.connect(audioCtx.destination);
-    noise.start();
-  }
-
-  function playAngelicChord() {
-    if (!radioEnabled) return;
-    ensureAudioCtx();
-    if (!audioCtx) return;
-
-    var freqs = [523.25, 659.25, 783.99, 1046.5];
-    for (var i = 0; i < freqs.length; i++) {
-      var osc = audioCtx.createOscillator();
-      var gain = audioCtx.createGain();
-      osc.type = "sine";
-      osc.frequency.value = freqs[i];
-
-      gain.gain.setValueAtTime(0.001, audioCtx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.035, audioCtx.currentTime + 0.35);
-      gain.gain.exponentialRampToValueAtTime(0.0001, audioCtx.currentTime + 1.8);
-
-      osc.connect(gain);
-      gain.connect(audioCtx.destination);
-      osc.start();
-      osc.stop(audioCtx.currentTime + 1.85);
-    }
-  }
-
   function playWarpAudio() {
     if (!radioEnabled) return;
     if (audioWarp && audioWarp.readyState >= 2) {
       audioWarp.currentTime = 0;
       audioWarp.play().catch(function () {});
-      return;
     }
-    ensureAudioCtx();
-    if (!audioCtx) return;
-    var osc = audioCtx.createOscillator();
-    var gain = audioCtx.createGain();
-    osc.type = "sawtooth";
-    osc.frequency.setValueAtTime(180, audioCtx.currentTime);
-    osc.frequency.exponentialRampToValueAtTime(32, audioCtx.currentTime + 1.0);
-    gain.gain.setValueAtTime(0.12, audioCtx.currentTime);
-    gain.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 1.05);
-    osc.connect(gain);
-    gain.connect(audioCtx.destination);
-    osc.start();
-    osc.stop(audioCtx.currentTime + 1.1);
   }
 
   function syncBackgroundComms() {
     var onHub = viewHub && viewHub.classList.contains("active");
     if (radioEnabled && onHub) {
-      if (ytSpacePlayer && typeof ytSpacePlayer.playVideo === "function") {
+      if (audioSpaceBg && audioSpaceBg.readyState >= 2) {
+        audioSpaceBg.volume = 0.65;
+        audioSpaceBg.play().catch(function () {});
+      } else if (ytSpacePlayer && typeof ytSpacePlayer.playVideo === "function") {
         ytSpacePlayer.unMute();
         ytSpacePlayer.setVolume(65);
         ytSpacePlayer.playVideo();
       }
-      if (ytNasaPlayer && typeof ytNasaPlayer.playVideo === "function") {
+
+      if (audioNasaBg && audioNasaBg.readyState >= 2) {
+        audioNasaBg.volume = 0.45;
+        audioNasaBg.play().catch(function () {});
+      } else if (ytNasaPlayer && typeof ytNasaPlayer.playVideo === "function") {
         ytNasaPlayer.unMute();
         ytNasaPlayer.setVolume(45);
         ytNasaPlayer.playVideo();
       }
     } else {
+      if (audioSpaceBg) audioSpaceBg.pause();
+      if (audioNasaBg) audioNasaBg.pause();
       if (ytSpacePlayer && typeof ytSpacePlayer.pauseVideo === "function") {
         ytSpacePlayer.pauseVideo();
       }
@@ -246,7 +195,6 @@ document.addEventListener("DOMContentLoaded", function () {
   if (radioToggle) {
     radioToggle.addEventListener("click", function () {
       radioEnabled = !radioEnabled;
-      ensureAudioCtx();
       if (radioEnabled) {
         radioToggle.classList.add("active");
         if (radioStatus) radioStatus.textContent = "ON";
@@ -266,7 +214,6 @@ document.addEventListener("DOMContentLoaded", function () {
 
   /* GLITCH & VIEW MANAGEMENT */
   function triggerGlitch(violentFullPage) {
-    playGlitchBurst();
     if (glitchOverlay) {
       glitchOverlay.classList.remove("flash");
       void glitchOverlay.offsetWidth;
@@ -299,55 +246,55 @@ document.addEventListener("DOMContentLoaded", function () {
     syncBackgroundComms();
   }
 
-  /* DUALITY CHAMBER LOGIC */
+  /* DUALITY CHAMBER LOGIC (HOPE -> CAGE -> PANDORA & HOPE -> KEY -> ELPIS) */
+  function handleHopeClick() {
+    if (hasMutatedPhrase) return;
+    hasMutatedPhrase = true;
+
+    if (!isLightMode) {
+      triggerGlitch(true);
+      setTimeout(function () {
+        dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-cage" class="interactive-word word-cage">CAGE</span>.';
+        replayPhraseEntrance();
+        var wordCage = document.getElementById("word-cage");
+        if (wordCage) {
+          wordCage.addEventListener("click", function () {
+            triggerGlitch(false);
+            showView(viewPandora);
+          });
+        }
+      }, 260);
+    } else {
+      triggerGlitch(false);
+      dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-key" class="interactive-word word-key">KEY</span>.';
+      replayPhraseEntrance();
+      var wordKey = document.getElementById("word-key");
+      if (wordKey && keyModal && passwordInput && passwordFeedback) {
+        wordKey.addEventListener("click", function () {
+          passwordInput.value = "";
+          passwordFeedback.textContent = "";
+          keyModal.classList.remove("hidden");
+          passwordInput.focus();
+        });
+      }
+    }
+  }
+
   function bindPhraseInteractions() {
     var wordHope = document.getElementById("word-hope");
-    if (!wordHope || !dualityPhrase) return;
-
-    if (isLightMode) {
-      wordHope.addEventListener("mouseenter", playAngelicChord);
+    if (wordHope) {
+      wordHope.addEventListener("click", handleHopeClick);
     }
+  }
 
-    wordHope.addEventListener("click", function () {
-      if (hasMutatedPhrase) return;
-hasMutatedPhrase = true;
-if (!isLightMode) {
-triggerGlitch(true);
-setTimeout(function () {
-dualityPhrase.innerHTML = 'HOPE IS THE CAGE.';
-replayPhraseEntrance();
-var wordCage = document.getElementById("word-cage");
-if (wordCage) {
-wordCage.addEventListener("click", function () {
-triggerGlitch(false);
-showView(viewPandora);
-});
-}
-}, 260);
-} else {
-triggerGlitch(false);
-dualityPhrase.innerHTML = 'HOPE IS THE KEY.';
-replayPhraseEntrance();
-var wordKey = document.getElementById("word-key");
-if (wordKey && keyModal && passwordInput && passwordFeedback) {
-wordKey.addEventListener("click", function () {
-passwordInput.value = "";
-passwordFeedback.textContent = "";
-keyModal.classList.remove("hidden");
-passwordInput.focus();
-});
-}
-}
-});
-}
-function renderDualityState() {
-if (!dualityPhrase) return;
-hasMutatedPhrase = false;
-if (!isLightMode) {
-document.body.classList.remove("state-light");
-dualityPhrase.innerHTML = 'ALL HOPE IS GONE.';
-} else {
-document.body.classList.add("state-light");
+  function renderDualityState() {
+    if (!dualityPhrase) return;
+    hasMutatedPhrase = false;
+
+    if (!isLightMode) {
+      document.body.classList.remove("state-light");
+      dualityPhrase.innerHTML = 'ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.';
+    } else {document.body.classList.add("state-light");
 dualityPhrase.innerHTML = 'ALL WE HAVE IS HOPE.';
 }
 replayPhraseEntrance();
