@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FURTHER</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-hub">
+  <!-- Subtle Analog Film Grain Overlay -->
+  <div class="grain"></div>
+  <!-- Screen Glitch Flash Overlay -->
+  <div id="glitch-overlay" class="glitch-overlay"></div>
+
+  <!-- VIEW 1: CONSTELLATION HUB -->
+  <main id="view-hub" class="view active">
+    <div class="hub-header">FURTHER // ARCHIVE</div>
+
+    <div class="constellation-map">
+      <!-- Connecting Vector Line -->
+      <svg class="star-lines" viewBox="0 0 1000 600" preserveAspectRatio="none">
+        <line x1="500" y1="300" x2="730" y2="210" class="constellation-edge" />
+        <line x1="500" y1="300" x2="290" y2="390" class="constellation-edge dormant-edge" />
+        <line x1="730" y1="210" x2="840" y2="340" class="constellation-edge dormant-edge" />
+      </svg>
+
+      <!-- Central Black Hole Node -->
+      <div class="node black-hole-node" style="left: 50%; top: 50%;">
+        <div class="tooltip quote-tooltip">Wonder, is the beginning of wisdom...</div>
+        <div class="black-hole">
+          <div class="accretion-disk"></div>
+          <div class="event-horizon"></div>
+        </div>
+        <span class="node-label">ORIGIN</span>
+      </div>
+
+      <!-- ELPIS Star Node -->
+      <button id="node-elpis" class="node star-node" style="left: 73%; top: 35%;" aria-label="Enter Elpis">
+        <div id="elpis-timer-tooltip" class="tooltip timer-tooltip">00D : 00H : 00M : 00S</div>
+        <div class="star-core"></div>
+        <div class="star-ring"></div>
+        <span class="node-label">I // ELPIS</span>
+      </button>
+
+      <!-- Dormant Future System Nodes -->
+      <div class="node dormant-node" style="left: 29%; top: 65%;">
+        <div class="dormant-dot"></div>
+        <span class="node-label">II // [LOCKED]</span>
+      </div>
+      <div class="node dormant-node" style="left: 84%; top: 57%;">
+        <div class="dormant-dot"></div>
+        <span class="node-label">III // [LOCKED]</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- VIEW 2: ELPIS DUALITY CHAMBER -->
+  <main id="view-elpis" class="view">
+    <button id="back-to-hub" class="nav-return">← CONSTELLATION</button>
+
+    <div class="chamber-center">
+      <h1 id="duality-phrase" class="phrase-text" data-text="ALL HOPE IS GONE.">
+        ALL <span id="word-hope" class="interactive-word hope-glitch" data-text="HOPE">HOPE</span> IS GONE.
+      </h1>
+
+      <!-- Polarity Switch -->
+      <div class="switch-container">
+        <span class="switch-tag">SIDE B</span>
+        <label class="polarity-switch" aria-label="Toggle Duality State">
+          <input type="checkbox" id="polarity-toggle" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-tag">SIDE A</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- VIEW 3: PANDORA'S BOX CHAMBER -->
+  <main id="view-pandora" class="view">
+    <button id="back-from-pandora" class="nav-return">← RETURN</button>
+
+    <div class="pandora-container">
+      <!-- Minimalist Geometric Pandora's Box SVG -->
+      <svg class="pandora-box-svg" viewBox="0 0 240 240" width="220" height="220">
+        <!-- Radiating Light / Cracks -->
+        <line x1="120" y1="85" x2="120" y2="25" class="box-ray" />
+        <line x1="95" y1="90" x2="55" y2="40" class="box-ray" />
+        <line x1="145" y1="90" x2="185" y2="40" class="box-ray" />
+        <!-- Lifted Lid -->
+        <polygon points="55,95 120,65 185,95 120,115" class="box-stroke box-lid" />
+        <!-- Inner Glow Core -->
+        <ellipse cx="120" cy="108" rx="36" ry="10" class="box-core" />
+        <!-- Box Base -->
+        <polygon points="60,110 120,132 120,195 60,170" class="box-stroke" />
+        <polygon points="180,110 120,132 120,195 180,170" class="box-stroke" />
+        <!-- Intricate Seal Lines -->
+        <line x1="90" y1="121" x2="90" y2="182" class="box-detail" />
+        <line x1="150" y1="121" x2="150" y2="182" class="box-detail" />
+      </svg>
+
+      <p class="pandora-inscription">P A N D O R A</p>
+      <p class="pandora-sub">WHAT REMAINS INSIDE IS BOTH CURSE AND CURE.</p>
+    </div>
+  </main>
+
+  <!-- PASSWORD MODAL FOR "KEY" -->
+  <div id="key-modal" class="modal hidden">
+    <div class="modal-box">
+      <button id="close-modal" class="modal-close">×</button>
+      <p class="modal-prompt">ENTER CIPHER</p>
+      <form id="password-form" autocomplete="off">
+        <input type="text" id="password-input" placeholder="••••••••" spellcheck="false" />
+        <button type="submit" class="modal-submit">UNLOCK</button>
+      </form>
+      <p id="password-feedback" class="feedback-msg"></p>
+    </div>
+  </div>
+
+  <!-- VIEW 4: FINAL ELPIS DIAGONAL SPLIT REVEAL -->
+  <main id="view-reveal" class="view">
+    <button id="back-from-reveal" class="nav-return split-nav">← CONSTELLATION</button>
+    <div class="diagonal-split-bg"></div>
+    <div class="reveal-content">
+      <p class="reveal-artist">FURTHER</p>
+      <h1 class="reveal-title">ELPIS</h1>
+      <p class="reveal-sub">SIDE A // SIDE B</p>
+    </div>
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>
