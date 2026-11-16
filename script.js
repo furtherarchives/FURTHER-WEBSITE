@@ -298,7 +298,7 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* 3D CONSTELLATION & BULLETPROOF DRAG ENGINE */
+/* 3D CONSTELLATION & DIRECT DRAG SPIN ENGINE */
 var canvas = document.getElementById("space-canvas");
 var rotX = 0.18;
 var rotY = -0.25;
@@ -323,10 +323,10 @@ var edges3D = [
 { from: 2, to: 5, active: false }
 ];
 
-/* GLOBAL WINDOW MOUSE & TOUCH DRAG LISTENERS */
+/* DIRECT DRAG & SPIN LISTENERS ON WINDOW & HUB */
 window.addEventListener("mousedown", function (e) {
 if (!viewHub || !viewHub.classList.contains("active")) return;
-if (e.target.closest("#radio-toggle")) return;
+if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
 isDragging = true;
 dragMoved = false;
 lastMouseX = e.clientX;
@@ -338,11 +338,11 @@ window.addEventListener("mousemove", function (e) {
 if (!isDragging) return;
 var dx = e.clientX - lastMouseX;
 var dy = e.clientY - lastMouseY;
-if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
 dragMoved = true;
 }
-rotY += dx * 0.007;
-rotX -= dy * 0.007;
+rotY += dx * 0.008;
+rotX -= dy * 0.008;
 rotX = Math.max(-1.2, Math.min(1.2, rotX));
 lastMouseX = e.clientX;
 lastMouseY = e.clientY;
@@ -357,6 +357,7 @@ if (viewHub) viewHub.classList.remove("dragging");
 
 window.addEventListener("touchstart", function (e) {
 if (!viewHub || !viewHub.classList.contains("active")) return;
+if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
 if (e.touches && e.touches.length === 1) {
 isDragging = true;
 dragMoved = false;
@@ -370,11 +371,11 @@ window.addEventListener("touchmove", function (e) {
 if (!isDragging || !e.touches || e.touches.length !== 1) return;
 var dx = e.touches[0].clientX - lastMouseX;
 var dy = e.touches[0].clientY - lastMouseY;
-if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
+if (Math.abs(dx) > 1 || Math.abs(dy) > 1) {
 dragMoved = true;
 }
-rotY += dx * 0.007;
-rotX -= dy * 0.007;
+rotY += dx * 0.008;
+rotX -= dy * 0.008;
 rotX = Math.max(-1.2, Math.min(1.2, rotX));
 lastMouseX = e.touches[0].clientX;
 lastMouseY = e.touches[0].clientY;
@@ -410,7 +411,7 @@ if (canvas) {
 var ctx = canvas.getContext("2d");
 var bgStars = [];
 var comets = [];
-var starCount = 180;
+var starCount = 220;
 function resizeCanvas() {
 canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
@@ -426,28 +427,30 @@ bgStars.push({
 x: radius * Math.sin(phi) * Math.cos(theta),
 y: radius * Math.sin(phi) * Math.sin(theta),
 z: radius * Math.cos(phi),
-r: Math.random() * 1.4 + 0.35,
-alpha: Math.random() * 0.7 + 0.2,
-twinkleSpeed: Math.random() * 0.015 + 0.004
+r: Math.random() * 1.5 + 0.4,
+alpha: Math.random() * 0.8 + 0.1,
+twinkleSpeed: Math.random() * 0.03 + 0.01 // ENHANCED TWINKLE SPEED
 });
 }
 
 function spawnComet() {
-var startFromLeft = Math.random() > 0.35;
+var startFromLeft = Math.random() > 0.5;
 comets.push({
 x: startFromLeft ? -50 : Math.random() * canvas.width,
-y: startFromLeft ? Math.random() * (canvas.height * 0.6) : -50,
-vx: Math.random() * 5 + 4.5,
-vy: Math.random() * 2.5 + 1.8,
-length: Math.random() * 90 + 60,
+y: startFromLeft ? Math.random() * (canvas.height * 0.7) : -50,
+vx: Math.random() * 6 + 5,
+vy: Math.random() * 3 + 2,
+length: Math.random() * 120 + 80,
 life: 1
 });
 }
+
+/* FREQUENT COMET SPAWN INTERVAL */
 setInterval(function () {
-if (viewHub && viewHub.classList.contains("active") && Math.random() > 0.35) {
+if (viewHub && viewHub.classList.contains("active")) {
 spawnComet();
 }
-}, 3800);
+}, 1800);
 
 function animateSpace() {
 ctx.clearRect(0, 0, canvas.width, canvas.height);
@@ -456,26 +459,28 @@ var cx = canvas.width / 2;
 var cy = canvas.height / 2;
 var fov = Math.min(canvas.width, canvas.height) * 0.85;
 
+/* BACKGROUND STARS WITH VIBRANT TWINKLE */
 for (var i = 0; i < bgStars.length; i++) {
 var st = bgStars[i];
 st.alpha += st.twinkleSpeed;
-if (st.alpha > 0.95 || st.alpha < 0.15) {
+if (st.alpha > 0.98 || st.alpha < 0.1) {
 st.twinkleSpeed *= -1;
 }
 var pStar = project3D(st.x, st.y, st.z, cx, cy, fov);
 if (pStar.z > -fov * 0.8) {
 ctx.beginPath();
-ctx.arc(pStar.sx, pStar.sy, Math.max(0.4, st.r * pStar.scale), 0, Math.PI * 2);
+ctx.arc(pStar.sx, pStar.sy, Math.max(0.5, st.r * pStar.scale), 0, Math.PI * 2);
 ctx.fillStyle = "rgba(255, 255, 255," + st.alpha.toFixed(2) + ")";
 ctx.fill();
 }
 }
 
+/* COMETS */
 for (var c = comets.length - 1; c >= 0; c--) {
 var cm = comets[c];
 cm.x += cm.vx;
 cm.y += cm.vy;
-cm.life -= 0.008;
+cm.life -= 0.012;
 var grad = ctx.createLinearGradient(
 cm.x, cm.y,
 cm.x - cm.vx * (cm.length / 6),
@@ -484,7 +489,7 @@ cm.y - cm.vy * (cm.length / 6)
 grad.addColorStop(0, "rgba(255, 255, 255," + Math.max(0, cm.life) + ")");
 grad.addColorStop(1, "rgba(255, 255, 255, 0)");
 ctx.strokeStyle = grad;
-ctx.lineWidth = 1.4;
+ctx.lineWidth = 1.6;
 ctx.beginPath();
 ctx.moveTo(cm.x, cm.y);
 ctx.lineTo(
@@ -492,7 +497,7 @@ cm.x - cm.vx * (cm.length / 6),
 cm.y - cm.vy * (cm.length / 6)
 );
 ctx.stroke();
-if (cm.life <= 0 || cm.x > canvas.width + 150 || cm.y > canvas.height + 150) {
+if (cm.life <= 0 || cm.x > canvas.width + 200 || cm.y > canvas.height + 200) {
 comets.splice(c, 1);
 }
 }
