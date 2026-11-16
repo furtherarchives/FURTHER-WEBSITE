@@ -212,7 +212,7 @@ targetView.classList.add("active");
 syncBackgroundComms();
 }
 
-/* DUALITY CHAMBER LOGIC (SIDE A & SIDE B) */
+/* DUALITY CHAMBER LOGIC */
 function renderDualityState() {
 if (!dualityPhrase) return;
 hasMutatedPhrase = false;
@@ -298,7 +298,7 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* 3D CONSTELLATION & DEEP SPACE ENGINE */
+/* 3D CONSTELLATION & UNIFIED POINTER DRAG ENGINE */
 var canvas = document.getElementById("space-canvas");
 var rotX = 0.18;
 var rotY = -0.25;
@@ -308,6 +308,7 @@ var isDragging = false;
 var dragMoved = false;
 var lastMouseX = 0;
 var lastMouseY = 0;
+
 var nodes3D = [
 { id: "origin", el: nodeBlackhole, x: 0, y: 0, z: 0, baseOpacity: 1 },
 { id: "elpis", el: nodeElpis, x: 210, y: -95, z: 95, baseOpacity: 1 },
@@ -324,10 +325,10 @@ var edges3D = [
 { from: 2, to: 5, active: false }
 ];
 
-/* FIXED: GLOBAL WINDOW DRAG LISTENERS SO YOU CAN DRAG ANYWHERE */
-window.addEventListener("mousedown", function (e) {
+/* UNIVERSAL POINTER DRAG HANDLERS (MOUSE & TOUCH) */
+window.addEventListener("pointerdown", function (e) {
 if (!viewHub || !viewHub.classList.contains("active")) return;
-if (e.target.closest("#radio-toggle")) return;
+if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
 isDragging = true;
 dragMoved = false;
 lastMouseX = e.clientX;
@@ -335,7 +336,7 @@ lastMouseY = e.clientY;
 viewHub.classList.add("dragging");
 });
 
-window.addEventListener("mousemove", function (e) {
+window.addEventListener("pointermove", function (e) {
 if (!isDragging) return;
 var dx = e.clientX - lastMouseX;
 var dy = e.clientY - lastMouseY;
@@ -351,41 +352,11 @@ lastMouseX = e.clientX;
 lastMouseY = e.clientY;
 });
 
-window.addEventListener("mouseup", function () {
+window.addEventListener("pointerup", function () {
 if (isDragging) {
 isDragging = false;
 if (viewHub) viewHub.classList.remove("dragging");
 }
-});
-
-window.addEventListener("touchstart", function (e) {
-if (!viewHub || !viewHub.classList.contains("active")) return;
-if (e.touches && e.touches.length === 1) {
-isDragging = true;
-dragMoved = false;
-lastMouseX = e.touches[0].clientX;
-lastMouseY = e.touches[0].clientY;
-}
-}, { passive: true });
-
-window.addEventListener("touchmove", function (e) {
-if (!isDragging || !e.touches || e.touches.length !== 1) return;
-var dx = e.touches[0].clientX - lastMouseX;
-var dy = e.touches[0].clientY - lastMouseY;
-if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
-dragMoved = true;
-}
-velY = dx * 0.006;
-velX = -dy * 0.006;
-rotY += velY;
-rotX += velX;
-rotX = Math.max(-1.2, Math.min(1.2, rotX));
-lastMouseX = e.touches[0].clientX;
-lastMouseY = e.touches[0].clientY;
-}, { passive: true });
-
-window.addEventListener("touchend", function () {
-isDragging = false;
 });
 
 function project3D(x, y, z, cx, cy, fov) {
@@ -592,7 +563,7 @@ showView(viewHub);
 });
 }
 
-/* PANDORA'S BOX RECOVERED LORE FRAGMENT */
+/* PANDORA'S BOX LORE */
 if (pandoraBoxTrigger && loreModal) {
 pandoraBoxTrigger.addEventListener("click", function () {
 triggerGlitch(false);
@@ -606,7 +577,7 @@ loreModal.classList.add("hidden");
 });
 }
 
-/* PASSWORD MODAL & FINAL ELPIS REVEAL */
+/* PASSWORD MODAL & REVEAL */
 if (closeModal && keyModal) {
 closeModal.addEventListener("click", function () {
 keyModal.classList.add("hidden");
@@ -637,7 +608,7 @@ passwordInput.value = "";
 });
 }
 
-/* ELPIS REVEAL: WEEKLY LETTER CLICKS & HOVER ZONES */
+/* REVEAL PAGE TRACKS */
 var revealChars = document.querySelectorAll(".reveal-char");
 var trackSlotLabel = document.getElementById("track-slot-label");
 var trackTitleDisplay = document.getElementById("track-title-display");
