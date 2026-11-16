@@ -298,92 +298,7 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* ==========================================
-   CLEAN CSS-TRANSFORM CONSTELLATION SPIN ENGINE
-   ========================================== */
-var rotX = 0;
-var rotY = 0;
-var isDragging = false;
-var dragMoved = false;
-var lastMouseX = 0;
-var lastMouseY = 0;
-
-function updateConstellationTransform() {
-  if (constellationMap) {
-    constellationMap.style.transform = "perspective(1000px) rotateX(" + rotX + "deg) rotateY(" + rotY + "deg)";
-  }
-}
-updateConstellationTransform();
-
-window.addEventListener("mousedown", function (e) {
-  if (!viewHub || !viewHub.classList.contains("active")) return;
-  if (e.target.closest("#radio-toggle")) return;
-  isDragging = true;
-  dragMoved = false;
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
-  if (viewHub) viewHub.classList.add("dragging");
-});
-
-window.addEventListener("mousemove", function (e) {
-  if (!isDragging) return;
-  var dx = e.clientX - lastMouseX;
-  var dy = e.clientY - lastMouseY;
-  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
-    dragMoved = true;
-  }
-  rotY += dx * 0.5;
-  rotX -= dy * 0.5;
-  rotX = Math.max(-50, Math.min(50, rotX));
-  
-  lastMouseX = e.clientX;
-  lastMouseY = e.clientY;
-  updateConstellationTransform();
-});
-
-window.addEventListener("mouseup", function () {
-  if (isDragging) {
-    isDragging = false;
-    if (viewHub) viewHub.classList.remove("dragging");
-  }
-});
-
-window.addEventListener("touchstart", function (e) {
-  if (!viewHub || !viewHub.classList.contains("active")) return;
-  if (e.target.closest("#radio-toggle")) return;
-  if (e.touches && e.touches.length === 1) {
-    isDragging = true;
-    dragMoved = false;
-    lastMouseX = e.touches[0].clientX;
-    lastMouseY = e.touches[0].clientY;
-    if (viewHub) viewHub.classList.add("dragging");
-  }
-}, { passive: true });
-
-window.addEventListener("touchmove", function (e) {
-  if (!isDragging || !e.touches || e.touches.length !== 1) return;
-  var dx = e.touches[0].clientX - lastMouseX;
-  var dy = e.touches[0].clientY - lastMouseY;
-  if (Math.abs(dx) > 2 || Math.abs(dy) > 2) {
-    dragMoved = true;
-  }
-  rotY += dx * 0.5;
-  rotX -= dy * 0.5;
-  rotX = Math.max(-50, Math.min(50, rotX));
-  
-  lastMouseX = e.touches[0].clientX;
-  lastMouseY = e.touches[0].clientY;
-  updateConstellationTransform();
-}, { passive: true });
-
-window.addEventListener("touchend", function () {
-  if (isDragging) {
-    isDragging = false;
-    if (viewHub) viewHub.classList.remove("dragging");
-  }
-});
-
-/* BACKGROUND STARS & COMETS CANVAS LOOP */
+/* BACKGROUND STARS & COMETS CANVAS LOOP (NO SPINNING) */
 var canvas = document.getElementById("space-canvas");
 if (canvas) {
 var ctx = canvas.getContext("2d");
@@ -476,10 +391,6 @@ requestAnimationFrame(animateSpace);
 /* PLANET WARP TRANSITION & NAVIGATION */
 if (nodeElpis) {
 nodeElpis.addEventListener("click", function (e) {
-if (dragMoved) {
-e.preventDefault();
-return;
-}
 stopBlackHoleStatic();
 playWarpAudio();
 if (constellationMap) {
