@@ -97,7 +97,7 @@ document.addEventListener("DOMContentLoaded", function () {
     { letter: "S", label: "TRANSMISSION 05 // SIDE B", title: "[ ENCRYPTED // WEEK 05 ]" }
   ];
 
-  /* BLACK HOLE RADIO STATIC ONLY (NO SYNTH FX) */
+  /* BLACK HOLE RADIO STATIC ONLY */
   var audioCtx = null;
   var staticNode = null;
   var staticGain = null;
@@ -246,13 +246,36 @@ document.addEventListener("DOMContentLoaded", function () {
     syncBackgroundComms();
   }
 
-  /* DUALITY CHAMBER LOGIC (HOPE -> CAGE -> PANDORA & HOPE -> KEY -> ELPIS) */
-  /* DUALITY CHAMBER LOGIC (BULLETPROOF EVENT DELEGATION) */
+  /* ==========================================
+     DUALITY CHAMBER LOGIC (SIDE A & SIDE B)
+     ========================================== */
+  function renderDualityState() {
+    if (!dualityPhrase) return;
+    hasMutatedPhrase = false;
+
+    if (!isLightMode) {
+      document.body.classList.remove("state-light");
+      dualityPhrase.innerHTML = 'ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.';
+    } else {
+      document.body.classList.add("state-light");
+      dualityPhrase.innerHTML = 'ALL WE HAVE IS <span id="word-hope" class="interactive-word hope-angelic">HOPE</span>.';
+    }
+    replayPhraseEntrance();
+  }
+
+  if (polarityToggle) {
+    polarityToggle.addEventListener("change", function () {
+      isLightMode = polarityToggle.checked;
+      triggerGlitch(false);
+      renderDualityState();
+    });
+  }
+
   if (dualityPhrase) {
     dualityPhrase.addEventListener("click", function (e) {
-      var clickedId = e.target && e.target.id;
+      var target = e.target;
+      var clickedId = target ? target.id : "";
 
-      // 1. Clicking HOPE (in either Dark or Light state)
       if (clickedId === "word-hope" && !hasMutatedPhrase) {
         hasMutatedPhrase = true;
 
@@ -270,41 +293,23 @@ document.addEventListener("DOMContentLoaded", function () {
         return;
       }
 
-      // 2. Clicking CAGE -> Opens Pandora's Box
       if (clickedId === "word-cage") {
         triggerGlitch(false);
         showView(viewPandora);
         return;
       }
 
-      // 3. Clicking KEY -> Opens Password Cipher Modal
       if (clickedId === "word-key") {
         if (keyModal && passwordInput && passwordFeedback) {
-          passwordInput.value = "";
-          passwordFeedback.textContent = "";
-          keyModal.classList.remove("hidden");
-          passwordInput.focus();
-        }
-      }
-    });
-  }
-
-  function renderDualityState() {
-    if (!dualityPhrase) return;
-    hasMutatedPhrase = false;
-
-    if (!isLightMode) {
-      document.body.classList.remove("state-light");
-      dualityPhrase.innerHTML = 'ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.';
-    } else {
-      document.body.classList.add("state-light");
-      dualityPhrase.innerHTML = 'ALL WE HAVE IS <span id="word-hope" class="interactive-word hope-angelic">HOPE</span>.';
-    }
-    replayPhraseEntrance();
-  }
-
-  renderDualityState();
-
+passwordInput.value = "";
+passwordFeedback.textContent = "";
+keyModal.classList.remove("hidden");
+passwordInput.focus();
+}
+}
+});
+}
+renderDualityState();
 /* COUNTDOWN TIMER (01 JAN 2027) */
 function padZero(num, size) {
 var s = String(num);
@@ -389,14 +394,14 @@ viewHub.addEventListener("touchstart", function (e) {
 if (e.touches && e.touches.length === 1) {
 isDragging = true;
 dragMoved = false;
-lastMouseX = e.touches[0].clientX;
-lastMouseY = e.touches[0].clientY;
+lastMouseX = e.touches.clientX;
+lastMouseY = e.touches.clientY;
 }
 }, { passive: true });
 window.addEventListener("touchmove", function (e) {
 if (!isDragging || !e.touches || e.touches.length !== 1) return;
-var dx = e.touches[0].clientX - lastMouseX;
-var dy = e.touches[0].clientY - lastMouseY;
+var dx = e.touches.clientX - lastMouseX;
+var dy = e.touches.clientY - lastMouseY;
 if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
 dragMoved = true;
 }
@@ -405,8 +410,8 @@ velX = -dy * 0.006;
 rotY += velY;
 rotX += velX;
 rotX = Math.max(-1.2, Math.min(1.2, rotX));
-lastMouseX = e.touches[0].clientX;
-lastMouseY = e.touches[0].clientY;
+lastMouseX = e.touches.clientX;
+lastMouseY = e.touches.clientY;
 }, { passive: true });
 window.addEventListener("touchend", function () {
 isDragging = false;
@@ -546,7 +551,7 @@ var pA = projected[edge.from];
 var pB = projected[edge.to];
 ctx.save();
 ctx.beginPath();
-ctx.setLineDash([4, 4]);
+ctx.setLineDash();
 ctx.moveTo(pA.sx, pA.sy);
 ctx.lineTo(pB.sx, pB.sy);
 ctx.strokeStyle = edge.active ? "rgba(255, 255, 255, 0.28)" : "rgba(255, 255, 255, 0.08)";
