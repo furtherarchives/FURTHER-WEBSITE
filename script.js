@@ -1,4 +1,3 @@
-```javascript
 document.addEventListener("DOMContentLoaded", function () {
   var viewHub = document.getElementById("view-hub");
   var viewElpis = document.getElementById("view-elpis");
@@ -25,11 +24,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var isLightMode = false;
   var hasMutatedPhrase = false;
-  var isElpisUnlocked = false;
 
-  /* ==========================================
-     DEEP SPACE CANVAS (DRIFTING STARS & COMETS)
-     ========================================== */
   var canvas = document.getElementById("space-canvas");
   if (canvas) {
     var ctx = canvas.getContext("2d");
@@ -131,9 +126,6 @@ document.addEventListener("DOMContentLoaded", function () {
     animateSpace();
   }
 
-  /* ==========================================
-     GLITCH & CINEMATIC VIEW TRANSITIONS
-     ========================================== */
   function triggerGlitch(violentFullPage) {
     if (glitchOverlay) {
       glitchOverlay.classList.remove("flash");
@@ -166,9 +158,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  /* ==========================================
-     COUNTDOWN TIMER (01 JAN 2027)
-     ========================================== */
   function padZero(num, size) {
     var s = String(num);
     while (s.length < size) {
@@ -200,9 +189,6 @@ document.addEventListener("DOMContentLoaded", function () {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
-  /* ==========================================
-     DUALITY CHAMBER LOGIC
-     ========================================== */
   function bindPhraseInteractions() {
     var wordHope = document.getElementById("word-hope");
     if (!wordHope || !dualityPhrase) return;
@@ -212,7 +198,6 @@ document.addEventListener("DOMContentLoaded", function () {
       hasMutatedPhrase = true;
 
       if (!isLightMode) {
-        // Whole page glitches when clicking HOPE in Dark State
         triggerGlitch(true);
         setTimeout(function () {
           dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-cage" class="interactive-word word-cage">CAGE</span>.';
@@ -226,7 +211,6 @@ document.addEventListener("DOMContentLoaded", function () {
           }
         }, 260);
       } else {
-        // Light State: HOPE -> KEY
         triggerGlitch(false);
         dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-key" class="interactive-word word-key">KEY</span>.';
         replayPhraseEntrance();
@@ -268,9 +252,6 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* ==========================================
-     PLANET WARP TRANSITION & NAVIGATION
-     ========================================== */
   if (nodeElpis) {
     nodeElpis.addEventListener("click", function () {
       if (constellationMap) {
@@ -306,37 +287,37 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   if (backFromReveal) {
-    backFromReveal.addEventListener("click", function () {document.body.classList.remove("state-light");
-triggerGlitch(false);
-showView(viewHub);
-});
-}
-/* ==========================================
-PASSWORD MODAL & FINAL ELPIS REVEAL
-========================================== */
-if (closeModal && keyModal) {
-closeModal.addEventListener("click", function () {
-keyModal.classList.add("hidden");
-});
-}
-if (passwordForm && passwordInput && passwordFeedback && keyModal) {
-passwordForm.addEventListener("submit", function (e) {
-e.preventDefault();
-var guess = passwordInput.value.trim().toUpperCase();
-if (guess === "PANDORA") {
-isElpisUnlocked = true;
-if (elpisNodeLabel) {
-elpisNodeLabel.textContent = "I // ELPIS";
-}
-passwordFeedback.style.color = "#ffffff";
-passwordFeedback.textContent = "ACCESS GRANTED";
-setTimeout(function () {
-keyModal.classList.add("hidden");
-document.body.classList.remove("state-light");
-triggerGlitch(true);
-showView(viewReveal);
-}, 950);
-} else {
+    backFromReveal.addEventListener("click", function () {
+      document.body.classList.remove("state-light");
+      triggerGlitch(false);
+      showView(viewHub);
+    });
+  }
+
+  if (closeModal && keyModal) {
+    closeModal.addEventListener("click", function () {
+      keyModal.classList.add("hidden");
+    });
+  }
+
+  if (passwordForm && passwordInput && passwordFeedback && keyModal) {
+    passwordForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var guess = passwordInput.value.trim().toUpperCase();
+
+      if (guess === "PANDORA") {
+        if (elpisNodeLabel) {
+          elpisNodeLabel.textContent = "I // ELPIS";
+        }
+        passwordFeedback.style.color = "#ffffff";
+        passwordFeedback.textContent = "ACCESS GRANTED";
+        setTimeout(function () {
+          keyModal.classList.add("hidden");
+          document.body.classList.remove("state-light");
+          triggerGlitch(true);
+          showView(viewReveal);
+        }, 950);
+        } else {
 passwordFeedback.style.color = "#888888";
 passwordFeedback.textContent = "ACCESS DENIED";
 passwordInput.value = "";
