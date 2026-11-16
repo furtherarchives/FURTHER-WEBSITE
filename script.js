@@ -298,7 +298,7 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* 3D CONSTELLATION & UNIFIED POINTER DRAG ENGINE */
+/* 3D CONSTELLATION & DIRECT VIEW-HUB DRAG ENGINE */
 var canvas = document.getElementById("space-canvas");
 var rotX = 0.18;
 var rotY = -0.25;
@@ -325,9 +325,9 @@ var edges3D = [
 { from: 2, to: 5, active: false }
 ];
 
-/* UNIVERSAL POINTER DRAG HANDLERS (MOUSE & TOUCH) */
-window.addEventListener("pointerdown", function (e) {
-if (!viewHub || !viewHub.classList.contains("active")) return;
+/* DIRECT DRAG LISTENERS ON VIEW-HUB */
+if (viewHub) {
+viewHub.addEventListener("mousedown", function (e) {
 if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
 isDragging = true;
 dragMoved = false;
@@ -336,7 +336,19 @@ lastMouseY = e.clientY;
 viewHub.classList.add("dragging");
 });
 
-window.addEventListener("pointermove", function (e) {
+viewHub.addEventListener("touchstart", function (e) {
+if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
+if (e.touches && e.touches.length === 1) {
+isDragging = true;
+dragMoved = false;
+lastMouseX = e.touches[0].clientX;
+lastMouseY = e.touches[0].clientY;
+viewHub.classList.add("dragging");
+}
+}, { passive: true });
+}
+
+window.addEventListener("mousemove", function (e) {
 if (!isDragging) return;
 var dx = e.clientX - lastMouseX;
 var dy = e.clientY - lastMouseY;
@@ -352,7 +364,30 @@ lastMouseX = e.clientX;
 lastMouseY = e.clientY;
 });
 
-window.addEventListener("pointerup", function () {
+window.addEventListener("touchmove", function (e) {
+if (!isDragging || !e.touches || e.touches.length !== 1) return;
+var dx = e.touches[0].clientX - lastMouseX;
+var dy = e.touches[0].clientY - lastMouseY;
+if (Math.abs(dx) > 3 || Math.abs(dy) > 3) {
+dragMoved = true;
+}
+velY = dx * 0.006;
+velX = -dy * 0.006;
+rotY += velY;
+rotX += velX;
+rotX = Math.max(-1.2, Math.min(1.2, rotX));
+lastMouseX = e.touches[0].clientX;
+lastMouseY = e.touches[0].clientY;
+}, { passive: true });
+
+window.addEventListener("mouseup", function () {
+if (isDragging) {
+isDragging = false;
+if (viewHub) viewHub.classList.remove("dragging");
+}
+});
+
+window.addEventListener("touchend", function () {
 if (isDragging) {
 isDragging = false;
 if (viewHub) viewHub.classList.remove("dragging");
