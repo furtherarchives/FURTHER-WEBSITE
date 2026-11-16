@@ -298,7 +298,7 @@ timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs
 updateCountdown();
 setInterval(updateCountdown, 1000);
 
-/* BACKGROUND STARS & COMETS CANVAS LOOP (NO SPINNING) */
+/* BACKGROUND STARS & COMETS CANVAS LOOP */
 var canvas = document.getElementById("space-canvas");
 if (canvas) {
 var ctx = canvas.getContext("2d");
