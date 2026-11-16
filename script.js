@@ -324,8 +324,9 @@ var edges3D = [
 { from: 2, to: 5, active: false }
 ];
 
-if (viewHub) {
-viewHub.addEventListener("mousedown", function (e) {
+/* FIXED: GLOBAL WINDOW DRAG LISTENERS SO YOU CAN DRAG ANYWHERE */
+window.addEventListener("mousedown", function (e) {
+if (!viewHub || !viewHub.classList.contains("active")) return;
 if (e.target.closest("#radio-toggle")) return;
 isDragging = true;
 dragMoved = false;
@@ -333,6 +334,7 @@ lastMouseX = e.clientX;
 lastMouseY = e.clientY;
 viewHub.classList.add("dragging");
 });
+
 window.addEventListener("mousemove", function (e) {
 if (!isDragging) return;
 var dx = e.clientX - lastMouseX;
@@ -348,13 +350,16 @@ rotX = Math.max(-1.2, Math.min(1.2, rotX));
 lastMouseX = e.clientX;
 lastMouseY = e.clientY;
 });
+
 window.addEventListener("mouseup", function () {
 if (isDragging) {
 isDragging = false;
-viewHub.classList.remove("dragging");
+if (viewHub) viewHub.classList.remove("dragging");
 }
 });
-viewHub.addEventListener("touchstart", function (e) {
+
+window.addEventListener("touchstart", function (e) {
+if (!viewHub || !viewHub.classList.contains("active")) return;
 if (e.touches && e.touches.length === 1) {
 isDragging = true;
 dragMoved = false;
@@ -362,6 +367,7 @@ lastMouseX = e.touches[0].clientX;
 lastMouseY = e.touches[0].clientY;
 }
 }, { passive: true });
+
 window.addEventListener("touchmove", function (e) {
 if (!isDragging || !e.touches || e.touches.length !== 1) return;
 var dx = e.touches[0].clientX - lastMouseX;
@@ -377,10 +383,10 @@ rotX = Math.max(-1.2, Math.min(1.2, rotX));
 lastMouseX = e.touches[0].clientX;
 lastMouseY = e.touches[0].clientY;
 }, { passive: true });
+
 window.addEventListener("touchend", function () {
 isDragging = false;
 });
-}
 
 function project3D(x, y, z, cx, cy, fov) {
 var cosY = Math.cos(rotY);
