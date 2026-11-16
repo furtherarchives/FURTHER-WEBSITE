@@ -1,11 +1,14 @@
+```javascript
 document.addEventListener("DOMContentLoaded", function () {
   var viewHub = document.getElementById("view-hub");
   var viewElpis = document.getElementById("view-elpis");
   var viewPandora = document.getElementById("view-pandora");
   var viewReveal = document.getElementById("view-reveal");
   var glitchOverlay = document.getElementById("glitch-overlay");
+  var constellationMap = document.getElementById("constellation-map");
 
   var nodeElpis = document.getElementById("node-elpis");
+  var elpisNodeLabel = document.getElementById("elpis-node-label");
   var backToHub = document.getElementById("back-to-hub");
   var backFromPandora = document.getElementById("back-from-pandora");
   var backFromReveal = document.getElementById("back-from-reveal");
@@ -22,12 +25,133 @@ document.addEventListener("DOMContentLoaded", function () {
 
   var isLightMode = false;
   var hasMutatedPhrase = false;
+  var isElpisUnlocked = false;
 
-  function triggerGlitch() {
-    if (!glitchOverlay) return;
-    glitchOverlay.classList.remove("flash");
-    void glitchOverlay.offsetWidth;
-    glitchOverlay.classList.add("flash");
+  /* ==========================================
+     DEEP SPACE CANVAS (DRIFTING STARS & COMETS)
+     ========================================== */
+  var canvas = document.getElementById("space-canvas");
+  if (canvas) {
+    var ctx = canvas.getContext("2d");
+    var stars = [];
+    var comets = [];
+    var starCount = 140;
+
+    function resizeCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    resizeCanvas();
+    window.addEventListener("resize", resizeCanvas);
+
+    for (var s = 0; s < starCount; s++) {
+      stars.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        r: Math.random() * 1.4 + 0.3,
+        vx: (Math.random() - 0.5) * 0.08,
+        vy: (Math.random() - 0.5) * 0.08,
+        alpha: Math.random() * 0.7 + 0.2,
+        twinkleSpeed: Math.random() * 0.015 + 0.004
+      });
+    }
+
+    function spawnComet() {
+      var startFromLeft = Math.random() > 0.35;
+      comets.push({
+        x: startFromLeft ? -50 : Math.random() * canvas.width,
+        y: startFromLeft ? Math.random() * (canvas.height * 0.6) : -50,
+        vx: Math.random() * 5 + 4.5,
+        vy: Math.random() * 2.5 + 1.8,
+        length: Math.random() * 90 + 60,
+        life: 1
+      });
+    }
+
+    setInterval(function () {
+      if (viewHub && viewHub.classList.contains("active") && Math.random() > 0.35) {
+        spawnComet();
+      }
+    }, 3800);
+
+    function animateSpace() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (var i = 0; i < stars.length; i++) {
+        var st = stars[i];
+        st.x += st.vx;
+        st.y += st.vy;
+        st.alpha += st.twinkleSpeed;
+        if (st.alpha > 0.95 || st.alpha < 0.15) {
+          st.twinkleSpeed *= -1;
+        }
+        if (st.x < 0) st.x = canvas.width;
+        if (st.x > canvas.width) st.x = 0;
+        if (st.y < 0) st.y = canvas.height;
+        if (st.y > canvas.height) st.y = 0;
+
+        ctx.beginPath();
+        ctx.arc(st.x, st.y, st.r, 0, Math.PI * 2);
+        ctx.fillStyle = "rgba(255, 255, 255, " + st.alpha.toFixed(2) + ")";
+        ctx.fill();
+      }
+
+      for (var c = comets.length - 1; c >= 0; c--) {
+        var cm = comets[c];
+        cm.x += cm.vx;
+        cm.y += cm.vy;
+        cm.life -= 0.008;
+
+        var grad = ctx.createLinearGradient(
+          cm.x,
+          cm.y,
+          cm.x - cm.vx * (cm.length / 6),
+          cm.y - cm.vy * (cm.length / 6)
+        );
+        grad.addColorStop(0, "rgba(255, 255, 255, " + Math.max(0, cm.life) + ")");
+        grad.addColorStop(1, "rgba(255, 255, 255, 0)");
+
+        ctx.strokeStyle = grad;
+        ctx.lineWidth = 1.4;
+        ctx.beginPath();
+        ctx.moveTo(cm.x, cm.y);
+        ctx.lineTo(
+          cm.x - cm.vx * (cm.length / 6),
+          cm.y - cm.vy * (cm.length / 6)
+        );
+        ctx.stroke();
+
+        if (cm.life <= 0 || cm.x > canvas.width + 150 || cm.y > canvas.height + 150) {
+          comets.splice(c, 1);
+        }
+      }
+
+      requestAnimationFrame(animateSpace);
+    }
+    animateSpace();
+  }
+
+  /* ==========================================
+     GLITCH & CINEMATIC VIEW TRANSITIONS
+     ========================================== */
+  function triggerGlitch(violentFullPage) {
+    if (glitchOverlay) {
+      glitchOverlay.classList.remove("flash");
+      void glitchOverlay.offsetWidth;
+      glitchOverlay.classList.add("flash");
+    }
+    if (violentFullPage) {
+      document.body.classList.remove("full-page-glitch");
+      void document.body.offsetWidth;
+      document.body.classList.add("full-page-glitch");
+    }
+  }
+
+  function replayPhraseEntrance() {
+    if (!dualityPhrase) return;
+    dualityPhrase.classList.remove("cinematic-emerge");
+    void dualityPhrase.offsetWidth;
+    dualityPhrase.classList.add("cinematic-emerge");
   }
 
   function showView(targetView) {
@@ -42,6 +166,9 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
+  /* ==========================================
+     COUNTDOWN TIMER (01 JAN 2027)
+     ========================================== */
   function padZero(num, size) {
     var s = String(num);
     while (s.length < size) {
@@ -58,7 +185,7 @@ document.addEventListener("DOMContentLoaded", function () {
     var diff = targetDate - now;
 
     if (diff <= 0) {
-      timerTooltip.textContent = "00D : 00H : 00M : 00S";
+      timerTooltip.textContent = "000D : 00H : 00M : 00S";
       return;
     }
 
@@ -73,6 +200,9 @@ document.addEventListener("DOMContentLoaded", function () {
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
+  /* ==========================================
+     DUALITY CHAMBER LOGIC
+     ========================================== */
   function bindPhraseInteractions() {
     var wordHope = document.getElementById("word-hope");
     if (!wordHope || !dualityPhrase) return;
@@ -80,19 +210,26 @@ document.addEventListener("DOMContentLoaded", function () {
     wordHope.addEventListener("click", function () {
       if (hasMutatedPhrase) return;
       hasMutatedPhrase = true;
-      triggerGlitch();
 
       if (!isLightMode) {
-        dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-cage" class="interactive-word word-cage">CAGE</span>.';
-        var wordCage = document.getElementById("word-cage");
-        if (wordCage) {
-          wordCage.addEventListener("click", function () {
-            triggerGlitch();
-            showView(viewPandora);
-          });
-        }
+        // Whole page glitches when clicking HOPE in Dark State
+        triggerGlitch(true);
+        setTimeout(function () {
+          dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-cage" class="interactive-word word-cage">CAGE</span>.';
+          replayPhraseEntrance();
+          var wordCage = document.getElementById("word-cage");
+          if (wordCage) {
+            wordCage.addEventListener("click", function () {
+              triggerGlitch(false);
+              showView(viewPandora);
+            });
+          }
+        }, 260);
       } else {
+        // Light State: HOPE -> KEY
+        triggerGlitch(false);
         dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-key" class="interactive-word word-key">KEY</span>.';
+        replayPhraseEntrance();
         var wordKey = document.getElementById("word-key");
         if (wordKey && keyModal && passwordInput && passwordFeedback) {
           wordKey.addEventListener("click", function () {
@@ -115,8 +252,9 @@ document.addEventListener("DOMContentLoaded", function () {
       dualityPhrase.innerHTML = 'ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.';
     } else {
       document.body.classList.add("state-light");
-      dualityPhrase.innerHTML = 'ALL WE HAVE IS <span id="word-hope" class="interactive-word">HOPE</span>.';
+      dualityPhrase.innerHTML = 'ALL WE HAVE IS <span id="word-hope" class="interactive-word hope-angelic">HOPE</span>.';
     }
+    replayPhraseEntrance();
     bindPhraseInteractions();
   }
 
@@ -125,71 +263,84 @@ document.addEventListener("DOMContentLoaded", function () {
   if (polarityToggle) {
     polarityToggle.addEventListener("change", function (e) {
       isLightMode = Boolean(e.target && e.target.checked);
-      triggerGlitch();
+      triggerGlitch(false);
       renderDualityState();
     });
   }
 
+  /* ==========================================
+     PLANET WARP TRANSITION & NAVIGATION
+     ========================================== */
   if (nodeElpis) {
     nodeElpis.addEventListener("click", function () {
-      triggerGlitch();
-      isLightMode = false;
-      if (polarityToggle) {
-        polarityToggle.checked = false;
+      if (constellationMap) {
+        constellationMap.classList.add("warp-dive");
       }
-      renderDualityState();
-      showView(viewElpis);
+      setTimeout(function () {
+        isLightMode = false;
+        if (polarityToggle) {
+          polarityToggle.checked = false;
+        }
+        renderDualityState();
+        showView(viewElpis);
+        if (constellationMap) {
+          constellationMap.classList.remove("warp-dive");
+        }
+      }, 1050);
     });
   }
 
   if (backToHub) {
     backToHub.addEventListener("click", function () {
       document.body.classList.remove("state-light");
-      triggerGlitch();
+      triggerGlitch(false);
       showView(viewHub);
     });
   }
 
   if (backFromPandora) {
     backFromPandora.addEventListener("click", function () {
-      triggerGlitch();
+      triggerGlitch(false);
       showView(viewElpis);
     });
   }
 
   if (backFromReveal) {
-    backFromReveal.addEventListener("click", function () {
-      document.body.classList.remove("state-light");
-      triggerGlitch();
-      showView(viewHub);
-    });
-  }
-
-  if (closeModal && keyModal) {
-    closeModal.addEventListener("click", function () {
-      keyModal.classList.add("hidden");
-    });
-  }
-
-  if (passwordForm && passwordInput && passwordFeedback && keyModal) {
-    passwordForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var guess = passwordInput.value.trim().toUpperCase();
-
-      if (guess === "PANDORA") {
-        passwordFeedback.style.color = "#ffffff";
-        passwordFeedback.textContent = "ACCESS GRANTED";
-        setTimeout(function () {
-          keyModal.classList.add("hidden");
-          document.body.classList.remove("state-light");
-          triggerGlitch();
-          showView(viewReveal);
-        }, 950);
-      } else {
-        passwordFeedback.style.color = "#888888";
-        passwordFeedback.textContent = "ACCESS DENIED";
-        passwordInput.value = "";
-      }
-    });
-  }
+    backFromReveal.addEventListener("click", function () {document.body.classList.remove("state-light");
+triggerGlitch(false);
+showView(viewHub);
+});
+}
+/* ==========================================
+PASSWORD MODAL & FINAL ELPIS REVEAL
+========================================== */
+if (closeModal && keyModal) {
+closeModal.addEventListener("click", function () {
+keyModal.classList.add("hidden");
+});
+}
+if (passwordForm && passwordInput && passwordFeedback && keyModal) {
+passwordForm.addEventListener("submit", function (e) {
+e.preventDefault();
+var guess = passwordInput.value.trim().toUpperCase();
+if (guess === "PANDORA") {
+isElpisUnlocked = true;
+if (elpisNodeLabel) {
+elpisNodeLabel.textContent = "I // ELPIS";
+}
+passwordFeedback.style.color = "#ffffff";
+passwordFeedback.textContent = "ACCESS GRANTED";
+setTimeout(function () {
+keyModal.classList.add("hidden");
+document.body.classList.remove("state-light");
+triggerGlitch(true);
+showView(viewReveal);
+}, 950);
+} else {
+passwordFeedback.style.color = "#888888";
+passwordFeedback.textContent = "ACCESS DENIED";
+passwordInput.value = "";
+}
+});
+}
 });
