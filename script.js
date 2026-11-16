@@ -247,44 +247,46 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   /* DUALITY CHAMBER LOGIC (HOPE -> CAGE -> PANDORA & HOPE -> KEY -> ELPIS) */
-  function handleHopeClick() {
-    if (hasMutatedPhrase) return;
-    hasMutatedPhrase = true;
+  /* DUALITY CHAMBER LOGIC (BULLETPROOF EVENT DELEGATION) */
+  if (dualityPhrase) {
+    dualityPhrase.addEventListener("click", function (e) {
+      var clickedId = e.target && e.target.id;
 
-    if (!isLightMode) {
-      triggerGlitch(true);
-      setTimeout(function () {
-        dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-cage" class="interactive-word word-cage">CAGE</span>.';
-        replayPhraseEntrance();
-        var wordCage = document.getElementById("word-cage");
-        if (wordCage) {
-          wordCage.addEventListener("click", function () {
-            triggerGlitch(false);
-            showView(viewPandora);
-          });
+      // 1. Clicking HOPE (in either Dark or Light state)
+      if (clickedId === "word-hope" && !hasMutatedPhrase) {
+        hasMutatedPhrase = true;
+
+        if (!isLightMode) {
+          triggerGlitch(true);
+          setTimeout(function () {
+            dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-cage" class="interactive-word word-cage">CAGE</span>.';
+            replayPhraseEntrance();
+          }, 260);
+        } else {
+          triggerGlitch(false);
+          dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-key" class="interactive-word word-key">KEY</span>.';
+          replayPhraseEntrance();
         }
-      }, 260);
-    } else {
-      triggerGlitch(false);
-      dualityPhrase.innerHTML = 'HOPE IS THE <span id="word-key" class="interactive-word word-key">KEY</span>.';
-      replayPhraseEntrance();
-      var wordKey = document.getElementById("word-key");
-      if (wordKey && keyModal && passwordInput && passwordFeedback) {
-        wordKey.addEventListener("click", function () {
+        return;
+      }
+
+      // 2. Clicking CAGE -> Opens Pandora's Box
+      if (clickedId === "word-cage") {
+        triggerGlitch(false);
+        showView(viewPandora);
+        return;
+      }
+
+      // 3. Clicking KEY -> Opens Password Cipher Modal
+      if (clickedId === "word-key") {
+        if (keyModal && passwordInput && passwordFeedback) {
           passwordInput.value = "";
           passwordFeedback.textContent = "";
           keyModal.classList.remove("hidden");
           passwordInput.focus();
-        });
+        }
       }
-    }
-  }
-
-  function bindPhraseInteractions() {
-    var wordHope = document.getElementById("word-hope");
-    if (wordHope) {
-      wordHope.addEventListener("click", handleHopeClick);
-    }
+    });
   }
 
   function renderDualityState() {
@@ -294,20 +296,15 @@ document.addEventListener("DOMContentLoaded", function () {
     if (!isLightMode) {
       document.body.classList.remove("state-light");
       dualityPhrase.innerHTML = 'ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.';
-    } else {document.body.classList.add("state-light");
-dualityPhrase.innerHTML = 'ALL WE HAVE IS HOPE.';
-}
-replayPhraseEntrance();
-bindPhraseInteractions();
-}
-renderDualityState();
-if (polarityToggle) {
-polarityToggle.addEventListener("change", function (e) {
-isLightMode = Boolean(e.target && e.target.checked);
-triggerGlitch(false);
-renderDualityState();
-});
-}
+    } else {
+      document.body.classList.add("state-light");
+      dualityPhrase.innerHTML = 'ALL WE HAVE IS <span id="word-hope" class="interactive-word hope-angelic">HOPE</span>.';
+    }
+    replayPhraseEntrance();
+  }
+
+  renderDualityState();
+
 /* COUNTDOWN TIMER (01 JAN 2027) */
 function padZero(num, size) {
 var s = String(num);

@@ -450,6 +450,7 @@ body:not(.state-light) .hope-glitch:hover {
 
 .hope-angelic {
   position: relative;
+  z-index: 60;
 }
 
 .hope-angelic::before {
@@ -473,6 +474,7 @@ body:not(.state-light) .hope-glitch:hover {
   z-index: -1;
   transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
 }
+
 
 .hope-angelic:hover {
   color: #ffffff;
