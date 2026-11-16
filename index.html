@@ -1,822 +1,178 @@
-/* RESET & BASE */
-* {
-  box-sizing: border-box;
-  margin: 0;
-  padding: 0;
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FURTHER</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="theme-hub">
+  <!-- Subtle Analog Film Grain Overlay -->
+  <div class="grain"></div>
+  <!-- Full-Screen Glitch Flash Overlay -->
+  <div id="glitch-overlay" class="glitch-overlay"></div>
 
-:root {
-  --bg-dark: #050505;
-  --fg-dark: #eaeaea;
-  --bg-light: #f2f1ed;
-  --fg-light: #0a0a0a;
-}
+  <!-- Hidden YouTube Background Audio Players (Space Ambience + NASA Chatter) -->
+  <div class="hidden-yt-players" aria-hidden="true">
+    <div id="yt-space-music"></div>
+    <div id="yt-nasa-chatter"></div>
+  </div>
 
-html, body {
-  width: 100%;
-  height: 100%;
-  overflow: hidden;
-  background-color: var(--bg-dark);
-  color: var(--fg-dark);
-  font-family: "Courier New", Courier, monospace;
-  transition: background-color 0.35s ease, color 0.35s ease;
-  user-select: none;
-}
+  <!-- Optional Local Audio Slots (Drop warp.mp3, side-a.mp3, side-b.mp3 into your folder later) -->
+  <audio id="audio-warp" src="warp.mp3" preload="auto"></audio>
+  <audio id="audio-side-a" src="side-a.mp3" preload="auto" loop></audio>
+  <audio id="audio-side-b" src="side-b.mp3" preload="auto" loop></audio>
 
-body.state-light {
-  background-color: var(--bg-light);
-  color: var(--fg-light);
-}
+  <!-- Space Radio Audio Switch (Top Right) -->
+  <button id="radio-toggle" class="radio-console" aria-label="Toggle Space Radio Audio">
+    <span class="radio-led"></span>
+    <span class="radio-label">COMMS // <strong id="radio-status">OFF</strong></span>
+  </button>
 
-.hidden-yt-players {
-  position: fixed;
-  width: 1px;
-  height: 1px;
-  opacity: 0;
-  pointer-events: none;
-  overflow: hidden;
-}
+  <!-- VIEW 1: 3D CONSTELLATION HUB -->
+  <main id="view-hub" class="view active">
+    <!-- 3D Space & Constellation Vector Canvas -->
+    <canvas id="space-canvas"></canvas>
 
-/* FILM GRAIN */
-.grain {
-  position: fixed;
-  inset: -50%;
-  width: 200%;
-  height: 200%;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.055) 1px, transparent 0);
-  background-size: 3px 3px;
-  pointer-events: none;
-  z-index: 900;
-  animation: grainShift 0.4s steps(2) infinite;
-}
+    <div class="hub-header">FURTHER // ARCHIVE</div>
+    <div class="hub-drag-hint">[ DRAG TO ORBIT ]</div>
 
-body.state-light .grain {
-  background-image: radial-gradient(rgba(0, 0, 0, 0.055) 1px, transparent 0);
-}
+    <!-- 3D Projected Interactive Nodes -->
+    <div id="constellation-map" class="constellation-map">
+      <!-- Central Black Hole Node (3D Origin: 0, 0, 0) -->
+      <div id="node-blackhole" class="node black-hole-node">
+        <div class="tooltip quote-tooltip">Wonder, is the beginning of wisdom...</div>
+        <div class="black-hole">
+          <div class="accretion-disk"></div>
+          <div class="event-horizon"></div>
+        </div>
+        <span class="node-label">ORIGIN</span>
+      </div>
 
-@keyframes grainShift {
-  0% { transform: translate(0, 0); }
-  50% { transform: translate(-1%, 1%); }
-  100% { transform: translate(1%, -1%); }
-}
+      <!-- Hidden Project Star Node (XXXXX) -->
+      <button id="node-elpis" class="node star-node" aria-label="Enter Unknown System">
+        <div id="elpis-timer-tooltip" class="tooltip timer-tooltip">000D : 00H : 00M : 00S</div>
+        <div class="star-core"></div>
+        <div class="star-ring"></div>
+        <span id="elpis-node-label" class="node-label">I // XXXXX</span>
+      </button>
 
-/* SPACE RADIO CONSOLE SWITCH (TOP RIGHT) */
-.radio-console {
-  position: fixed;
-  top: 24px;
-  right: 28px;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  padding: 8px 14px;
-  background: rgba(10, 10, 10, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.25);
-  color: #eaeaea;
-  font-family: inherit;
-  font-size: 0.72rem;
-  letter-spacing: 0.2em;
-  cursor: pointer;
-  z-index: 850;
-  transition: border-color 0.25s ease, box-shadow 0.25s ease;
-}
+      <!-- Dormant Future System Nodes in 3D Space -->
+      <div id="node-dormant-1" class="node dormant-node">
+        <div class="dormant-dot"></div>
+        <span class="node-label">II // [LOCKED]</span>
+      </div>
+      <div id="node-dormant-2" class="node dormant-node">
+        <div class="dormant-dot"></div>
+        <span class="node-label">III // [LOCKED]</span>
+      </div>
+    </div>
+  </main>
 
-.radio-console:hover {
-  border-color: rgba(255, 255, 255, 0.7);
-}
+  <!-- VIEW 2: DUALITY CHAMBER -->
+  <main id="view-elpis" class="view">
+    <button id="back-to-hub" class="nav-return">← CONSTELLATION</button>
 
-.radio-led {
-  width: 7px;
-  height: 7px;
-  border-radius: 50%;
-  background: #444;
-  transition: background 0.25s ease, box-shadow 0.25s ease;
-}
+    <div class="chamber-center">
+      <h1 id="duality-phrase" class="phrase-text cinematic-emerge">
+        ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.
+      </h1>
 
-.radio-console.active .radio-led {
-  background: #ffffff;
-  box-shadow: 0 0 10px #ffffff, 0 0 18px rgba(255, 255, 255, 0.8);
-  animation: ledPulse 2s infinite ease-in-out;
-}
+      <div id="switch-wrapper" class="switch-container cinematic-emerge-delayed">
+        <span class="switch-tag">SIDE B</span>
+        <label class="polarity-switch" aria-label="Toggle Duality State">
+          <input type="checkbox" id="polarity-toggle" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-tag">SIDE A</span>
+      </div>
+    </div>
+  </main>
 
-@keyframes ledPulse {
-  0%, 100% { opacity: 0.6; }
-  50% { opacity: 1; }
-}
+  <!-- VIEW 3: PANDORA'S BOX CHAMBER -->
+  <main id="view-pandora" class="view">
+    <button id="back-from-pandora" class="nav-return">← RETURN</button>
 
-/* FULL-SCREEN GLITCH OVERLAY */
-.glitch-overlay {
-  position: fixed;
-  inset: 0;
-  pointer-events: none;
-  z-index: 950;
-  opacity: 0;
-  background: repeating-linear-gradient(
-    0deg,
-    rgba(255, 255, 255, 0.16) 0px,
-    rgba(255, 255, 255, 0.16) 2px,
-    rgba(0, 0, 0, 0.4) 2px,
-    rgba(0, 0, 0, 0.4) 5px
-  );
-}
+    <div class="pandora-container cinematic-emerge">
+      <button id="pandora-box-trigger" class="pandora-box-btn" aria-label="Inspect Pandora's Box Core">
+        <svg class="pandora-box-svg" viewBox="0 0 240 240" width="220" height="220">
+          <line x1="120" y1="85" x2="120" y2="25" class="box-ray" />
+          <line x1="95" y1="90" x2="55" y2="40" class="box-ray" />
+          <line x1="145" y1="90" x2="185" y2="40" class="box-ray" />
+          <polygon points="55,95 120,65 185,95 120,115" class="box-stroke box-lid" />
+          <ellipse cx="120" cy="108" rx="36" ry="10" class="box-core" />
+          <polygon points="60,110 120,132 120,195 60,170" class="box-stroke" />
+          <polygon points="180,110 120,132 120,195 180,170" class="box-stroke" />
+          <line x1="90" y1="121" x2="90" y2="182" class="box-detail" />
+          <line x1="150" y1="121" x2="150" y2="182" class="box-detail" />
+        </svg>
+      </button>
 
-.glitch-overlay.flash {
-  animation: screenTear 0.45s steps(3) forwards;
-}
+      <p class="pandora-inscription">P A N D O R A</p>
+      <p class="pandora-sub">WHAT REMAINS INSIDE IS BOTH CURSE AND CURE.</p>
+      <p class="pandora-hint">[ TOUCH THE LIGHT WITHIN ]</p>
+    </div>
+  </main>
 
-body.full-page-glitch {
-  animation: bodyViolentGlitch 0.45s steps(3) forwards;
-}
+  <!-- RECOVERED LORE FRAGMENT MODAL -->
+  <div id="lore-modal" class="modal hidden">
+    <div class="modal-box lore-box">
+      <button id="close-lore-modal" class="modal-close">×</button>
+      <p class="lore-tag">RECOVERED FRAGMENT // DRIFTING IN SPACE-TIME</p>
+      <div class="lore-divider"></div>
+      <p class="lore-text">
+        Before the fall, we were one light suspended above the quiet. When gravity tore us in two, one remained looking upward—clinging to the ache of return. The other struck the ash below, where noise is the only proof of pulse.
+      </p>
+      <p class="lore-text">
+        The Witness watches from the dark, waiting to see which half breaks first. Yet both are bound by the same fuel: <em>Elpis</em>—the fragile spark that refuses to let either side go silent.
+      </p>
+      <p class="lore-footer">LOGGED // ARCHIVE 000</p>
+    </div>
+  </div>
 
-@keyframes screenTear {
-  0% { opacity: 1; transform: translateX(-14px) skewX(10deg); filter: invert(1); }
-  25% { opacity: 0.95; transform: translateX(16px) skewX(-12deg) scaleY(1.03); }
-  50% { opacity: 0.85; transform: translateX(-10px) skewX(6deg); filter: invert(1); }
-  75% { opacity: 0.6; transform: translateX(8px) skewX(-4deg); filter: invert(0); }
-  100% { opacity: 0; transform: translateX(0); }
-}
+  <!-- PASSWORD MODAL FOR "KEY" -->
+  <div id="key-modal" class="modal hidden">
+    <div class="modal-box">
+      <button id="close-modal" class="modal-close">×</button>
+      <p class="modal-prompt">ENTER CIPHER</p>
+      <form id="password-form" autocomplete="off">
+        <input type="text" id="password-input" placeholder="••••••••" spellcheck="false" />
+        <button type="submit" class="modal-submit">UNLOCK</button>
+      </form>
+      <p id="password-feedback" class="feedback-msg"></p>
+    </div>
+  </div>
 
-@keyframes bodyViolentGlitch {
-  0% { transform: translate(-6px, 3px) skewX(4deg); filter: contrast(180%) invert(1); }
-  30% { transform: translate(8px, -4px) skewX(-6deg); filter: contrast(220%); }
-  60% { transform: translate(-4px, 2px) skewX(3deg); filter: invert(1); }
-  100% { transform: translate(0, 0) skewX(0deg); filter: none; }
-}
+  <!-- VIEW 4: FINAL ELPIS DIAGONAL SPLIT REVEAL -->
+  <main id="view-reveal" class="view">
+    <button id="back-from-reveal" class="nav-return split-nav">← CONSTELLATION</button>
 
-/* VIEW MANAGEMENT */
-.view {
-  position: fixed;
-  inset: 0;
-  display: none;
-  align-items: center;
-  justify-content: center;
-  z-index: 10;
-}
+    <div class="diagonal-split-bg"></div>
+    <div id="zone-side-a" class="split-hover-zone zone-light" title="Side A // Signal Pending">
+      <span class="zone-status">SIDE A // SIGNAL STANDBY</span>
+    </div>
+    <div id="zone-side-b" class="split-hover-zone zone-dark" title="Side B // Signal Pending">
+      <span class="zone-status">SIDE B // SIGNAL STANDBY</span>
+    </div>
 
-.view.active {
-  display: flex;
-}
+    <div class="reveal-content">
+      <h1 id="elpis-letter-reveal" class="reveal-title" aria-label="ELPIS">
+        <button class="reveal-char" data-index="0" style="--i:0">E</button>
+        <button class="reveal-char" data-index="1" style="--i:1">L</button>
+        <button class="reveal-char" data-index="2" style="--i:2">P</button>
+        <button class="reveal-char" data-index="3" style="--i:3">I</button>
+        <button class="reveal-char" data-index="4" style="--i:4">S</button>
+      </h1>
 
-.nav-return {
-  position: fixed;
-  top: 28px;
-  left: 32px;
-  background: none;
-  border: none;
-  color: inherit;
-  font-family: inherit;
-  font-size: 0.78rem;
-  letter-spacing: 0.2em;
-  cursor: pointer;
-  opacity: 0.55;
-  z-index: 50;
-  transition: opacity 0.25s ease;
-}
+      <div id="track-transmission-box" class="track-transmission">
+        <p id="track-slot-label" class="track-slot-label">SELECT A GLYPH TO INTERCEPT TRANSMISSION</p>
+        <p id="track-title-display" class="track-title-display">—</p>
+      </div>
+    </div>
+  </main>
 
-.nav-return:hover {
-  opacity: 1;
-}
-
-/* CINEMATIC SLOW TEXT EMERGE */
-.cinematic-emerge {
-  animation: slowEmerge 1.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-}
-
-.cinematic-emerge-delayed {
-  opacity: 0;
-  animation: slowEmerge 1.8s cubic-bezier(0.16, 1, 0.3, 1) 0.55s forwards;
-}
-
-@keyframes slowEmerge {
-  0% {
-    opacity: 0;
-    letter-spacing: 0.38em;
-    filter: blur(5px);
-    transform: translateY(8px);
-  }
-  100% {
-    opacity: 1;
-    letter-spacing: 0.22em;
-    filter: blur(0);
-    transform: translateY(0);
-  }
-}
-
-/* ===========================
-   VIEW 1: 3D CONSTELLATION HUB
-   =========================== */
-#view-hub {
-  cursor: grab;
-}
-
-#view-hub.dragging {
-  cursor: grabbing;
-}
-
-#space-canvas {
-  position: fixed;
-  inset: 0;
-  width: 100%;
-  height: 100%;
-  z-index: 0;
-  pointer-events: none;
-}
-
-.hub-header {
-  position: fixed;
-  top: 28px;
-  left: 32px;
-  font-size: 0.78rem;
-  letter-spacing: 0.28em;
-  opacity: 0.6;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.hub-drag-hint {
-  position: fixed;
-  bottom: 24px;
-  left: 50%;
-  transform: translateX(-50%);
-  font-size: 0.65rem;
-  letter-spacing: 0.26em;
-  opacity: 0.32;
-  z-index: 20;
-  pointer-events: none;
-}
-
-.constellation-map {
-  position: relative;
-  width: 100vw;
-  height: 100vh;
-  z-index: 10;
-  pointer-events: none;
-  transition: transform 1.15s cubic-bezier(0.65, 0, 0.35, 1), opacity 1.15s ease, filter 1.15s ease;
-}
-
-.constellation-map.warp-dive {
-  transform: scale(5.5);
-  opacity: 0;
-  filter: blur(8px);
-}
-
-.node {
-  position: absolute;
-  left: 0;
-  top: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  background: none;
-  border: none;
-  color: inherit;
-  font-family: inherit;
-  pointer-events: auto;
-  will-change: transform, opacity;
-}
-
-.node-label {
-  margin-top: 14px;
-  font-size: 0.7rem;
-  letter-spacing: 0.24em;
-  opacity: 0.6;
-  white-space: nowrap;
-}
-
-.tooltip {
-  position: absolute;
-  bottom: calc(100% + 18px);
-  padding: 8px 14px;
-  background: rgba(8, 8, 8, 0.94);
-  border: 1px solid rgba(255, 255, 255, 0.24);
-  color: #f0f0f0;
-  font-size: 0.75rem;
-  letter-spacing: 0.14em;
-  white-space: nowrap;
-  opacity: 0;
-  transform: translateY(6px);
-  pointer-events: none;
-  transition: opacity 0.25s ease, transform 0.25s ease;
-  z-index: 100;
-}
-
-.node:hover .tooltip {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* Central Black Hole */
-.black-hole-node {
-  cursor: default;
-}
-
-.black-hole {
-  position: relative;
-  width: 58px;
-  height: 58px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.event-horizon {
-  width: 26px;
-  height: 26px;
-  border-radius: 50%;
-  background: #000;
-  box-shadow: 0 0 14px 3px rgba(255, 255, 255, 0.45), inset 0 0 6px #000;
-  z-index: 2;
-}
-
-.accretion-disk {
-  position: absolute;
-  width: 56px;
-  height: 18px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.5);
-  box-shadow: 0 0 12px rgba(255, 255, 255, 0.2);
-  transform: rotate(-22deg);
-  animation: diskPulse 5s ease-in-out infinite;
-}
-
-@keyframes diskPulse {
-  0%, 100% { transform: rotate(-22deg) scale(1); opacity: 0.65; }
-  50% { transform: rotate(-22deg) scale(1.08); opacity: 1; }
-}
-
-/* Hidden ELPIS Star Node */
-.star-node {
-  cursor: pointer;
-}
-
-.star-core {
-  width: 12px;
-  height: 12px;
-  border-radius: 50%;
-  background: #ffffff;
-  box-shadow: 0 0 16px 4px rgba(255, 255, 255, 0.85);
-  transition: transform 0.25s ease;
-}
-
-.star-ring {
-  position: absolute;
-  top: -9px;
-  width: 30px;
-  height: 30px;
-  border-radius: 50%;
-  border: 1px solid rgba(255, 255, 255, 0.35);
-  animation: starRing 3s infinite ease-out;
-}
-
-.star-node:hover .star-core {
-  transform: scale(1.35);
-}
-
-@keyframes starRing {
-  0% { transform: scale(0.8); opacity: 0.8; }
-  100% { transform: scale(1.8); opacity: 0; }
-}
-
-/* Dormant Nodes */
-.dormant-node {
-  cursor: not-allowed;
-}
-
-.dormant-dot {
-  width: 6px;
-  height: 6px;
-  border-radius: 50%;
-  background: #777;
-}
-
-/* ===========================
-   VIEW 2: DUALITY CHAMBER
-   =========================== */
-.chamber-center {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  padding: 20px;
-}
-
-.phrase-text {
-  font-family: "Times New Roman", Times, Georgia, serif;
-  font-size: clamp(1.8rem, 4.5vw, 3.4rem);
-  font-weight: 400;
-  letter-spacing: 0.22em;
-  margin-bottom: 48px;
-  position: relative;
-}
-
-body:not(.state-light) .phrase-text {
-  animation: textJitter 3.5s infinite;
-}
-
-@keyframes textJitter {
-  0%, 92%, 100% { transform: translate(0, 0); text-shadow: none; }
-  93% { transform: translate(-2px, 1px); text-shadow: 2px 0 rgba(255,255,255,0.4); }
-  95% { transform: translate(2px, -1px); text-shadow: -2px 0 rgba(255,255,255,0.4); }
-  97% { transform: translate(-1px, 0); }
-}
-
-.interactive-word {
-  cursor: pointer;
-  position: relative;
-  display: inline-block;
-  transition: text-shadow 0.35s ease, transform 0.25s ease, color 0.35s ease;
-}
-
-body:not(.state-light) .hope-glitch:hover {
-  animation: aggressiveGlitch 0.18s infinite;
-  text-shadow: 3px 0 #ffffff, -3px 0 #777777;
-}
-
-@keyframes aggressiveGlitch {
-  0% { transform: translate(0, 0) skewX(0deg); }
-  25% { transform: translate(-3px, 2px) skewX(8deg); }
-  50% { transform: translate(3px, -2px) skewX(-8deg); }
-  75% { transform: translate(-2px, -1px) skewX(4deg); }
-  100% { transform: translate(2px, 1px) skewX(-4deg); }
-}
-
-.hope-angelic {
-  position: relative;
-}
-
-.hope-angelic::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 50%;
-  width: 140%;
-  height: 450vh;
-  transform: translate(-50%, -50%) scaleX(0.3);
-  background: linear-gradient(
-    90deg,
-    transparent 0%,
-    rgba(255, 255, 255, 0.35) 25%,
-    rgba(255, 255, 255, 0.95) 50%,
-    rgba(255, 255, 255, 0.35) 75%,
-    transparent 100%
-  );
-  opacity: 0;
-  pointer-events: none;
-  z-index: -1;
-  transition: opacity 0.45s ease, transform 0.45s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.hope-angelic:hover {
-  color: #ffffff;
-  text-shadow:
-    0 0 10px #ffffff,
-    0 0 24px #ffffff,
-    0 0 48px rgba(255, 248, 220, 0.95),
-    0 0 90px rgba(255, 240, 190, 0.85);
-  transform: scale(1.06);
-}
-
-.hope-angelic:hover::before {
-  opacity: 1;
-  transform: translate(-50%, -50%) scaleX(1.2);
-}
-
-.word-cage:hover {
-text-decoration: underline;
-text-underline-offset: 8px;
-}
-.word-key:hover {
-text-shadow:
-0 0 12px rgba(255, 255, 255, 0.95),
-0 0 26px rgba(0, 0, 0, 0.7),
-0 0 42px rgba(255, 245, 210, 0.8);
-transform: scale(1.05);
-}
-.switch-container {
-display: flex;
-align-items: center;
-gap: 16px;
-}
-.switch-tag {
-font-size: 0.7rem;
-letter-spacing: 0.22em;
-opacity: 0.5;
-}
-.polarity-switch {
-position: relative;
-display: inline-block;
-width: 54px;
-height: 24px;
-cursor: pointer;
-}
-.polarity-switch input {
-opacity: 0;
-width: 0;
-height: 0;
-}
-.slider {
-position: absolute;
-inset: 0;
-border: 1px solid currentColor;
-transition: 0.25s;
-}
-.slider::before {
-content: "";
-position: absolute;
-height: 16px;
-width: 16px;
-left: 3px;
-bottom: 3px;
-background-color: currentColor;
-transition: 0.25s;
-}
-input:checked + .slider::before {
-transform: translateX(30px);
-}
-/* ===========================
-VIEW 3: PANDORA'S BOX & LORE
-=========================== */
-#view-pandora {
-background: #050505;
-color: #eaeaea;
-}
-.pandora-container {
-display: flex;
-flex-direction: column;
-align-items: center;
-text-align: center;
-}
-.pandora-box-btn {
-background: none;
-border: none;
-cursor: pointer;
-transition: transform 0.35s ease;
-}
-.pandora-box-btn:hover {
-transform: scale(1.05);
-}
-.pandora-box-svg {
-margin-bottom: 20px;
-filter: drop-shadow(0 0 18px rgba(255, 255, 255, 0.18));
-}
-.box-stroke {
-fill: #080808;
-stroke: #eaeaea;
-stroke-width: 1.5;
-}
-.box-detail {
-stroke: rgba(255, 255, 255, 0.35);
-stroke-width: 1;
-}
-.box-core {
-fill: rgba(255, 255, 255, 0.85);
-animation: coreBreathe 2.8s infinite ease-in-out;
-}
-.box-ray {
-stroke: rgba(255, 255, 255, 0.45);
-stroke-width: 1;
-stroke-dasharray: 3 3;
-animation: coreBreathe 2.8s infinite ease-in-out;
-}
-@keyframes coreBreathe {
-0%, 100% { opacity: 0.35; }
-50% { opacity: 1; }
-}
-.pandora-inscription {
-font-family: "Times New Roman", Times, Georgia, serif;
-font-size: 1.5rem;
-letter-spacing: 0.45em;
-margin-bottom: 12px;
-}
-.pandora-sub {
-font-size: 0.72rem;
-letter-spacing: 0.2em;
-opacity: 0.5;
-margin-bottom: 18px;
-}
-.pandora-hint {
-font-size: 0.66rem;
-letter-spacing: 0.24em;
-opacity: 0.35;
-animation: coreBreathe 3s infinite ease-in-out;
-}
-.lore-box {
-max-width: 500px;
-text-align: left;
-padding: 40px 42px;
-}
-.lore-tag {
-font-size: 0.68rem;
-letter-spacing: 0.22em;
-opacity: 0.55;
-margin-bottom: 14px;
-}
-.lore-divider {
-width: 48px;
-height: 1px;
-background: rgba(255, 255, 255, 0.35);
-margin-bottom: 20px;
-}
-.lore-text {
-font-family: "Times New Roman", Times, Georgia, serif;
-font-size: 1.05rem;
-line-height: 1.7;
-color: #e2e2e2;
-margin-bottom: 16px;
-}
-.lore-footer {
-margin-top: 22px;
-font-size: 0.66rem;
-letter-spacing: 0.24em;
-opacity: 0.45;
-}
-/* ===========================
-PASSWORD MODAL
-=========================== */
-.modal {
-position: fixed;
-inset: 0;
-background: rgba(0, 0, 0, 0.76);
-display: flex;
-align-items: center;
-justify-content: center;
-z-index: 800;
-}
-.modal.hidden {
-display: none;
-}
-.modal-box {
-position: relative;
-background: #0b0b0b;
-color: #f0f0f0;
-border: 1px solid rgba(255, 255, 255, 0.3);
-padding: 36px 40px;
-width: 90%;
-max-width: 360px;
-text-align: center;
-}
-.modal-close {
-position: absolute;
-top: 10px;
-right: 14px;
-background: none;
-border: none;
-color: #888;
-font-size: 1.3rem;
-cursor: pointer;
-}
-.modal-prompt {
-font-size: 0.75rem;
-letter-spacing: 0.28em;
-margin-bottom: 20px;
-}
-#password-input {
-width: 100%;
-padding: 10px 12px;
-background: transparent;
-border: 1px solid rgba(255, 255, 255, 0.4);
-color: #fff;
-font-family: inherit;
-font-size: 0.95rem;
-letter-spacing: 0.25em;
-text-align: center;
-text-transform: uppercase;
-margin-bottom: 16px;
-outline: none;
-}
-.modal-submit {
-width: 100%;
-padding: 10px;
-background: #f0f0f0;
-color: #080808;
-border: none;
-font-family: inherit;
-font-size: 0.78rem;
-letter-spacing: 0.25em;
-cursor: pointer;
-}
-.feedback-msg {
-margin-top: 14px;
-font-size: 0.75rem;
-letter-spacing: 0.22em;
-min-height: 18px;
-}
-/* ===========================
-VIEW 4: DIAGONAL SPLIT REVEAL
-=========================== */
-.diagonal-split-bg {
-position: fixed;
-inset: 0;
-background: linear-gradient(
-135deg,
-#f2f1ed 0%,
-#f2f1ed 49.9%,
-#070707 50.1%,
-#070707 100%
-);
-z-index: 1;
-}
-.split-hover-zone {
-position: fixed;
-inset: 0;
-z-index: 2;
-transition: opacity 0.3s ease;
-}
-.zone-light {
-clip-path: polygon(0 0, 100% 0, 0 100%);
-}
-.zone-dark {
-clip-path: polygon(100% 0, 100% 100%, 0 100%);
-}
-.zone-status {
-position: fixed;
-font-size: 0.68rem;
-letter-spacing: 0.24em;
-opacity: 0;
-transition: opacity 0.3s ease;
-pointer-events: none;
-}
-.zone-light .zone-status {
-bottom: 28px;
-left: 32px;
-color: #0a0a0a;
-}
-.zone-dark .zone-status {
-bottom: 28px;
-right: 32px;
-color: #eaeaea;
-}
-.zone-light:hover .zone-status,
-.zone-dark:hover .zone-status {
-opacity: 0.65;
-}
-.split-nav {
-color: #0a0a0a;
-}
-.reveal-content {
-position: relative;
-z-index: 5;
-text-align: center;
-padding: 32px 48px;
-background: rgba(8, 8, 8, 0.94);
-border: 1px solid rgba(255, 255, 255, 0.22);
-color: #f2f1ed;
-}
-.reveal-title {
-font-family: "Times New Roman", Times, Georgia, serif;
-font-size: clamp(2.4rem, 6vw, 4.4rem);
-font-weight: 400;
-font-style: italic;
-display: inline-flex;
-gap: 0.55em;
-padding-left: 0.25em;
-}
-.reveal-char {
-background: none;
-border: none;
-color: inherit;
-font-family: inherit;
-font-size: inherit;
-font-style: inherit;
-cursor: pointer;
-opacity: 0;
-filter: blur(6px);
-transform: translateY(10px);
-transition: text-shadow 0.25s ease, transform 0.25s ease;
-}
-#view-reveal.active .reveal-char {
-animation: charFadeIn 1.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
-animation-delay: calc(var(--i) * 0.42s + 0.3s);
-}
-.reveal-char:hover,
-.reveal-char.selected {
-text-shadow: 0 0 16px rgba(255, 255, 255, 0.95);
-}
-@keyframes charFadeIn {
-0% {
-opacity: 0;
-filter: blur(6px);
-transform: translateY(10px);
-}
-100% {
-opacity: 1;
-filter: blur(0);
-transform: translateY(0);
-}
-}
-.track-transmission {
-margin-top: 24px;
-padding-top: 18px;
-border-top: 1px solid rgba(255, 255, 255, 0.14);
-}
-.track-slot-label {
-font-size: 0.66rem;
-letter-spacing: 0.22em;
-opacity: 0.5;
-margin-bottom: 8px;
-}
-.track-title-display {
-font-family: "Times New Roman", Times, Georgia, serif;
-font-size: 1.15rem;
-letter-spacing: 0.25em;
-color: #ffffff;
-}
+  <!-- YouTube IFrame API -->
+  <script src="https://youtube.com"></script>
+  <script src="script.js"></script>
+</body>
+</html>
