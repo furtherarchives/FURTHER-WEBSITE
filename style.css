@@ -799,8 +799,8 @@ input:checked + .slider::before {
 /* TERMINAL SIDE DRAWER STYLING */
 .terminal-toggle-btn {
   position: fixed;
-  top: 24px;
-  right: 140px; /* Sits comfortably next to your Comms toggle */
+  top: 56px;
+  right: 32px; /* Sits comfortably next to your Comms toggle */
   background: rgba(10, 10, 10, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.25);
   color: #eaeaea;
