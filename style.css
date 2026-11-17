@@ -298,7 +298,8 @@ body.full-page-glitch {
 
 /* Central Black Hole */
 .black-hole-node {
-  cursor: default;
+  cursor: pointer !important;
+  pointer-events: auto !important;
 }
 .black-hole {
   position: relative;
@@ -307,6 +308,7 @@ body.full-page-glitch {
   display: flex;
   align-items: center;
   justify-content: center;
+  pointer-events: auto;
 }
 .event-horizon {
   width: 26px;

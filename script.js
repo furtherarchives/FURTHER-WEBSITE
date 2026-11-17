@@ -26,6 +26,48 @@ var passwordForm = document.getElementById("password-form");
 var passwordInput = document.getElementById("password-input");
 var passwordFeedback = document.getElementById("password-feedback");
 var timerTooltip = document.getElementById("elpis-timer-tooltip");
+/* ORIGIN ARCHIVE MODAL & BLACK HOLE CLICK */
+var originArchiveModal = document.getElementById("origin-archive-modal");
+var closeArchiveModal = document.getElementById("close-archive-modal");
+var fragmentCards = document.querySelectorAll(".fragment-card");
+var fragmentViewer = document.getElementById("fragment-viewer");
+var viewerTitle = document.getElementById("viewer-title");
+var viewerText = document.getElementById("viewer-text");
+var closeViewer = document.getElementById("close-viewer");
+
+var blackHoleTrigger = document.querySelector(".black-hole") || nodeBlackhole;
+
+if (blackHoleTrigger && originArchiveModal) {
+  blackHoleTrigger.addEventListener("click", function (e) {
+    e.stopPropagation();
+    originArchiveModal.classList.remove("hidden");
+  });
+}
+
+if (closeArchiveModal && originArchiveModal) {
+  closeArchiveModal.addEventListener("click", function () {
+    originArchiveModal.classList.add("hidden");
+    if (fragmentViewer) fragmentViewer.classList.add("hidden");
+  });
+}
+
+for (var f = 0; f < fragmentCards.length; f++) {
+  fragmentCards[f].addEventListener("click", function () {
+    var fragId = this.getAttribute("data-fragment");
+    var lore = fragmentLoreData[fragId];
+    if (lore && viewerTitle && viewerText && fragmentViewer) {
+      viewerTitle.textContent = lore.title;
+      viewerText.textContent = lore.text;
+      fragmentViewer.classList.remove("hidden");
+    }
+  });
+}
+
+if (closeViewer && fragmentViewer) {
+  closeViewer.addEventListener("click", function () {
+    fragmentViewer.classList.add("hidden");
+  });
+}
 /* TERMINAL SIDE DRAWER CONTROLS */
 var terminalToggle = document.getElementById("terminal-toggle");
 var terminalDrawer = document.getElementById("terminal-drawer");
