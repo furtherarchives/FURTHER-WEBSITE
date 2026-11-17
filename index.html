@@ -54,7 +54,7 @@
       <p class="term-text">
         Intercepted audio logs and lost media are cataloged via the official transmission channel.
       </p>
-      <a href="https://www.youtube.com" target="_blank" class="term-link">[ ACCESS YOUTUBE ARCHIVE ]</a>
+      <a href="#" id="open-transmission-terminal" class="term-link">[ ACCESS TRANSMISSION CHANNEL ]</a>
     </div>
 
     <!-- TAB 3: CASE FILE (CLASSIFIED PORTFOLIOS) -->
@@ -212,6 +212,71 @@
     <div id="track-transmission-box" class="track-transmission">
       <p id="track-slot-label" class="track-slot-label">SELECT A GLYPH TO INTERCEPT TRANSMISSION</p>
       <p id="track-title-display" class="track-title-display">-</p>
+    </div>
+  </div>
+</main>
+
+<!-- VIEW 5: VINTAGE TRANSMISSION TERMINAL (F.E.D.S.I. SEC-7) -->
+<main id="view-transmission" class="view">
+  <button id="back-from-transmission" class="nav-return" type="button">&lt; RETURN TO ARCHIVE</button>
+  
+  <div class="crt-monitor-bezel">
+    <div class="crt-screen">
+      <div class="crt-scanlines"></div>
+      
+      <!-- LEFT COLUMN: ASCII LOGO & AGENT SYSTEM STATS -->
+      <div class="crt-left">
+        <pre class="ascii-logo">
+        /\
+       /  \
+      / /\ \
+     / /  \ \
+    / / /\ \ \
+   / / /__\ \ \
+  \/__________/
+  [ F.E.D.S.I ]
+        </pre>
+        <div class="crt-sys-info">
+          <div><strong>ORG:</strong> FED. BUREAU OF EXISTENTIAL SURVEILLANCE</div>
+          <div><strong>DIV:</strong> DIRECTORATE // SEC-7</div>
+          <div><strong>HOST:</strong> VOYAGER-MAINBOARD</div>
+          <div><strong>KERNEL:</strong> 9.15.04-ELPIS</div>
+          <div><strong>CLEARANCE:</strong> LEVEL-4 ARCHIVIST</div>
+          <div class="crt-status-ok">LINK: ENCRYPTED // ACTIVE</div>
+        </div>
+      </div>
+
+      <!-- RIGHT COLUMN: INTERACTIVE DIRECTORY & LOGS -->
+      <div class="crt-right">
+        <div class="crt-welcome-banner">
+          WELCOME BACK, AGENT #884-VOW.<br>
+          <span class="crt-sub-banner">SELECT DIRECTORY TO INTERCEPT FILES:</span>
+        </div>
+
+        <div id="crt-main-menu" class="crt-menu-list">
+          <button class="crt-btn" id="btn-dir-audio">[ 01 ] INTERCEPTED AUDIO LOGS</button>
+          <button class="crt-btn" id="btn-dir-footage">[ 02 ] FOUND FOOTAGE ARCHIVES</button>
+        </div>
+
+        <!-- SUBMENU: INTERCEPTED AUDIO LOGS -->
+        <div id="crt-audio-menu" class="crt-submenu hidden">
+          <div class="crt-dir-header">DIR // INTERCEPTED AUDIO LOGS</div>
+          <button class="crt-btn audio-log-item" data-log="001">&gt; AUDIO LOG 001 [ENCRYPTED]</button>
+          <button class="crt-btn audio-log-item" data-log="002">&gt; AUDIO LOG 002 [ENCRYPTED]</button>
+          <button class="crt-btn audio-log-item" data-log="003">&gt; AUDIO LOG 003 [ENCRYPTED]</button>
+          <div id="crt-audio-feedback" class="crt-alert-msg"></div>
+          <button class="crt-btn crt-back-btn" id="crt-back-from-audio">[ &lt; BACK TO ROOT ]</button>
+        </div>
+
+        <!-- SUBMENU: FOUND FOOTAGE (DATE-STAMPED YOUTUBE LINKS) -->
+        <div id="crt-footage-menu" class="crt-submenu hidden">
+          <div class="crt-dir-header">DIR // FOUND FOOTAGE (CHRONOLOGICAL)</div>
+          <a href="https://www.youtube.com/watch?v=APFlDVnda08&list=RDAPFlDVnda08&start_radio=1" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_032726.VID [RECOVERED]</a>
+          <a href="https://www.youtube.com/watch?v=xFLpYoX-gPU&list=RDxFLpYoX-gPU&start_radio=1" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_051626.VID [RECOVERED]</a>
+          <a href="https://youtu.be/nqBWMUQjBSg?si=eOHZq93BjAgM0NMn" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_072226.VID [RECOVERED]</a>
+          <button class="crt-btn crt-back-btn" id="crt-back-from-footage">[ &lt; BACK TO ROOT ]</button>
+        </div>
+      </div>
     </div>
   </div>
 </main>

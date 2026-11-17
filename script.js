@@ -3,6 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
   var viewElpis = document.getElementById("view-elpis");
   var viewPandora = document.getElementById("view-pandora");
   var viewReveal = document.getElementById("view-reveal");
+  var viewTransmission = document.getElementById("view-transmission");
   var glitchOverlay = document.getElementById("glitch-overlay");
   var constellationMap = document.getElementById("constellation-map");
   var radioToggle = document.getElementById("radio-toggle");
@@ -27,9 +28,76 @@ document.addEventListener("DOMContentLoaded", function () {
   var passwordFeedback = document.getElementById("password-feedback");
   var timerTooltip = document.getElementById("elpis-timer-tooltip");
 
+  /* VINTAGE TRANSMISSION TERMINAL (F.E.D.S.I. SEC-7) */
+var openTransmissionBtn = document.getElementById("open-transmission-terminal");
+var backFromTransmission = document.getElementById("back-from-transmission");
+var crtMainMenu = document.getElementById("crt-main-menu");
+var crtAudioMenu = document.getElementById("crt-audio-menu");
+var crtFootageMenu = document.getElementById("crt-footage-menu");
+var btnDirAudio = document.getElementById("btn-dir-audio");
+var btnDirFootage = document.getElementById("btn-dir-footage");
+var crtBackFromAudio = document.getElementById("crt-back-from-audio");
+var crtBackFromFootage = document.getElementById("crt-back-from-footage");
+var audioLogItems = document.querySelectorAll(".audio-log-item");
+var crtAudioFeedback = document.getElementById("crt-audio-feedback");
+
+if (openTransmissionBtn && viewTransmission) {
+  openTransmissionBtn.addEventListener("click", function (e) {
+    e.preventDefault();
+    if (terminalDrawer) terminalDrawer.classList.remove("open");
+    triggerGlitch(false);
+    showView(viewTransmission);
+  });
+}
+
+if (backFromTransmission) {
+  backFromTransmission.addEventListener("click", function () {
+    triggerGlitch(false);
+    showView(viewHub);
+  });
+}
+
+if (btnDirAudio && crtMainMenu && crtAudioMenu) {
+  btnDirAudio.addEventListener("click", function () {
+    crtMainMenu.classList.add("hidden");
+    crtAudioMenu.classList.remove("hidden");
+    if (crtAudioFeedback) crtAudioFeedback.textContent = "";
+  });
+}
+
+if (btnDirFootage && crtMainMenu && crtFootageMenu) {
+  btnDirFootage.addEventListener("click", function () {
+    crtMainMenu.classList.add("hidden");
+    crtFootageMenu.classList.remove("hidden");
+  });
+}
+
+if (crtBackFromAudio && crtMainMenu && crtAudioMenu) {
+  crtBackFromAudio.addEventListener("click", function () {
+    crtAudioMenu.classList.add("hidden");
+    crtMainMenu.classList.remove("hidden");
+  });
+}
+
+if (crtBackFromFootage && crtMainMenu && crtFootageMenu) {
+  crtBackFromFootage.addEventListener("click", function () {
+    crtFootageMenu.classList.add("hidden");
+    crtMainMenu.classList.remove("hidden");
+  });
+}
+
+for (var a = 0; a < audioLogItems.length; a++) {
+  audioLogItems[a].addEventListener("click", function () {
+    var logNum = this.getAttribute("data-log");
+    if (crtAudioFeedback) {
+      crtAudioFeedback.textContent = "[ ACCESS DENIED // AUDIO LOG " + logNum + " SEALED BY SEC-7 ]";
+    }
+  });
+}
+
   /* FRAGMENT ARCHIVE STATE & LOGIC */
   var unlockedFragments = {
-    1: true,  // Pandora's Box unlocked by default
+    1: false,  // Pandora's Box starts locked until discovered in chamber
     2: false, // Spirit Box locked initially
     3: false, // Titanium Bands locked
     4: false, // Basalt Hands locked
@@ -323,7 +391,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   function showView(targetView) {
-    var views = [viewHub, viewElpis, viewPandora, viewReveal];
+    var views = [viewHub, viewElpis, viewPandora, viewReveal, viewTransmission];
     for (var i = 0; i < views.length; i++) {
       if (views[i]) {
         views[i].classList.remove("active");
@@ -729,9 +797,11 @@ document.addEventListener("DOMContentLoaded", function () {
   if (pandoraBoxTrigger && loreModal) {
     pandoraBoxTrigger.addEventListener("click", function () {
       triggerGlitch(false);
-      loreModal.classList.remove("hidden");
-    });
-  }
+      unlockedFragments[1] = true;
+    updateArchiveUI();
+    loreModal.classList.remove("hidden");
+  });
+}
 
   if (closeLoreModal && loreModal) {
     closeLoreModal.addEventListener("click", function () {
