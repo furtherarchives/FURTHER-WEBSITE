@@ -721,3 +721,66 @@ audioSideB.pause();
 });
 }
 });
+/* FRAGMENT ARCHIVE LORE DATA */
+var fragmentLoreData = {
+  1: {
+    title: "FRAGMENT 01 // PANDORA'S BOX",
+    text: "The iron container recovered from the Duality Chamber. Inside, a breathing core pulses with erratic energy. Archival logs indicate that when this seal was breached, it released not malice, but a frequency that permanently altered human emotional response. Hope was never a gift; it was the mechanism of the cage."
+  },
+  2: {
+    title: "FRAGMENT 02 // THE SPIRIT BOX",
+    text: "A military-grade frequency receiver modified with analog vacuum tubes. Emits continuous white noise interspersed with anomalous voice transmissions. Unlocking this artifact grants direct access to the independent frequency tuner."
+  },
+  3: {
+    title: "FRAGMENT 03 // INTERLINKED TITANIUM BANDS",
+    text: "Two ritualistic rings fused together at an atomic level across impossible spatial coordinates. Archives confirm these belonged to the earliest subjects of the anomaly, proving that human connection survived structural dissolution before the great separation."
+  },
+  4: {
+    title: "FRAGMENT 04 // BASALT STONE HANDS",
+    text: "A pair of hands sculpted from volcanic glass, crafted before publicly known human civilization, palms pressed tightly together in perpetual prayer. Believed to originate from the 'First Silence'—the historic era when civilization abandoned spoken language because speech itself began attracting the signal from the void."
+  },
+  5: {
+    title: "FRAGMENT 05 // BURNED POLAROID",
+    text: "A physical photographic print scorched black by atmospheric heat, preserving only a single glowing coordinate in an ancient forest. A remnant of the pre-XXXXX world view before the architects vanished."
+  }
+};
+
+/* ORIGIN ARCHIVE MODAL CONTROLS */
+var originArchiveModal = document.getElementById("origin-archive-modal");
+var closeArchiveModal = document.getElementById("close-archive-modal");
+var fragmentCards = document.querySelectorAll(".fragment-card");
+var fragmentViewer = document.getElementById("fragment-viewer");
+var viewerTitle = document.getElementById("viewer-title");
+var viewerText = document.getElementById("viewer-text");
+var closeViewer = document.getElementById("close-viewer");
+
+if (nodeBlackhole && originArchiveModal) {
+  nodeBlackhole.addEventListener("click", function () {
+    originArchiveModal.classList.remove("hidden");
+  });
+}
+
+if (closeArchiveModal && originArchiveModal) {
+  closeArchiveModal.addEventListener("click", function () {
+    originArchiveModal.classList.add("hidden");
+    if (fragmentViewer) fragmentViewer.classList.add("hidden");
+  });
+}
+
+for (var f = 0; f < fragmentCards.length; f++) {
+  fragmentCards[f].addEventListener("click", function () {
+    var fragId = this.getAttribute("data-fragment");
+    var lore = fragmentLoreData[fragId];
+    if (lore && viewerTitle && viewerText && fragmentViewer) {
+      viewerTitle.textContent = lore.title;
+      viewerText.textContent = lore.text;
+      fragmentViewer.classList.remove("hidden");
+    }
+  });
+}
+
+if (closeViewer && fragmentViewer) {
+  closeViewer.addEventListener("click", function () {
+    fragmentViewer.classList.add("hidden");
+  });
+}

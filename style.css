@@ -956,3 +956,72 @@ input:checked + .slider::before {
   padding: 3px 8px;
   margin-bottom: 14px;
 }
+/* ORIGIN FRAGMENT ARCHIVE STYLING */
+.archive-modal-box {
+  max-width: 650px !important;
+  width: 92% !important;
+  padding: 40px !important;
+}
+.archive-sub-text {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  opacity: 0.5;
+  margin-bottom: 25px;
+}
+.fragment-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(110px, 1fr));
+  gap: 14px;
+  margin-bottom: 20px;
+}
+.fragment-card {
+  background: rgba(15, 15, 15, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  padding: 16px 10px;
+  text-align: center;
+  cursor: pointer;
+  transition: all 0.25s ease;
+}
+.fragment-card:hover {
+  border-color: rgba(255, 255, 255, 0.6);
+  transform: translateY(-2px);
+}
+.fragment-icon {
+  font-size: 1.5rem;
+  margin-bottom: 8px;
+}
+.fragment-title {
+  font-size: 0.6rem;
+  letter-spacing: 0.15em;
+  color: #fff;
+  margin-bottom: 6px;
+}
+.fragment-status {
+  font-size: 0.52rem;
+  letter-spacing: 0.1em;
+  opacity: 0.5;
+}
+.fragment-card.unlocked .fragment-status {
+  color: #a8f5a8;
+  opacity: 0.8;
+}
+
+/* FRAGMENT DETAIL VIEWER */
+.fragment-viewer {
+  margin-top: 20px;
+  padding-top: 20px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  text-align: left;
+}
+.viewer-title {
+  font-family: "Times New Roman", Times, Georgia, serif;
+  font-size: 1rem;
+  letter-spacing: 0.2em;
+  color: #fff;
+  margin-bottom: 10px;
+}
+.viewer-text {
+  font-size: 0.75rem;
+  line-height: 1.6;
+  color: #ccc;
+}
