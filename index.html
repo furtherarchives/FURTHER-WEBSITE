@@ -9,6 +9,7 @@
 <body class="theme-hub">
 <!-- Subtle Analog Film Grain Overlay -->
 <div class="grain"></div>
+
 <!-- Full-Screen Glitch Flash Overlay -->
 <div id="glitch-overlay" class="glitch-overlay"></div>
 
@@ -21,7 +22,7 @@
     <span class="terminal-title">SYSTEM // TERMINAL v2.04</span>
     <button id="terminal-close" class="terminal-close-btn">[ X ]</button>
   </div>
-
+  
   <div class="terminal-nav-tabs">
     <button class="term-tab-btn active" data-target="term-index">[ INDEX ]</button>
     <button class="term-tab-btn" data-target="term-dossier">[ DOSSIER ]</button>
@@ -45,7 +46,7 @@
       <div class="term-section-title">BROADCASTS & RELEASES</div>
       <div class="term-sub-heading">ACTIVE CHAPTERS</div>
       <ul class="term-list">
-        <li><span>// XXXXX (2027)</span> - Current Transmission</li>
+        <li><span>// ELPIS (2027)</span> - Current Transmission</li>
         <li><span>// ORIGINS (Act I)</span> - Archived Protocol</li>
       </ul>
       <div class="term-sub-heading" style="margin-top: 20px;">YOUTUBE MIXES & STREAMS</div>
@@ -60,12 +61,12 @@
       <div class="term-section-title">CLASSIFIED SUBJECT // THE SPIRIT</div>
       <div class="classified-stamp">RESTRICTED ACCREDITATION</div>
       <p class="term-text">
-        <strong>DESIGNATION:</strong> The Spirit<br>
-        <strong>ORIGIN:</strong> REDACTED<br>
-        <strong>STATUS:</strong> Last sited on Earth in this timeline
+        <strong>DESIGNATION:</strong> The Spirit (The Darker Half)<br>
+        <strong>ORIGIN:</strong> Post-Act I Schism<br>
+        <strong>STATUS:</strong> Exiled from the Higher Realm
       </p>
       <p class="term-text">
-        Proceed with caution and alert authorities if encountered. Motives REDACTED, abilities unkownn. Subject is considered highly valuable and should not be approached without proper authorization. Known to be capable of traversing time and space, the subject has been observed in multiple dimensions and is believed to possess knowledge of the primordial source.
+        Following the fracture of identity, the subject rejected the dogmatic blind faith of the higher realm—choosing the path of real-world pragmatism regarding hope. Cast out for refusing absolute servitude, the subject now navigates the void, carrying the weight of a severed personality left behind in a cage of light, while searching across time for the primordial counterpart.
       </p>
       <div class="term-sub-heading" style="margin-top: 20px;">FUTURE PROFILES</div>
       <ul class="term-list">
@@ -86,130 +87,130 @@
 
 <!-- Space Radio Switch (Top Right) -->
 <button id="radio-toggle" class="radio-console" type="button" aria-label="Toggle Space Radio Audio">
-<span class="radio-led"></span>
-<span class="radio-label">COMMS // <strong id="radio-status">OFF</strong></span>
+  <span class="radio-led"></span>
+  <span class="radio-label">COMMS // <strong id="radio-status">OFF</strong></span>
 </button>
 
 <!-- VIEW 1: 3D CONSTELLATION HUB -->
 <main id="view-hub" class="view active">
-<canvas id="space-canvas"></canvas>
-<div class="hub-header">FURTHER // ARCHIVE</div>
-<div class="hub-drag-hint">[ DRAG TO ORBIT ]</div>
-<div id="constellation-map" class="constellation-map">
-<div id="node-blackhole" class="node black-hole-node">
-<div class="tooltip quote-tooltip">Wonder, is the beginning of wisdom...</div>
-<div class="black-hole">
-<div class="accretion-disk"></div>
-<div class="event-horizon"></div>
-</div>
-<span class="node-label">ORIGIN</span>
-</div>
-<button id="node-elpis" class="node star-node" type="button" aria-label="Enter Unknown System">
-<div id="elpis-timer-tooltip" class="tooltip timer-tooltip">000D : 00H : 00M : 00S</div>
-<div class="star-core"></div>
-<div class="star-ring"></div>
-<span id="elpis-node-label" class="node-label">I // XXXXX</span>
-</button>
-<div id="node-dormant-1" class="node dormant-node">
-<div class="dormant-dot"></div>
-<span class="node-label">II // [LOCKED]</span>
-</div>
-<div id="node-dormant-2" class="node dormant-node">
-<div class="dormant-dot"></div>
-<span class="node-label">III // [LOCKED]</span>
-</div>
-</div>
+  <canvas id="space-canvas"></canvas>
+  <div class="hub-header">FURTHER // ARCHIVE</div>
+  <div class="hub-drag-hint">[ DRAG TO ORBIT ]</div>
+  <div id="constellation-map" class="constellation-map">
+    <div id="node-blackhole" class="node black-hole-node">
+      <div class="tooltip quote-tooltip">Wonder is the beginning of wisdom...</div>
+      <div class="black-hole">
+        <div class="accretion-disk"></div>
+        <div class="event-horizon"></div>
+      </div>
+      <span class="node-label">ORIGIN</span>
+    </div>
+    
+    <button id="node-elpis" class="node star-node" type="button" aria-label="Enter Unknown System">
+      <div id="elpis-timer-tooltip" class="tooltip timer-tooltip">000D : 00H : 00M : 00S</div>
+      <div class="star-core"></div>
+      <div class="star-ring"></div>
+      <span id="elpis-node-label" class="node-label">I // XXXXXX</span>
+    </button>
+    
+    <div id="node-dormant-1" class="node dormant-node">
+      <div class="dormant-dot"></div>
+      <span class="node-label">II // [LOCKED]</span>
+    </div>
+    
+    <div id="node-dormant-2" class="node dormant-node">
+      <div class="dormant-dot"></div>
+      <span class="node-label">III // [LOCKED]</span>
+    </div>
+  </div>
 </main>
 
 <!-- VIEW 2: DUALITY CHAMBER -->
 <main id="view-elpis" class="view">
-<button id="back-to-hub" class="nav-return" type="button">&lt; CONSTELLATION</button>
-<div class="chamber-center">
-<h1 id="duality-phrase" class="phrase-text cinematic-emerge">
-ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.
-</h1>
-<div id="switch-wrapper" class="switch-container cinematic-emerge-delayed">
-<span class="switch-tag">SIDE B</span>
-<label class="polarity-switch" aria-label="Toggle Duality State">
-<input type="checkbox" id="polarity-toggle" />
-<span class="slider"></span>
-</label>
-<span class="switch-tag">SIDE A</span>
-</div>
-</div>
+  <button id="back-to-hub" class="nav-return" type="button">&lt; CONSTELLATION</button>
+  <div class="chamber-center">
+    <h1 id="duality-phrase" class="phrase-text cinematic-emerge">
+      ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.
+    </h1>
+    <div id="switch-wrapper" class="switch-container cinematic-emerge-delayed">
+      <span class="switch-tag">SIDE B</span>
+      <label class="polarity-switch" aria-label="Toggle Duality State">
+        <input type="checkbox" id="polarity-toggle" />
+        <span class="slider"></span>
+      </label>
+      <span class="switch-tag">SIDE A</span>
+    </div>
+  </div>
 </main>
 
 <!-- VIEW 3: PANDORA'S BOX CHAMBER -->
 <main id="view-pandora" class="view">
-<button id="back-from-pandora" class="nav-return" type="button">&lt; RETURN</button>
-<div class="pandora-container cinematic-emerge">
-<button id="pandora-box-trigger" class="pandora-box-btn" type="button" aria-label="Inspect Pandora's Box Core">
-<svg class="pandora-box-svg" viewBox="0 0 240 240" width="220" height="220">
-<line x1="120" y1="85" x2="120" y2="25" class="box-ray" />
-<line x1="95" y1="90" x2="55" y2="40" class="box-ray" />
-<line x1="145" y1="90" x2="185" y2="40" class="box-ray" />
-<polygon points="55,95 120,65 185,95 120,115" class="box-stroke box-lid" />
-<ellipse cx="120" cy="108" rx="36" ry="10" class="box-core" />
-<polygon points="60,110 120,132 120,195 60,170" class="box-stroke" />
-<polygon points="180,110 120,132 120,195 180,170" class="box-stroke" />
-<line x1="90" y1="121" x2="90" y2="182" class="box-detail" />
-<line x1="150" y1="121" x2="150" y2="182" class="box-detail" />
-</svg>
-</button>
-<p class="pandora-inscription">P A N D O R A</p>
-<p class="pandora-sub">WHAT REMAINS INSIDE IS BOTH CURSE AND CURE.</p>
-<p class="pandora-hint">[ TOUCH THE LIGHT WITHIN ]</p>
-</div>
+  <button id="back-from-pandora" class="nav-return" type="button">&lt; RETURN</button>
+  <div class="pandora-container cinematic-emerge">
+    <button id="pandora-box-trigger" class="pandora-box-btn" type="button" aria-label="Inspect Pandora's Box Core">
+      <svg class="pandora-box-svg" viewBox="0 0 240 240" width="220" height="220">
+        <line x1="120" y1="85" x2="120" y2="25" class="box-ray" />
+        <line x1="95" y1="90" x2="55" y2="40" class="box-ray" />
+        <line x1="145" y1="90" x2="185" y2="40" class="box-ray" />
+        <polygon points="55,95 120,65 185,95 120,115" class="box-stroke box-lid" />
+        <ellipse cx="120" cy="108" rx="36" ry="10" class="box-core" />
+        <polygon points="60,110 120,132 120,195 60,170" class="box-stroke" />
+        <polygon points="180,110 120,132 120,195 180,170" class="box-stroke" />
+        <line x1="90" y1="121" x2="90" y2="182" class="box-detail" />
+        <line x1="150" y1="121" x2="150" y2="182" class="box-detail" />
+      </svg>
+    </button>
+    <p class="pandora-inscription">PANDORA</p>
+    <p class="pandora-sub">WHAT REMAINS INSIDE IS BOTH CURSE AND CURE.</p>
+    <p class="pandora-hint">[ TOUCH THE LIGHT WITHIN ]</p>
+  </div>
 </main>
 
 <!-- RECOVERED LORE FRAGMENT MODAL -->
 <div id="lore-modal" class="modal hidden">
-<div class="modal-box lore-box">
-<button id="close-lore-modal" class="modal-close" type="button">&times;</button>
-<p class="lore-tag">RECOVERED FRAGMENT // DRIFTING IN SPACE-TIME</p>
-<div class="lore-divider"></div>
-<p class="lore-text">Before the fall, we were one light suspended above the quiet...</p>
-<p class="lore-footer">LOGGED // ARCHIVE 000</p>
-</div>
+  <div class="modal-box lore-box">
+    <button id="close-lore-modal" class="modal-close" type="button">&times;</button>
+    <p class="lore-tag">RECOVERED FRAGMENT // DRIFTING IN SPACE-TIME</p>
+    <div class="lore-divider"></div>
+    <p class="lore-text">Before the fall, we were one light suspended above the quiet...</p>
+    <p class="lore-footer">LOGGED // ARCHIVE 000</p>
+  </div>
 </div>
 
 <!-- PASSWORD MODAL FOR "KEY" -->
 <div id="key-modal" class="modal hidden">
-<div class="modal-box">
-<button id="close-modal" class="modal-close" type="button">&times;</button>
-<p class="modal-prompt">ENTER CIPHER</p>
-<form id="password-form" autocomplete="off">
-<input type="text" id="password-input" placeholder="" spellcheck="false" />
-<button type="submit" class="modal-submit">UNLOCK</button>
-</form>
-<p id="password-feedback" class="feedback-msg"></p>
-</div>
+  <div class="modal-box">
+    <button id="close-modal" class="modal-close" type="button">&times;</button>
+    <p class="modal-prompt">ENTER CIPHER</p>
+    <form id="password-form" autocomplete="off">
+      <input type="text" spellcheck="false" id="password-input" placeholder="" />
+      <button type="submit" class="modal-submit">UNLOCK</button>
+    </form>
+    <p id="password-feedback" class="feedback-msg"></p>
+  </div>
 </div>
 
 <!-- VIEW 4: FINAL ELPIS DIAGONAL SPLIT REVEAL -->
 <main id="view-reveal" class="view">
-<button id="back-from-reveal" class="nav-return split-nav" type="button">&lt; CONSTELLATION</button>
-<div class="diagonal-split-bg"></div>
-<div id="zone-side-a" class="split-hover-zone zone-light" title="Side A // Signal Pending"><span class="zone-status">SIDE A // SIGNAL STANDBY</span></div>
-<div id="zone-side-b" class="split-hover-zone zone-dark" title="Side B // Signal Pending"><span class="zone-status">SIDE B // SIGNAL STANDBY</span></div>
-<div class="reveal-content">
-<h1 id="elpis-letter-reveal" class="reveal-title" aria-label="ELPIS">
-<button class="reveal-char" type="button" data-index="0" style="--i:0">E</button>
-<button class="reveal-char" type="button" data-index="1" style="--i:1">L</button>
-<button class="reveal-char" type="button" data-index="2" style="--i:2">P</button>
-<button class="reveal-char" type="button" data-index="3" style="--i:3">I</button>
-<button class="reveal-char" type="button" data-index="4" style="--i:4">S</button>
-</h1>
-<div id="track-transmission-box" class="track-transmission">
-<p id="track-slot-label" class="track-slot-label">SELECT A GLYPH TO INTERCEPT TRANSMISSION</p>
-<p id="track-title-display" class="track-title-display">-</p>
-</div>
-</div>
+  <button id="back-from-reveal" class="nav-return split-nav" type="button">&lt; CONSTELLATION</button>
+  <div class="diagonal-split-bg"></div>
+  <div id="zone-side-a" class="split-hover-zone zone-light" title="Side A // Signal Pending"><span class="zone-status">SIDE A // SIGNAL STANDBY</span></div>
+  <div id="zone-side-b" class="split-hover-zone zone-dark" title="Side B // Signal Pending"><span class="zone-status">SIDE B // STANDBY</span></div>
+  <div class="reveal-content">
+    <h1 id="elpis-letter-reveal" class="reveal-title" aria-label="ELPIS">
+      SIGNAL
+      <button class="reveal-char" type="button" data-index="0" style="--i:0">E</button>
+      <button class="reveal-char" type="button" data-index="1" style="--i:1">L</button>
+      <button class="reveal-char" type="button" data-index="2" style="--i:2">P</button>
+      <button class="reveal-char" type="button" data-index="3" style="--i:3">I</button>
+      <button class="reveal-char" type="button" data-index="4" style="--i:4">S</button>
+    </h1>
+    <div id="track-transmission-box" class="track-transmission">
+      <p id="track-slot-label" class="track-slot-label">SELECT A GLYPH TO INTERCEPT TRANSMISSION</p>
+      <p id="track-title-display" class="track-title-display">-</p>
+    </div>
+  </div>
 </main>
-
-<script src="script.js"></script>
-</body>
-</html>
 
 <!-- ORIGIN FRAGMENT ARCHIVE MODAL -->
 <div id="origin-archive-modal" class="modal hidden">
@@ -232,7 +233,7 @@ ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GON
         <div class="fragment-status">UNLOCKED</div>
       </div>
 
-      <!-- FRAGMENT 02: LOCKED (SPIRIT BOX) -> Unlocked via Duality/Actions -->
+      <!-- FRAGMENT 02: LOCKED (SPIRIT BOX) -->
       <div class="fragment-card locked" data-fragment="2" id="card-frag-2">
         <div class="fragment-icon">
           <svg class="mini-artifact-svg" viewBox="0 0 60 60">
@@ -286,7 +287,6 @@ ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GON
     <div id="fragment-viewer" class="fragment-viewer hidden">
       <div id="viewer-title" class="viewer-title"></div>
       <div id="viewer-text" class="viewer-text"></div>
-      <!-- Special action button if viewing an interactive unlocked fragment like Spirit Box -->
       <div id="viewer-action-container" style="margin-top: 15px; display: none;">
         <button id="launch-spirit-box" class="term-link" style="background:none; border:none; cursor:pointer; color:#fff; font-weight:bold;">[ OPEN SPIRIT BOX INTERFACE ]</button>
       </div>
@@ -294,3 +294,7 @@ ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GON
     </div>
   </div>
 </div>
+
+<script src="script.js"></script>
+</body>
+</html>
