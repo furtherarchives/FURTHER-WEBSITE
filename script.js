@@ -26,6 +26,76 @@ var passwordForm = document.getElementById("password-form");
 var passwordInput = document.getElementById("password-input");
 var passwordFeedback = document.getElementById("password-feedback");
 var timerTooltip = document.getElementById("elpis-timer-tooltip");
+/* FRAGMENT ARCHIVE STATE & LOGIC */
+var unlockedFragments = {
+  1: true,  // Pandora's Box unlocked by default
+  2: false, // Spirit Box locked initially
+  3: false, // Titanium Bands locked
+  4: false, // Basalt Hands locked
+  5: false  // Burned Polaroid locked
+};
+
+/* Function to dynamically update card visual states in the DOM */
+function updateArchiveUI() {
+  for (var id = 1; id <= 5; id++) {
+    var card = document.querySelector('.fragment-card[data-fragment="' + id + '"]');
+    if (!card) continue;
+    
+    var statusEl = card.querySelector('.fragment-status');
+    if (unlockedFragments[id]) {
+      card.classList.remove("locked");
+      card.classList.add("unlocked");
+      if (statusEl) {
+        statusEl.textContent = (id === 2) ? "UNLOCKED // FREQUENCY ACTIVE" : "UNLOCKED";
+        statusEl.style.color = "#a8f5a8";
+      }
+    } else {
+      card.classList.remove("unlocked");
+      card.classList.add("locked");
+      if (statusEl) {
+        statusEl.textContent = "LOCKED // [?]";
+        statusEl.style.color = "#ff6b6b";
+      }
+    }
+  }
+}
+
+/* Click handling for fragment cards */
+for (var f = 0; f < fragmentCards.length; f++) {
+  fragmentCards[f].addEventListener("click", function () {
+    var fragId = parseInt(this.getAttribute("data-fragment"), 10);
+    
+    if (!unlockedFragments[fragId]) {
+      if (viewerTitle && viewerText && fragmentViewer) {
+        viewerTitle.textContent = "RESTRICTED // ANOMALY UNVERIFIED";
+        viewerText.textContent = "This artifact has not yet been recovered. Explore the system, decode transmissions, or interact with environmental nodes to discover its location.";
+        var actionContainer = document.getElementById("viewer-action-container");
+        if (actionContainer) actionContainer.style.display = "none";
+        fragmentViewer.classList.remove("hidden");
+      }
+      return;
+    }
+    
+    var lore = fragmentLoreData[fragId];
+    if (lore && viewerTitle && viewerText && fragmentViewer) {
+      viewerTitle.textContent = lore.title;
+      viewerText.textContent = lore.text;
+      
+      var actionContainer = document.getElementById("viewer-action-container");
+      if (actionContainer) {
+        if (fragId === 2) {
+          actionContainer.style.display = "block";
+        } else {
+          actionContainer.style.display = "none";
+        }
+      }
+      fragmentViewer.classList.remove("hidden");
+    }
+  });
+}
+
+// Run initial UI state update on load
+updateArchiveUI();
 /* ORIGIN ARCHIVE MODAL & BLACK HOLE CLICK */
 var originArchiveModal = document.getElementById("origin-archive-modal");
 var closeArchiveModal = document.getElementById("close-archive-modal");

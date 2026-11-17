@@ -1027,3 +1027,26 @@ input:checked + .slider::before {
   line-height: 1.6;
   color: #ccc;
 }
+/* MINI STYLIZED SVG ARTIFACTS */
+.mini-artifact-svg {
+  width: 36px;
+  height: 36px;
+  margin-bottom: 6px;
+  filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.2));
+}
+.fragment-card.locked {
+  opacity: 0.45;
+  cursor: not-allowed;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+.fragment-card.locked:hover {
+  transform: none;
+  border-color: rgba(255, 255, 255, 0.05);
+}
+.fragment-card.locked .fragment-title {
+  color: #777;
+}
+.fragment-card.locked .fragment-status {
+  color: #ff6b6b;
+  opacity: 0.6;
+}
