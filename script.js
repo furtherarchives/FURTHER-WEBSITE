@@ -26,6 +26,43 @@ var passwordForm = document.getElementById("password-form");
 var passwordInput = document.getElementById("password-input");
 var passwordFeedback = document.getElementById("password-feedback");
 var timerTooltip = document.getElementById("elpis-timer-tooltip");
+/* TERMINAL SIDE DRAWER CONTROLS */
+var terminalToggle = document.getElementById("terminal-toggle");
+var terminalDrawer = document.getElementById("terminal-drawer");
+var terminalClose = document.getElementById("terminal-close");
+var termTabBtns = document.querySelectorAll(".term-tab-btn");
+var termPanels = document.querySelectorAll(".term-panel");
+
+if (terminalToggle && terminalDrawer) {
+  terminalToggle.addEventListener("click", function () {
+    terminalDrawer.classList.toggle("open");
+  });
+}
+
+if (terminalClose && terminalDrawer) {
+  terminalClose.addEventListener("click", function () {
+    terminalDrawer.classList.remove("open");
+  });
+}
+
+for (var t = 0; t < termTabBtns.length; t++) {
+  termTabBtns[t].addEventListener("click", function () {
+    var targetId = this.getAttribute("data-target");
+    
+    for (var i = 0; i < termTabBtns.length; i++) {
+      termTabBtns[i].classList.remove("active");
+    }
+    for (var j = 0; j < termPanels.length; j++) {
+      termPanels[j].classList.remove("active");
+    }
+    
+    this.classList.add("active");
+    var targetPanel = document.getElementById(targetId);
+    if (targetPanel) {
+      targetPanel.classList.add("active");
+    }
+  });
+}
 
 /* AUDIO ELEMENTS */
 var audioHomepage = document.getElementById("audio-homepage");

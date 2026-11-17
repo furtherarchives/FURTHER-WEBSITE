@@ -12,6 +12,69 @@
 <!-- Full-Screen Glitch Flash Overlay -->
 <div id="glitch-overlay" class="glitch-overlay"></div>
 
+<!-- TERMINAL SIDE DRAWER BUTTON -->
+<button id="terminal-toggle" class="terminal-toggle-btn">[ TERMINAL ]</button>
+
+<!-- TERMINAL SLIDE-OUT DRAWER -->
+<div id="terminal-drawer" class="terminal-drawer">
+  <div class="terminal-header">
+    <span class="terminal-title">SYSTEM // TERMINAL v2.04</span>
+    <button id="terminal-close" class="terminal-close-btn">[ X ]</button>
+  </div>
+
+  <div class="terminal-nav-tabs">
+    <button class="term-tab-btn active" data-target="term-index">[ INDEX ]</button>
+    <button class="term-tab-btn" data-target="term-dossier">[ DOSSIER ]</button>
+    <button class="term-tab-btn" data-target="term-casefile">[ CASE FILE ]</button>
+  </div>
+
+  <div class="terminal-body">
+    <!-- TAB 1: INDEX (ARTIST BIO) -->
+    <div id="term-index" class="term-panel active">
+      <div class="term-section-title">ARTIST DOSSIER // FURTHER</div>
+      <p class="term-text">
+        FURTHER is an electronic music alias exploring the tension between deep atmospheric sound design, cinematic rhythm, and existential narrative. Rather than operating as a traditional artist project, it functions as a transmission frequency—a framework where music intersects with speculative fiction, memory, and myth.
+      </p>
+      <p class="term-text">
+        The sound draws from raw analog textures, sweeping ambient soundscapes, and hypnotic percussion, designed not merely for passive listening, but as an immersive portal into an unfolding alternate reality.
+      </p>
+    </div>
+
+    <!-- TAB 2: DOSSIER (RELEASES & MIXES) -->
+    <div id="term-dossier" class="term-panel">
+      <div class="term-section-title">BROADCASTS & RELEASES</div>
+      <div class="term-sub-heading">ACTIVE CHAPTERS</div>
+      <ul class="term-list">
+        <li><span>// XXXXX (2027)</span> - Current Transmission</li>
+        <li><span>// ORIGINS (Act I)</span> - Archived Protocol</li>
+      </ul>
+      <div class="term-sub-heading" style="margin-top: 20px;">YOUTUBE MIXES & STREAMS</div>
+      <p class="term-text">
+        Intercepted audio logs and live broadcast mixes are cataloged via the official transmission channel.
+      </p>
+      <a href="https://www.youtube.com" target="_blank" class="term-link">[ ACCESS YOUTUBE ARCHIVE ]</a>
+    </div>
+
+    <!-- TAB 3: CASE FILE (CLASSIFIED PORTFOLIOS) -->
+    <div id="term-casefile" class="term-panel">
+      <div class="term-section-title">CLASSIFIED SUBJECT // THE SPIRIT</div>
+      <div class="classified-stamp">RESTRICTED ACCREDITATION</div>
+      <p class="term-text">
+        <strong>DESIGNATION:</strong> The Spirit<br>
+        <strong>ORIGIN:</strong> REDACTED<br>
+        <strong>STATUS:</strong> Last sited on Earth in this timeline
+      </p>
+      <p class="term-text">
+        Proceed with caution and alert authorities if encountered. Motives REDACTED, abilities unkownn. Subject is considered highly valuable and should not be approached without proper authorization. Known to be capable of traversing time and space, the subject has been observed in multiple dimensions and is believed to possess knowledge of the primordial source.
+      </p>
+      <div class="term-sub-heading" style="margin-top: 20px;">FUTURE PROFILES</div>
+      <ul class="term-list">
+        <li><span>[ FILE 02 // LOCKED ]</span> - Awaiting Project XXXXXX</li>
+      </ul>
+    </div>
+  </div>
+</div>
+
 <!-- Local Audio File Slots -->
 <audio id="audio-homepage" src="FURTHER WEBSITE HOMEPAGE AUDIO.mp3" preload="auto" loop></audio>
 <audio id="audio-switch-noise" src="SWITCH NOISE FURTHER WEBSITE.mp3" preload="auto"></audio>
