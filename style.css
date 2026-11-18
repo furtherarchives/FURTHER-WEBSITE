@@ -1369,3 +1369,22 @@ input:checked + .slider::before {
   background: #050708;
   z-index: 65;
 }
+/* SPIRIT BOX HEADER BUTTON STATES */
+#spirit-box-toggle.locked-box-btn {
+  opacity: 0.4;
+  border-color: rgba(255, 255, 255, 0.15);
+  cursor: not-allowed;
+}
+
+#spirit-box-toggle.unlocked-box-btn {
+  opacity: 1;
+  border-color: rgba(72, 229, 194, 0.6);
+  color: #48e5c2;
+  box-shadow: 0 0 10px rgba(72, 229, 194, 0.25);
+  cursor: pointer;
+}
+
+#spirit-box-toggle.unlocked-box-btn:hover {
+  border-color: #48e5c2;
+  box-shadow: 0 0 16px rgba(72, 229, 194, 0.5);
+}

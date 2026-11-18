@@ -29,6 +29,17 @@ var viewSpiritBox = document.getElementById("view-spirit-box");
   var passwordInput = document.getElementById("password-input");
   var passwordFeedback = document.getElementById("password-feedback");
   var timerTooltip = document.getElementById("elpis-timer-tooltip");
+  if (spiritBoxToggleBtn) {
+    spiritBoxToggleBtn.addEventListener("click", function () {
+      if (unlockedFragments[2]) {
+        triggerGlitch(false);
+        showView(viewSpiritBox);
+      } else {
+        triggerGlitch(false);
+        alert("RESTRICTED // SPIRIT BOX SEALED. OVERRIDE KERNEL VIA CIPHER.");
+      }
+    });
+  }
 
   /* VINTAGE TRANSMISSION TERMINAL (F.E.D.S.I. SEC-7) */
 var openTransmissionBtn = document.getElementById("open-transmission-terminal");
@@ -124,6 +135,19 @@ for (var a = 0; a < audioLogItems.length; a++) {
         if (statusEl) {
           statusEl.textContent = "LOCKED // [?]";
           statusEl.style.color = "#ff6b6b";
+          /* Sync Spirit Box Header Button State */
+  var spiritBoxToggleBtn = document.getElementById("spirit-box-toggle");
+  if (spiritBoxToggleBtn) {
+    if (unlockedFragments[2]) {
+      spiritBoxToggleBtn.classList.remove("locked-box-btn");
+      spiritBoxToggleBtn.classList.add("unlocked-box-btn");
+      spiritBoxToggleBtn.title = "Spirit Box // Active";
+    } else {
+      spiritBoxToggleBtn.classList.add("locked-box-btn");
+      spiritBoxToggleBtn.classList.remove("unlocked-box-btn");
+      spiritBoxToggleBtn.title = "Spirit Box // Locked (Requires Kernel Override)";
+    }
+  }
         }
       }
     }
@@ -957,3 +981,19 @@ if (backFromSpiritBox) {
       showView(viewHub);
     });
   }
+  var backFromPossessed = document.getElementById("back-from-possessed");
+if (backFromPossessed) {
+  backFromPossessed.addEventListener("click", function () {
+    triggerGlitch(false);
+    showView(viewHub);
+  });
+}
+var purgeSystemBtn = document.getElementById("purge-system-btn");
+if (purgeSystemBtn) {
+  purgeSystemBtn.addEventListener("click", function () {
+    triggerGlitch(false);
+    unlockedFragments[2] = true; // Unlock Spirit Box permanently
+    updateArchiveUI();
+    showView(viewSpiritBox);
+  });
+}
