@@ -30,6 +30,46 @@ document.addEventListener("DOMContentLoaded", function () {
   var passwordInput = document.getElementById("password-input");
   var passwordFeedback = document.getElementById("password-feedback");
   var timerTooltip = document.getElementById("elpis-timer-tooltip");
+  /* SPIRIT BOX FREQUENCY TUNER & HIDDEN MESSAGES */
+  var freqSlider = document.getElementById("frequency-slider");
+  var freqDisplay = document.getElementById("freq-display");
+  var staticWave = document.getElementById("static-wave");
+  var transmissionOutput = document.getElementById("transmission-output");
+
+  var spiritTransmissions = {
+    "90.2": "[ ANOMALY // \"...they locked the door from the outside...\" ]",
+    "94.5": "[ WHISPER // \"...can you hear the wire breathing?...\" ]",
+    "98.0": "[ SIGNAL // \"RESONANCE ACHIEVED: HOPE WAS NEVER REAL.\" ]",
+    "101.3": "[ STATIC // \"...don't look back at the void...\" ]",
+    "104.5": "[ TRANSMISSION // \"COME FIND ME IN THE STATIC.\" ]",
+    "107.1": "[ VOID // \"...F.E.D.S.I. is listening to us right now...\" ]"
+  };
+
+  if (freqSlider && freqDisplay) {
+    freqSlider.addEventListener("input", function () {
+      var val = parseFloat(freqSlider.value).toFixed(1);
+      freqDisplay.textContent = val + " MHz";
+
+      // Check if tuned close to any hidden message frequencies
+      var matchedMsg = "";
+      var keys = Object.keys(spiritTransmissions);
+      for (var k = 0; k < keys.length; k++) {
+        var targetFreq = parseFloat(keys[k]);
+        if (Math.abs(parseFloat(val) - targetFreq) <= 0.3) {
+          matchedMsg = spiritTransmissions[keys[k]];
+          break;
+        }
+      }
+
+      if (matchedMsg) {
+        if (transmissionOutput) transmissionOutput.textContent = matchedMsg;
+        if (staticWave) staticWave.textContent = "▒▒██ SIGNAL LOCKED ██▒▒";
+      } else {
+        if (transmissionOutput) transmissionOutput.textContent = "";
+        if (staticWave) staticWave.textContent = "▒▒░░▒▒ STATIC // SCANNING ▒▒░░▒▒";
+      }
+    });
+  }
 
   var spiritBoxToggleBtn = document.getElementById("spirit-box-toggle");
   if (spiritBoxToggleBtn) {

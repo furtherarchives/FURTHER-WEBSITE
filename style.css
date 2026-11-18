@@ -1388,3 +1388,44 @@ input:checked + .slider::before {
   border-color: #48e5c2;
   box-shadow: 0 0 16px rgba(72, 229, 194, 0.5);
 }
+/* RETURN NAVIGATION BUTTONS */
+.nav-return {
+  position: absolute;
+  top: 24px;
+  left: 32px;
+  background: rgba(72, 229, 194, 0.08);
+  border: 1px solid rgba(72, 229, 194, 0.3);
+  color: #48e5c2;
+  font-family: "Courier New", Courier, monospace;
+  font-size: 0.75rem;
+  letter-spacing: 0.15em;
+  padding: 8px 14px;
+  cursor: pointer;
+  z-index: 100;
+  transition: all 0.2s ease;
+}
+
+.nav-return:hover {
+  background: rgba(72, 229, 194, 0.25);
+  border-color: #48e5c2;
+  color: #fff;
+}
+
+#view-possessed .nav-return {
+  border-color: rgba(255, 77, 77, 0.4);
+  color: #ff4d4d;
+  background: rgba(255, 77, 77, 0.08);
+}
+
+#view-possessed .nav-return:hover {
+  background: rgba(255, 77, 77, 0.25);
+  border-color: #ff4d4d;
+  color: #fff;
+}
+
+.spirit-box-crt {
+  flex-direction: column !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 40px !important;
+}

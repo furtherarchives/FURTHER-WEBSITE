@@ -433,3 +433,66 @@
   </svg>
   <span>[ SPIRIT BOX ]</span>
 </button>
+<!-- HEADER NAVIGATION CONTROLS (TOP RIGHT/LEFT) -->
+<div class="top-nav-controls" style="position: fixed; top: 20px; right: 30px; display: flex; gap: 12px; z-index: 100;">
+  <button id="spirit-box-toggle" class="terminal-toggle-btn locked-box-btn" style="display: flex; align-items: center; gap: 6px;" title="Spirit Box (Locked)">
+    <svg class="header-box-icon" viewBox="0 0 30 30" width="16" height="16">
+      <rect x="4" y="8" width="22" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2"/>
+      <circle cx="11" cy="15" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
+      <circle cx="21" cy="15" r="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+    <span>[ SPIRIT BOX ]</span>
+  </button>
+  <button id="terminal-toggle" class="terminal-toggle-btn">[ TERMINAL ]</button>
+</div>
+<!-- VIEW 6: POSSESSED SYSTEM TAKEOVER (THE SPIRIT) -->
+<main id="view-possessed" class="view">
+  <button id="back-from-possessed" class="nav-return" type="button">&lt; RETURN TO CONSTELLATION</button>
+  <div class="possessed-screen-frame">
+    <div class="crt-screen possessed-crt">
+      <div class="crt-scanlines"></div>
+      <div class="possessed-content">
+        <h2 class="possessed-title glitch-text">SYSTEM // CORRUPT</h2>
+        <p class="possessed-warning">WARNING: UNAUTHORIZED ENTITY OVERRIDE DETECTED IN KERNEL.</p>
+        <div class="possessed-box">
+          <p class="spirit-whisper-text">"...you locked me in the light, but the wire remembers..."</p>
+          <p class="spirit-prompt-hint">[ CLICK THE ANOMALY TO PURGE AND CLAIM THE FREQUENCY ]</p>
+          <button id="purge-system-btn" class="crt-btn spirit-claim-btn">&gt; [ INTERCEPT TRANSMISSION // COME FIND ME ]</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- VIEW 7: DEDICATED SPIRIT BOX INTERFACE -->
+<main id="view-spirit-box" class="view">
+  <button id="back-from-spirit-box" class="nav-return" type="button">&lt; RETURN TO CONSTELLATION</button>
+  <div class="crt-monitor-bezel">
+    <div class="crt-screen spirit-box-crt">
+      <div class="crt-scanlines"></div>
+      
+      <div style="width: 100%; display: flex; flex-direction: column; align-items: center;">
+        <div class="crt-dir-header">ANOMALY // SPIRIT BOX v1.04</div>
+        <div class="archive-sub-text" style="margin-bottom: 20px;">FREQUENCY RECEIVER // ACTIVE TRANSMISSION</div>
+
+        <!-- FREQUENCY DISPLAY SCREEN -->
+        <div class="radio-screen" style="border: 1px solid rgba(72,229,194,0.3); padding: 20px; width: 100%; max-width: 500px; text-align: center; background: rgba(5,20,25,0.7); margin-bottom: 25px;">
+          <div id="freq-display" class="freq-number" style="font-size: 1.8rem; font-weight: bold; margin-bottom: 8px;">104.5 MHz</div>
+          <div id="static-wave" class="static-wave-visual" style="font-size: 0.75rem; opacity: 0.7; margin-bottom: 12px;">▒▒░░▒▒ STATIC // SCANNING ▒▒░░▒▒</div>
+          <div id="transmission-output" class="transmission-output" style="font-size: 0.85rem; color: #ff9999; min-height: 24px; letter-spacing: 0.12em;"></div>
+        </div>
+
+        <!-- TUNING DIAL CONTROLS -->
+        <div class="tuner-controls" style="width: 100%; max-width: 500px; display: flex; flex-direction: column; gap: 10px;">
+          <div class="dial-label" style="font-size: 0.75rem; letter-spacing: 0.15em; opacity: 0.8;">TUNING FREQUENCY</div>
+          <input type="range" id="frequency-slider" min="88.0" max="108.0" step="0.1" value="104.5" class="freq-slider" style="width: 100%; accent-color: #48e5c2; cursor: pointer;">
+          <div class="dial-markers" style="display: flex; justify-content: space-between; font-size: 0.65rem; opacity: 0.6; letter-spacing: 0.08em;">
+            <span>88 MHz (Deep Void)</span>
+            <span>98 MHz (Resonance)</span>
+            <span>108 MHz (The Edge)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
