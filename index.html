@@ -280,6 +280,56 @@
     </div>
   </div>
 </main>
+<!-- VIEW 6: POSSESSED SYSTEM TAKEOVER (THE SPIRIT) -->
+<main id="view-possessed" class="view">
+  <div class="possessed-screen-frame">
+    <div class="crt-screen possessed-crt">
+      <div class="crt-scanlines"></div>
+      <div class="possessed-content">
+        <h2 class="possessed-title glitch-text">SYSTEM // CORRUPT</h2>
+        <p class="possessed-warning">WARNING: UNAUTHORIZED ENTITY OVERRIDE DETECTED IN KERNEL.</p>
+        <div class="possessed-box">
+          <p class="spirit-whisper-text">"...you locked me in the light, but the wire remembers..."</p>
+          <p class="spirit-prompt-hint">[ CLICK THE ANOMALY TO PURGE AND CLAIM THE FREQUENCY ]</p>
+          <button id="purge-system-btn" class="crt-btn spirit-claim-btn">&gt; [ INTERCEPT TRANSMISSION // COME FIND ME ]</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
+
+<!-- VIEW 7: DEDICATED SPIRIT BOX INTERFACE -->
+<main id="view-spirit-box" class="view">
+  <button id="back-from-spirit-box" class="nav-return" type="button">&lt; RETURN TO ARCHIVE</button>
+  <div class="crt-monitor-bezel">
+    <div class="crt-screen">
+      <div class="crt-scanlines"></div>
+      
+      <div style="width: 100%; text-align: center;">
+        <div class="crt-dir-header">ANOMALY // SPIRIT BOX v1.04</div>
+        <div class="archive-sub-text">FREQUENCY RECEIVER // ACTIVE TRANSMISSION</div>
+
+        <!-- FREQUENCY DISPLAY SCREEN -->
+        <div class="radio-screen">
+          <div id="freq-display" class="freq-number">104.5 MHz</div>
+          <div id="static-wave" class="static-wave-visual">▒▒░░▒▒ STATIC // SCANNING ▒▒░░▒▒</div>
+          <div id="transmission-output" class="transmission-output"></div>
+        </div>
+
+        <!-- TUNING DIAL CONTROLS -->
+        <div class="tuner-controls">
+          <div class="dial-label">TUNING FREQUENCY</div>
+          <input type="range" id="frequency-slider" min="88.0" max="108.0" step="0.1" value="104.5" class="freq-slider">
+          <div class="dial-markers">
+            <span>88 MHz (Deep Void)</span>
+            <span>98 MHz (Resonance)</span>
+            <span>108 MHz (The Edge)</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</main>
 
 <!-- ORIGIN FRAGMENT ARCHIVE MODAL -->
 <div id="origin-archive-modal" class="modal hidden">

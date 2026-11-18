@@ -1284,3 +1284,88 @@ input:checked + .slider::before {
     padding-bottom: 16px;
   }
 }
+/* POSSESSED SYSTEM TAKEOVER VIEW (VIEW 6) */
+#view-possessed {
+  background: #020000;
+  z-index: 70;
+}
+
+.possessed-screen-frame {
+  width: 92%;
+  max-width: 800px;
+  background: #1a0505;
+  padding: 18px;
+  border-radius: 12px;
+  border: 2px solid #5c1414;
+  box-shadow: 0 0 60px rgba(255, 0, 0, 0.25);
+}
+
+.possessed-crt {
+  background: #0d0101 !important;
+  border-color: #ff3333 !important;
+  color: #ff4d4d !important;
+  text-shadow: 0 0 8px rgba(255, 77, 77, 0.6) !important;
+  box-shadow: inset 0 0 50px rgba(100, 0, 0, 0.8) !important;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  justify-content: center;
+}
+
+.possessed-title {
+  font-family: "Times New Roman", Times, Georgia, serif;
+  font-size: 2.2rem;
+  letter-spacing: 0.3em;
+  color: #ff2222;
+  margin-bottom: 12px;
+  animation: textJitter 0.2s infinite;
+}
+
+.possessed-warning {
+  font-size: 0.72rem;
+  letter-spacing: 0.2em;
+  opacity: 0.8;
+  margin-bottom: 30px;
+}
+
+.possessed-box {
+  background: rgba(255, 0, 0, 0.05);
+  border: 1px dashed rgba(255, 50, 50, 0.4);
+  padding: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  width: 100%;
+}
+
+.spirit-whisper-text {
+  font-family: "Times New Roman", Times, Georgia, serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.18em;
+  color: #ff9999;
+}
+
+.spirit-prompt-hint {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  opacity: 0.6;
+}
+
+.spirit-claim-btn {
+  border-color: #ff4d4d !important;
+  color: #ff4d4d !important;
+  background: rgba(255, 77, 77, 0.1) !important;
+  margin-top: 10px;
+}
+
+.spirit-claim-btn:hover {
+  background: rgba(255, 77, 77, 0.3) !important;
+  color: #fff !important;
+}
+
+/* SPIRIT BOX VIEW (VIEW 7) */
+#view-spirit-box {
+  background: #050708;
+  z-index: 65;
+}

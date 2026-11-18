@@ -4,6 +4,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var viewPandora = document.getElementById("view-pandora");
   var viewReveal = document.getElementById("view-reveal");
   var viewTransmission = document.getElementById("view-transmission");
+  var viewPossessed = document.getElementById("view-possessed");
+var viewSpiritBox = document.getElementById("view-spirit-box");
   var glitchOverlay = document.getElementById("glitch-overlay");
   var constellationMap = document.getElementById("constellation-map");
   var radioToggle = document.getElementById("radio-toggle");
@@ -391,7 +393,7 @@ for (var a = 0; a < audioLogItems.length; a++) {
   }
 
   function showView(targetView) {
-    var views = [viewHub, viewElpis, viewPandora, viewReveal, viewTransmission];
+    var views = [viewHub, viewElpis, viewPandora, viewReveal, viewTransmission, viewPossessed, viewSpiritBox];
     for (var i = 0; i < views.length; i++) {
       if (views[i]) {
         views[i].classList.remove("active");
@@ -817,28 +819,37 @@ for (var a = 0; a < audioLogItems.length; a++) {
   }
 
   if (passwordForm && passwordInput && passwordFeedback && keyModal) {
-    passwordForm.addEventListener("submit", function (e) {
-      e.preventDefault();
-      var guess = passwordInput.value.trim().toUpperCase();
-      if (guess === "PANDORA") {
-        if (elpisNodeLabel) {
-          elpisNodeLabel.textContent = "I // ELPIS";
-        }
-        passwordFeedback.style.color = "#ffffff";
-        passwordFeedback.textContent = "ACCESS GRANTED";
-        setTimeout(function () {
-          keyModal.classList.add("hidden");
-          document.body.classList.remove("state-light");
-          triggerGlitch(true);
-          showView(viewReveal);
-        }, 950);
-      } else {
-        passwordFeedback.style.color = "#888888";
-        passwordFeedback.textContent = "ACCESS DENIED";
-        passwordInput.value = "";
+  passwordForm.addEventListener("submit", function (e) {
+    e.preventDefault();
+    var guess = passwordInput.value.trim().toUpperCase();
+    
+    if (guess === "SPIRIT") {
+      passwordFeedback.style.color = "#ff3333";
+      passwordFeedback.textContent = "SYSTEM CORRUPT // OVERRIDE INITIATED";
+      setTimeout(function () {
+        keyModal.classList.add("hidden");
+        triggerGlitch(true);
+        showView(viewPossessed);
+      }, 850);
+    } else if (guess === "PANDORA") {
+      if (elpisNodeLabel) {
+        elpisNodeLabel.textContent = "I // ELPIS";
       }
-    });
-  }
+      passwordFeedback.style.color = "#ffffff";
+      passwordFeedback.textContent = "ACCESS GRANTED";
+      setTimeout(function () {
+        keyModal.classList.add("hidden");
+        document.body.classList.remove("state-light");
+        triggerGlitch(true);
+        showView(viewReveal);
+      }, 950);
+    } else {
+      passwordFeedback.style.color = "#888888";
+      passwordFeedback.textContent = "ACCESS DENIED";
+      passwordInput.value = "";
+    }
+  });
+}
 
   /* REVEAL PAGE TRACKS */
   var revealChars = document.querySelectorAll(".reveal-char");
@@ -907,3 +918,42 @@ var fragmentLoreData = {
     text: "A physical photographic print scorched black by atmospheric heat, preserving only a single glowing coordinate in an ancient forest. A remnant of the pre-XXXXXX world view before the architects vanished."
   }
 };
+var purgeSystemBtn = document.getElementById("purge-system-btn");
+var backFromSpiritBox = document.getElementById("back-from-spirit-box");
+
+if (purgeSystemBtn) {
+  purgeSystemBtn.addEventListener("click", function () {
+    triggerGlitch(false);
+    // Permanently unlock Fragment 02 (Spirit Box) in archive
+    unlockedFragments[2] = true;
+    updateArchiveUI();
+    showView(viewSpiritBox);
+  });
+}
+
+if (backFromSpiritBox) {
+  backFromSpiritBox.addEventListener("click", function () {
+    triggerGlitch(false);
+    showView(viewHub);
+  });
+}
+/* PURGE / SPIRIT BOX UNLOCKING & VIEW SWITCHING */
+  var purgeSystemBtn = document.getElementById("purge-system-btn");
+  var backFromSpiritBox = document.getElementById("back-from-spirit-box");
+
+  if (purgeSystemBtn) {
+    purgeSystemBtn.addEventListener("click", function () {
+      triggerGlitch(false);
+      // Permanently unlock Fragment 02 (Spirit Box) in archive
+      unlockedFragments[2] = true;
+      updateArchiveUI();
+      showView(viewSpiritBox);
+    });
+  }
+
+  if (backFromSpiritBox) {
+    backFromSpiritBox.addEventListener("click", function () {
+      triggerGlitch(false);
+      showView(viewHub);
+    });
+  }
