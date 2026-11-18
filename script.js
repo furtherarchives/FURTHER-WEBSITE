@@ -5,7 +5,8 @@ document.addEventListener("DOMContentLoaded", function () {
   var viewReveal = document.getElementById("view-reveal");
   var viewTransmission = document.getElementById("view-transmission");
   var viewPossessed = document.getElementById("view-possessed");
-var viewSpiritBox = document.getElementById("view-spirit-box");
+  var viewSpiritBox = document.getElementById("view-spirit-box");
+  
   var glitchOverlay = document.getElementById("glitch-overlay");
   var constellationMap = document.getElementById("constellation-map");
   var radioToggle = document.getElementById("radio-toggle");
@@ -29,6 +30,8 @@ var viewSpiritBox = document.getElementById("view-spirit-box");
   var passwordInput = document.getElementById("password-input");
   var passwordFeedback = document.getElementById("password-feedback");
   var timerTooltip = document.getElementById("elpis-timer-tooltip");
+
+  var spiritBoxToggleBtn = document.getElementById("spirit-box-toggle");
   if (spiritBoxToggleBtn) {
     spiritBoxToggleBtn.addEventListener("click", function () {
       if (unlockedFragments[2]) {
@@ -42,79 +45,83 @@ var viewSpiritBox = document.getElementById("view-spirit-box");
   }
 
   /* VINTAGE TRANSMISSION TERMINAL (F.E.D.S.I. SEC-7) */
-var openTransmissionBtn = document.getElementById("open-transmission-terminal");
-var backFromTransmission = document.getElementById("back-from-transmission");
-var crtMainMenu = document.getElementById("crt-main-menu");
-var crtAudioMenu = document.getElementById("crt-audio-menu");
-var crtFootageMenu = document.getElementById("crt-footage-menu");
-var btnDirAudio = document.getElementById("btn-dir-audio");
-var btnDirFootage = document.getElementById("btn-dir-footage");
-var crtBackFromAudio = document.getElementById("crt-back-from-audio");
-var crtBackFromFootage = document.getElementById("crt-back-from-footage");
-var audioLogItems = document.querySelectorAll(".audio-log-item");
-var crtAudioFeedback = document.getElementById("crt-audio-feedback");
+  var openTransmissionBtn = document.getElementById("open-transmission-terminal");
+  var backFromTransmission = document.getElementById("back-from-transmission");
+  var crtMainMenu = document.getElementById("crt-main-menu");
+  var crtAudioMenu = document.getElementById("crt-audio-menu");
+  var crtFootageMenu = document.getElementById("crt-footage-menu");
+  var btnDirAudio = document.getElementById("btn-dir-audio");
+  var btnDirFootage = document.getElementById("btn-dir-footage");
+  var crtBackFromAudio = document.getElementById("crt-back-from-audio");
+  var crtBackFromFootage = document.getElementById("crt-back-from-footage");
+  var audioLogItems = document.querySelectorAll(".audio-log-item");
+  var crtAudioFeedback = document.getElementById("crt-audio-feedback");
 
-if (openTransmissionBtn && viewTransmission) {
-  openTransmissionBtn.addEventListener("click", function (e) {
-    e.preventDefault();
-    if (terminalDrawer) terminalDrawer.classList.remove("open");
-    triggerGlitch(false);
-    showView(viewTransmission);
-  });
-}
+  if (openTransmissionBtn && viewTransmission) {
+    openTransmissionBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      if (terminalDrawer) terminalDrawer.classList.remove("open");
+      triggerGlitch(false);
+      showView(viewTransmission);
+    });
+  }
 
-if (backFromTransmission) {
-  backFromTransmission.addEventListener("click", function () {
-    triggerGlitch(false);
-    showView(viewHub);
-  });
-}
+  if (backFromTransmission) {
+    backFromTransmission.addEventListener("click", function () {
+      triggerGlitch(false);
+      showView(viewHub);
+    });
+  }
 
-if (btnDirAudio && crtMainMenu && crtAudioMenu) {
-  btnDirAudio.addEventListener("click", function () {
-    crtMainMenu.classList.add("hidden");
-    crtAudioMenu.classList.remove("hidden");
-    if (crtAudioFeedback) crtAudioFeedback.textContent = "";
-  });
-}
+  if (btnDirAudio && crtMainMenu && crtAudioMenu) {
+    btnDirAudio.addEventListener("click", function () {
+      crtMainMenu.classList.add("hidden");
+      crtAudioMenu.classList.remove("hidden");
+      if (crtAudioFeedback) crtAudioFeedback.textContent = "";
+    });
+  }
 
-if (btnDirFootage && crtMainMenu && crtFootageMenu) {
-  btnDirFootage.addEventListener("click", function () {
-    crtMainMenu.classList.add("hidden");
-    crtFootageMenu.classList.remove("hidden");
-  });
-}
+  if (btnDirFootage && crtMainMenu && crtFootageMenu) {
+    btnDirFootage.addEventListener("click", function () {
+      crtMainMenu.classList.add("hidden");
+      crtFootageMenu.classList.remove("hidden");
+    });
+  }
 
-if (crtBackFromAudio && crtMainMenu && crtAudioMenu) {
-  crtBackFromAudio.addEventListener("click", function () {
-    crtAudioMenu.classList.add("hidden");
+  if (crtBackFromAudio && crtMainMenu && crtAudioMenu) {
+    crtBackFromAudio.addEventListener("click", function () {
+      crtAudioMenu.classList.add("hidden");
+      crtMainMenu.classList.remove("hidden");
+    });
+  }
+
+  if (crtBackFromFootage && crtMainMenu && crtFootageMenu) {
+    crtBackFromFootage.addEventListener("click", function () {
+      crtFootageMenu.classList.add("hidden");
+      crtMainMenu.classList.remove("hidden");
+    });
+  }
+
+  if (crtMainMenu) {
     crtMainMenu.classList.remove("hidden");
-  });
-}
+  }
 
-if (crtBackFromFootage && crtMainMenu && crtFootageMenu) {
-  crtBackFromFootage.addEventListener("click", function () {
-    crtFootageMenu.classList.add("hidden");
-    crtMainMenu.classList.remove("hidden");
-  });
-}
-
-for (var a = 0; a < audioLogItems.length; a++) {
-  audioLogItems[a].addEventListener("click", function () {
-    var logNum = this.getAttribute("data-log");
-    if (crtAudioFeedback) {
-      crtAudioFeedback.textContent = "[ ACCESS DENIED // AUDIO LOG " + logNum + " SEALED BY SEC-7 ]";
-    }
-  });
-}
+  for (var a = 0; a < audioLogItems.length; a++) {
+    audioLogItems[a].addEventListener("click", function () {
+      var logNum = this.getAttribute("data-log");
+      if (crtAudioFeedback) {
+        crtAudioFeedback.textContent = "[ ACCESS DENIED // AUDIO LOG " + logNum + " SEALED BY SEC-7 ]";
+      }
+    });
+  }
 
   /* FRAGMENT ARCHIVE STATE & LOGIC */
   var unlockedFragments = {
-    1: false,  // Pandora's Box starts locked until discovered in chamber
-    2: false, // Spirit Box locked initially
-    3: false, // Titanium Bands locked
-    4: false, // Basalt Hands locked
-    5: false  // Burned Polaroid locked
+    1: false,
+    2: false,
+    3: false,
+    4: false,
+    5: false
   };
 
   function updateArchiveUI() {
@@ -126,7 +133,7 @@ for (var a = 0; a < audioLogItems.length; a++) {
         card.classList.remove("locked");
         card.classList.add("unlocked");
         if (statusEl) {
-          statusEl.textContent = "UNLOCKED";
+          statusEl.textContent = (id === 2) ? "UNLOCKED // FREQUENCY ACTIVE" : "UNLOCKED";
           statusEl.style.color = "#a8f5a8";
         }
       } else {
@@ -135,24 +142,23 @@ for (var a = 0; a < audioLogItems.length; a++) {
         if (statusEl) {
           statusEl.textContent = "LOCKED // [?]";
           statusEl.style.color = "#ff6b6b";
-          /* Sync Spirit Box Header Button State */
-  var spiritBoxToggleBtn = document.getElementById("spirit-box-toggle");
-  if (spiritBoxToggleBtn) {
-    if (unlockedFragments[2]) {
-      spiritBoxToggleBtn.classList.remove("locked-box-btn");
-      spiritBoxToggleBtn.classList.add("unlocked-box-btn");
-      spiritBoxToggleBtn.title = "Spirit Box // Active";
-    } else {
-      spiritBoxToggleBtn.classList.add("locked-box-btn");
-      spiritBoxToggleBtn.classList.remove("unlocked-box-btn");
-      spiritBoxToggleBtn.title = "Spirit Box // Locked (Requires Kernel Override)";
-    }
-  }
         }
       }
     }
-  }
 
+    var spiritBoxToggleBtnSync = document.getElementById("spirit-box-toggle");
+    if (spiritBoxToggleBtnSync) {
+      if (unlockedFragments[2]) {
+        spiritBoxToggleBtnSync.classList.remove("locked-box-btn");
+        spiritBoxToggleBtnSync.classList.add("unlocked-box-btn");
+        spiritBoxToggleBtnSync.title = "Spirit Box // Active";
+      } else {
+        spiritBoxToggleBtnSync.classList.add("locked-box-btn");
+        spiritBoxToggleBtnSync.classList.remove("unlocked-box-btn");
+        spiritBoxToggleBtnSync.title = "Spirit Box // Locked (Requires Kernel Override)";
+      }
+    }
+  }
   updateArchiveUI();
 
   /* ORIGIN ARCHIVE MODAL & BLACK HOLE CLICK */
@@ -182,22 +188,36 @@ for (var a = 0; a < audioLogItems.length; a++) {
   for (var f = 0; f < fragmentCards.length; f++) {
     fragmentCards[f].addEventListener("click", function () {
       var fragId = parseInt(this.getAttribute("data-fragment"), 10);
+      var actionContainer = document.getElementById("viewer-action-container");
+
       if (!unlockedFragments[fragId]) {
         if (viewerTitle && viewerText && fragmentViewer) {
           viewerTitle.textContent = "RESTRICTED // ANOMALY UNVERIFIED";
           viewerText.textContent = "This artifact has not yet been recovered. Explore the system, decode transmissions, or interact with environmental nodes to discover its location.";
-          var actionContainer = document.getElementById("viewer-action-container");
           if (actionContainer) actionContainer.style.display = "none";
-          fragmentViewer.classList.remove("hidden");
         }
+        if (fragmentViewer) fragmentViewer.classList.remove("hidden");
         return;
       }
+
       var lore = fragmentLoreData[fragId];
       if (lore && viewerTitle && viewerText && fragmentViewer) {
         viewerTitle.textContent = lore.title;
         viewerText.textContent = lore.text;
-        var actionContainer = document.getElementById("viewer-action-container");
-        if (actionContainer) actionContainer.style.display = "none";
+        if (actionContainer) {
+          if (fragId === 2) {
+            actionContainer.style.display = "block";
+            var launchBtn = document.getElementById("launch-spirit-box");
+            if (launchBtn) {
+              launchBtn.onclick = function() {
+                if (originArchiveModal) originArchiveModal.classList.add("hidden");
+                showView(viewSpiritBox);
+              };
+            }
+          } else {
+            actionContainer.style.display = "none";
+          }
+        }
         fragmentViewer.classList.remove("hidden");
       }
     });
@@ -259,7 +279,6 @@ for (var a = 0; a < audioLogItems.length; a++) {
   var hasMutatedPhrase = false;
   var radioEnabled = false;
 
-  /* WEEKLY TRACKLIST REVEAL DATA */
   var weeklyTracks = [
     { letter: "E", label: "TRANSMISSION 01 // SIDE A", title: "[ ENCRYPTED // WEEK 01 ]" },
     { letter: "L", label: "TRANSMISSION 02 // SIDE A", title: "[ ENCRYPTED // WEEK 02 ]" },
@@ -268,7 +287,6 @@ for (var a = 0; a < audioLogItems.length; a++) {
     { letter: "S", label: "TRANSMISSION 05 // SIDE B", title: "[ ENCRYPTED // WEEK 05 ]" }
   ];
 
-  /* SYNCHRONIZE AUDIO & COMMS */
   function syncBackgroundComms() {
     var onHub = viewHub && viewHub.classList.contains("active");
     var onElpis = viewElpis && viewElpis.classList.contains("active");
@@ -357,6 +375,7 @@ for (var a = 0; a < audioLogItems.length; a++) {
     staticGain = audioCtx.createGain();
     staticGain.gain.setValueAtTime(0.01, audioCtx.currentTime);
     staticGain.gain.exponentialRampToValueAtTime(0.14, audioCtx.currentTime + 0.25);
+    
     staticNode.connect(filter);
     filter.connect(staticGain);
     staticGain.connect(audioCtx.destination);
@@ -367,8 +386,8 @@ for (var a = 0; a < audioLogItems.length; a++) {
     if (staticNode) {
       try {
         staticNode.stop();
-        staticNode.disconnect();
       } catch (e) {}
+      staticNode.disconnect();
       staticNode = null;
     }
     staticGain = null;
@@ -487,18 +506,9 @@ for (var a = 0; a < audioLogItems.length; a++) {
       }
     });
   }
-
   renderDualityState();
 
   /* COUNTDOWN TIMER (01 JAN 2027) */
-  function padZero(num, size) {
-    var s = String(num);
-    while (s.length < size) {
-      s = "0" + s;
-    }
-    return s;
-  }
-
   var targetDate = new Date("2027-01-01T00:00:00Z").getTime();
   function updateCountdown() {
     if (!timerTooltip) return;
@@ -510,11 +520,17 @@ for (var a = 0; a < audioLogItems.length; a++) {
     }
     var days = padZero(Math.floor(diff / (1000 * 60 * 60 * 24)), 3);
     var hours = padZero(Math.floor((diff / (1000 * 60 * 60)) % 24), 2);
-    var mins = padZero(Math.floor((diff / 1000 / 60) % 60), 2);
+    var mins = padZero(Math.floor((diff / (1000 * 60)) % 60), 2);
     var secs = padZero(Math.floor((diff / 1000) % 60), 2);
     timerTooltip.textContent = days + "D : " + hours + "H : " + mins + "M : " + secs + "S";
   }
-
+  function padZero(num, size) {
+    var s = String(num);
+    while (s.length < size) {
+      s = "0" + s;
+    }
+    return s;
+  }
   updateCountdown();
   setInterval(updateCountdown, 1000);
 
@@ -544,7 +560,6 @@ for (var a = 0; a < audioLogItems.length; a++) {
     { from: 2, to: 5, active: false }
   ];
 
-  /* DIRECT DRAG LISTENERS ON VIEW-HUB */
   if (viewHub) {
     viewHub.addEventListener("mousedown", function (e) {
       if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
@@ -554,6 +569,7 @@ for (var a = 0; a < audioLogItems.length; a++) {
       lastMouseY = e.clientY;
       viewHub.classList.add("dragging");
     });
+
     viewHub.addEventListener("touchstart", function (e) {
       if (e.target.closest("#radio-toggle") || e.target.closest(".node")) return;
       if (e.touches && e.touches.length === 1) {
@@ -683,8 +699,9 @@ for (var a = 0; a < audioLogItems.length; a++) {
         rotX += velX;
         velX *= 0.94;
         velY = velY * 0.95 + 0.0012 * 0.05;
+        rotX = Math.max(-1.2, Math.min(1.2, rotX));
       }
-      rotX = Math.max(-1.2, Math.min(1.2, rotX));
+
       var cx = canvas.width / 2;
       var cy = canvas.height / 2;
       var fov = Math.min(canvas.width, canvas.height) * 0.85;
@@ -763,7 +780,6 @@ for (var a = 0; a < audioLogItems.length; a++) {
         ctx.restore();
       }
     }
-
     requestAnimationFrame(animateSpace);
     setInterval(animateSpace, 16);
   }
@@ -771,10 +787,8 @@ for (var a = 0; a < audioLogItems.length; a++) {
   /* PLANET WARP TRANSITION & NAVIGATION */
   if (nodeElpis) {
     nodeElpis.addEventListener("click", function (e) {
-      if (dragMoved) {
-        e.preventDefault();
-        return;
-      }
+      if (dragMoved) return;
+      e.preventDefault();
       stopBlackHoleStatic();
       playWarpAudio();
       if (constellationMap) {
@@ -782,9 +796,7 @@ for (var a = 0; a < audioLogItems.length; a++) {
       }
       setTimeout(function () {
         isLightMode = false;
-        if (polarityToggle) {
-          polarityToggle.checked = false;
-        }
+        if (polarityToggle) polarityToggle.checked = false;
         renderDualityState();
         showView(viewElpis);
         if (constellationMap) {
@@ -819,15 +831,15 @@ for (var a = 0; a < audioLogItems.length; a++) {
     });
   }
 
-  /* PANDORA'S BOX LORE */
+  /* PANDORA'S BOX LORE & UNLOCK */
   if (pandoraBoxTrigger && loreModal) {
     pandoraBoxTrigger.addEventListener("click", function () {
       triggerGlitch(false);
       unlockedFragments[1] = true;
-    updateArchiveUI();
-    loreModal.classList.remove("hidden");
-  });
-}
+      updateArchiveUI();
+      loreModal.classList.remove("hidden");
+    });
+  }
 
   if (closeLoreModal && loreModal) {
     closeLoreModal.addEventListener("click", function () {
@@ -843,43 +855,41 @@ for (var a = 0; a < audioLogItems.length; a++) {
   }
 
   if (passwordForm && passwordInput && passwordFeedback && keyModal) {
-  passwordForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    var guess = passwordInput.value.trim().toUpperCase();
-    
-    if (guess === "SPIRIT") {
-      passwordFeedback.style.color = "#ff3333";
-      passwordFeedback.textContent = "SYSTEM CORRUPT // OVERRIDE INITIATED";
-      setTimeout(function () {
-        keyModal.classList.add("hidden");
-        triggerGlitch(true);
-        showView(viewPossessed);
-      }, 850);
-    } else if (guess === "PANDORA") {
-      if (elpisNodeLabel) {
-        elpisNodeLabel.textContent = "I // ELPIS";
+    passwordForm.addEventListener("submit", function (e) {
+      e.preventDefault();
+      var guess = passwordInput.value.trim().toUpperCase();
+      if (guess === "SPIRIT") {
+        passwordFeedback.style.color = "#ff3333";
+        passwordFeedback.textContent = "SYSTEM CORRUPT // OVERRIDE INITIATED";
+        setTimeout(function () {
+          keyModal.classList.add("hidden");
+          triggerGlitch(true);
+          showView(viewPossessed);
+        }, 850);
+      } else if (guess === "PANDORA") {
+        if (elpisNodeLabel) {
+          elpisNodeLabel.textContent = "I // ELPIS";
+        }
+        passwordFeedback.style.color = "#ffffff";
+        passwordFeedback.textContent = "ACCESS GRANTED";
+        setTimeout(function () {
+          keyModal.classList.add("hidden");
+          document.body.classList.remove("state-light");
+          triggerGlitch(true);
+          showView(viewReveal);
+        }, 950);
+      } else {
+        passwordFeedback.style.color = "#888888";
+        passwordFeedback.textContent = "ACCESS DENIED";
+        passwordInput.value = "";
       }
-      passwordFeedback.style.color = "#ffffff";
-      passwordFeedback.textContent = "ACCESS GRANTED";
-      setTimeout(function () {
-        keyModal.classList.add("hidden");
-        document.body.classList.remove("state-light");
-        triggerGlitch(true);
-        showView(viewReveal);
-      }, 950);
-    } else {
-      passwordFeedback.style.color = "#888888";
-      passwordFeedback.textContent = "ACCESS DENIED";
-      passwordInput.value = "";
-    }
-  });
-}
+    });
+  }
 
   /* REVEAL PAGE TRACKS */
   var revealChars = document.querySelectorAll(".reveal-char");
   var trackSlotLabel = document.getElementById("track-slot-label");
   var trackTitleDisplay = document.getElementById("track-title-display");
-
   for (var r = 0; r < revealChars.length; r++) {
     revealChars[r].addEventListener("click", function () {
       var idx = parseInt(this.getAttribute("data-index"), 10);
@@ -917,9 +927,37 @@ for (var a = 0; a < audioLogItems.length; a++) {
     });
   }
 
-});
+  /* POSSESSED & SPIRIT BOX NAVIGATION */
+  var backFromPossessed = document.getElementById("back-from-possessed");
+  var purgeSystemBtn = document.getElementById("purge-system-btn");
+  var backFromSpiritBox = document.getElementById("back-from-spirit-box");
 
-/* FRAGMENT ARCHIVE LORE DATA */
+  if (backFromPossessed) {
+    backFromPossessed.addEventListener("click", function () {
+      triggerGlitch(false);
+      showView(viewHub);
+    });
+  }
+
+  if (purgeSystemBtn) {
+    purgeSystemBtn.addEventListener("click", function () {
+      triggerGlitch(false);
+      unlockedFragments[2] = true;
+      updateArchiveUI();
+      showView(viewSpiritBox);
+    });
+  }
+
+  if (backFromSpiritBox) {
+    backFromSpiritBox.addEventListener("click", function () {
+      triggerGlitch(false);
+      showView(viewHub);
+    });
+  }
+
+}); /* END OF DOMCONTENTLOADED */
+
+/* FRAGMENT ARCHIVE LORE DATA (GLOBAL) */
 var fragmentLoreData = {
   1: {
     title: "FRAGMENT 01 // PANDORA'S BOX",
@@ -942,58 +980,3 @@ var fragmentLoreData = {
     text: "A physical photographic print scorched black by atmospheric heat, preserving only a single glowing coordinate in an ancient forest. A remnant of the pre-XXXXXX world view before the architects vanished."
   }
 };
-var purgeSystemBtn = document.getElementById("purge-system-btn");
-var backFromSpiritBox = document.getElementById("back-from-spirit-box");
-
-if (purgeSystemBtn) {
-  purgeSystemBtn.addEventListener("click", function () {
-    triggerGlitch(false);
-    // Permanently unlock Fragment 02 (Spirit Box) in archive
-    unlockedFragments[2] = true;
-    updateArchiveUI();
-    showView(viewSpiritBox);
-  });
-}
-
-if (backFromSpiritBox) {
-  backFromSpiritBox.addEventListener("click", function () {
-    triggerGlitch(false);
-    showView(viewHub);
-  });
-}
-/* PURGE / SPIRIT BOX UNLOCKING & VIEW SWITCHING */
-  var purgeSystemBtn = document.getElementById("purge-system-btn");
-  var backFromSpiritBox = document.getElementById("back-from-spirit-box");
-
-  if (purgeSystemBtn) {
-    purgeSystemBtn.addEventListener("click", function () {
-      triggerGlitch(false);
-      // Permanently unlock Fragment 02 (Spirit Box) in archive
-      unlockedFragments[2] = true;
-      updateArchiveUI();
-      showView(viewSpiritBox);
-    });
-  }
-
-  if (backFromSpiritBox) {
-    backFromSpiritBox.addEventListener("click", function () {
-      triggerGlitch(false);
-      showView(viewHub);
-    });
-  }
-  var backFromPossessed = document.getElementById("back-from-possessed");
-if (backFromPossessed) {
-  backFromPossessed.addEventListener("click", function () {
-    triggerGlitch(false);
-    showView(viewHub);
-  });
-}
-var purgeSystemBtn = document.getElementById("purge-system-btn");
-if (purgeSystemBtn) {
-  purgeSystemBtn.addEventListener("click", function () {
-    triggerGlitch(false);
-    unlockedFragments[2] = true; // Unlock Spirit Box permanently
-    updateArchiveUI();
-    showView(viewSpiritBox);
-  });
-}
