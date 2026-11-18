@@ -30,46 +30,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var passwordInput = document.getElementById("password-input");
   var passwordFeedback = document.getElementById("password-feedback");
   var timerTooltip = document.getElementById("elpis-timer-tooltip");
-  /* SPIRIT BOX FREQUENCY TUNER & HIDDEN MESSAGES */
-  var freqSlider = document.getElementById("frequency-slider");
-  var freqDisplay = document.getElementById("freq-display");
-  var staticWave = document.getElementById("static-wave");
-  var transmissionOutput = document.getElementById("transmission-output");
-
-  var spiritTransmissions = {
-    "90.2": "[ ANOMALY // \"...they locked the door from the outside...\" ]",
-    "94.5": "[ WHISPER // \"...can you hear the wire breathing?...\" ]",
-    "98.0": "[ SIGNAL // \"RESONANCE ACHIEVED: HOPE WAS NEVER REAL.\" ]",
-    "101.3": "[ STATIC // \"...don't look back at the void...\" ]",
-    "104.5": "[ TRANSMISSION // \"COME FIND ME IN THE STATIC.\" ]",
-    "107.1": "[ VOID // \"...F.E.D.S.I. is listening to us right now...\" ]"
-  };
-
-  if (freqSlider && freqDisplay) {
-    freqSlider.addEventListener("input", function () {
-      var val = parseFloat(freqSlider.value).toFixed(1);
-      freqDisplay.textContent = val + " MHz";
-
-      // Check if tuned close to any hidden message frequencies
-      var matchedMsg = "";
-      var keys = Object.keys(spiritTransmissions);
-      for (var k = 0; k < keys.length; k++) {
-        var targetFreq = parseFloat(keys[k]);
-        if (Math.abs(parseFloat(val) - targetFreq) <= 0.3) {
-          matchedMsg = spiritTransmissions[keys[k]];
-          break;
-        }
-      }
-
-      if (matchedMsg) {
-        if (transmissionOutput) transmissionOutput.textContent = matchedMsg;
-        if (staticWave) staticWave.textContent = "▒▒██ SIGNAL LOCKED ██▒▒";
-      } else {
-        if (transmissionOutput) transmissionOutput.textContent = "";
-        if (staticWave) staticWave.textContent = "▒▒░░▒▒ STATIC // SCANNING ▒▒░░▒▒";
-      }
-    });
-  }
 
   var spiritBoxToggleBtn = document.getElementById("spirit-box-toggle");
   if (spiritBoxToggleBtn) {
@@ -187,15 +147,18 @@ document.addEventListener("DOMContentLoaded", function () {
     }
 
     var spiritBoxToggleBtnSync = document.getElementById("spirit-box-toggle");
+    var spiritBtnLabel = document.getElementById("spirit-btn-label");
     if (spiritBoxToggleBtnSync) {
       if (unlockedFragments[2]) {
         spiritBoxToggleBtnSync.classList.remove("locked-box-btn");
         spiritBoxToggleBtnSync.classList.add("unlocked-box-btn");
         spiritBoxToggleBtnSync.title = "Spirit Box // Active";
+        if (spiritBtnLabel) spiritBtnLabel.textContent = "[ SPIRIT BOX // ONLINE ]";
       } else {
         spiritBoxToggleBtnSync.classList.add("locked-box-btn");
         spiritBoxToggleBtnSync.classList.remove("unlocked-box-btn");
-        spiritBoxToggleBtnSync.title = "Spirit Box // Locked (Requires Kernel Override)";
+        spiritBoxToggleBtnSync.title = "Spirit Box // Locked";
+        if (spiritBtnLabel) spiritBtnLabel.textContent = "[ SPIRIT BOX // LOCKED ]";
       }
     }
   }
@@ -658,6 +621,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isDragging) {
       isDragging = false;
       if (viewHub) viewHub.classList.remove("dragging");
+      setTimeout(function () { dragMoved = false; }, 50);
     }
   });
 
@@ -665,6 +629,7 @@ document.addEventListener("DOMContentLoaded", function () {
     if (isDragging) {
       isDragging = false;
       if (viewHub) viewHub.classList.remove("dragging");
+      setTimeout(function () { dragMoved = false; }, 50);
     }
   });
 
@@ -967,13 +932,14 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
-  /* POSSESSED & SPIRIT BOX NAVIGATION */
+  /* POSSESSED & SPIRIT BOX NAVIGATION & TUNER */
   var backFromPossessed = document.getElementById("back-from-possessed");
   var purgeSystemBtn = document.getElementById("purge-system-btn");
   var backFromSpiritBox = document.getElementById("back-from-spirit-box");
 
   if (backFromPossessed) {
     backFromPossessed.addEventListener("click", function () {
+      document.body.classList.remove("state-light");
       triggerGlitch(false);
       showView(viewHub);
     });
@@ -990,9 +956,142 @@ document.addEventListener("DOMContentLoaded", function () {
 
   if (backFromSpiritBox) {
     backFromSpiritBox.addEventListener("click", function () {
+      document.body.classList.remove("state-light");
       triggerGlitch(false);
       showView(viewHub);
     });
+  }
+
+  /* ANALOG SPIRIT BOX TUNER, ROTARY KNOBS & OSCILLOSCOPE WAVEFORM */
+  var freqSlider = document.getElementById("frequency-slider");
+  var freqDisplay = document.getElementById("freq-display");
+  var staticWave = document.getElementById("static-wave");
+  var transmissionOutput = document.getElementById("transmission-output");
+  var sbKnobMain = document.getElementById("sb-knob-main");
+  var sbKnobIndicator = document.getElementById("sb-knob-indicator");
+  var sbKnobDown = document.getElementById("sb-knob-fine-down");
+  var sbKnobUp = document.getElementById("sb-knob-fine-up");
+  var waveCanvas = document.getElementById("spirit-waveform-canvas");
+
+  var spiritTransmissions = {
+    "90.2": "[ ANOMALY // \"...they locked the door from the outside...\" ]",
+    "94.5": "[ WHISPER // \"...can you hear the wire breathing?...\" ]",
+    "98.0": "[ SIGNAL // \"RESONANCE ACHIEVED: HOPE WAS NEVER REAL.\" ]",
+    "101.3": "[ STATIC // \"...don't look back at the void...\" ]",
+    "104.5": "[ TRANSMISSION // \"COME FIND ME IN THE STATIC.\" ]",
+    "107.1": "[ VOID // \"...F.E.D.S.I. is listening to us right now...\" ]"
+  };
+
+  var signalLockStrength = 0;
+
+  function updateSpiritFrequency(newVal) {
+    var clamped = Math.max(88.0, Math.min(108.0, parseFloat(newVal)));
+    var formatted = clamped.toFixed(1);
+    if (freqSlider) freqSlider.value = formatted;
+    if (freqDisplay) freqDisplay.textContent = formatted + " MHz";
+
+    if (sbKnobIndicator) {
+      var ratio = (clamped - 88.0) / 20.0;
+      var deg = -135 + ratio * 270;
+      sbKnobIndicator.style.transform = "translateX(-50%) rotate(" + deg.toFixed(1) + "deg)";
+    }
+
+    var matchedMsg = "";
+    var bestProximity = 0;
+    var keys = Object.keys(spiritTransmissions);
+    for (var k = 0; k < keys.length; k++) {
+      var targetFreq = parseFloat(keys[k]);
+      var dist = Math.abs(clamped - targetFreq);
+      if (dist <= 0.35) {
+        matchedMsg = spiritTransmissions[keys[k]];
+        bestProximity = 1 - (dist / 0.35);
+        break;
+      }
+    }
+
+    signalLockStrength = bestProximity;
+
+    if (matchedMsg) {
+      if (transmissionOutput) transmissionOutput.textContent = matchedMsg;
+      if (staticWave) {
+        staticWave.textContent = "SIGNAL LOCKED // ANOMALY";
+        staticWave.classList.add("locked");
+      }
+    } else {
+      if (transmissionOutput) transmissionOutput.textContent = "[ SWEEP THE DIAL TO INTERCEPT ANOMALIES ]";
+      if (staticWave) {
+        staticWave.textContent = "SCANNING // STATIC";
+        staticWave.classList.remove("locked");
+      }
+    }
+  }
+
+  if (freqSlider) {
+    freqSlider.addEventListener("input", function () {
+      updateSpiritFrequency(freqSlider.value);
+    });
+    updateSpiritFrequency(freqSlider.value);
+  }
+
+  if (sbKnobDown && freqSlider) {
+    sbKnobDown.addEventListener("click", function () {
+      updateSpiritFrequency(parseFloat(freqSlider.value) - 0.1);
+    });
+  }
+
+  if (sbKnobUp && freqSlider) {
+    sbKnobUp.addEventListener("click", function () {
+      updateSpiritFrequency(parseFloat(freqSlider.value) + 0.1);
+    });
+  }
+
+  if (sbKnobMain && freqSlider) {
+    sbKnobMain.addEventListener("click", function () {
+      var next = parseFloat(freqSlider.value) + 0.5;
+      if (next > 108.0) next = 88.0;
+      updateSpiritFrequency(next);
+    });
+  }
+
+  /* LIVE OSCILLOSCOPE WAVEFORM RENDERER */
+  if (waveCanvas) {
+    var wCtx = waveCanvas.getContext("2d");
+    var wavePhase = 0;
+    function drawSpiritWaveform() {
+      var w = waveCanvas.width;
+      var h = waveCanvas.height;
+      wCtx.clearRect(0, 0, w, h);
+
+      wCtx.strokeStyle = "rgba(255, 255, 255, 0.08)";
+      wCtx.lineWidth = 1;
+      wCtx.beginPath();
+      wCtx.moveTo(0, h / 2);
+      wCtx.lineTo(w, h / 2);
+      wCtx.stroke();
+
+      wCtx.strokeStyle = signalLockStrength > 0.2 ? "#ffffff" : "rgba(255, 255, 255, 0.55)";
+      wCtx.lineWidth = signalLockStrength > 0.2 ? 2.2 : 1.3;
+      wCtx.beginPath();
+
+      for (var x = 0; x < w; x += 3) {
+        var normX = x / w;
+        var envelope = Math.sin(normX * Math.PI);
+        var harmonic = Math.sin(x * 0.09 + wavePhase) * 24 * signalLockStrength
+                       + Math.sin(x * 0.23 - wavePhase * 1.6) * 14 * signalLockStrength;
+        var noise = (Math.random() - 0.5) * (28 * (1 - signalLockStrength * 0.75) + 6);
+        var y = (h / 2) + (harmonic + noise) * envelope;
+        if (x === 0) {
+          wCtx.moveTo(x, y);
+        } else {
+          wCtx.lineTo(x, y);
+        }
+      }
+      wCtx.stroke();
+
+      wavePhase += 0.18;
+      requestAnimationFrame(drawSpiritWaveform);
+    }
+    requestAnimationFrame(drawSpiritWaveform);
   }
 
 }); /* END OF DOMCONTENTLOADED */
