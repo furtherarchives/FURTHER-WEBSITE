@@ -1,435 +1,401 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>FURTHER</title>
-<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FURTHER</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body class="theme-hub">
-<!-- Subtle Analog Film Grain Overlay -->
-<div class="grain"></div>
+  <!-- Subtle Analog Film Grain Overlay -->
+  <div class="grain"></div>
+  <!-- Full-Screen Glitch Flash Overlay -->
+  <div id="glitch-overlay" class="glitch-overlay"></div>
 
-<!-- Full-Screen Glitch Flash Overlay -->
-<div id="glitch-overlay" class="glitch-overlay"></div>
-
-<!-- TERMINAL SIDE DRAWER BUTTON -->
-<button id="terminal-toggle" class="terminal-toggle-btn">[ TERMINAL ]</button>
-
-<!-- TERMINAL SLIDE-OUT DRAWER -->
-<div id="terminal-drawer" class="terminal-drawer">
-  <div class="terminal-header">
-    <span class="terminal-title">SYSTEM // TERMINAL v2.04</span>
-    <button id="terminal-close" class="terminal-close-btn">[ X ]</button>
-  </div>
-  
-  <div class="terminal-nav-tabs">
-    <button class="term-tab-btn active" data-target="term-index">[ INDEX ]</button>
-    <button class="term-tab-btn" data-target="term-dossier">[ DOSSIER ]</button>
-    <button class="term-tab-btn" data-target="term-casefile">[ CASE FILE ]</button>
-  </div>
-
-  <div class="terminal-body">
-    <!-- TAB 1: INDEX (ARTIST BIO) -->
-    <div id="term-index" class="term-panel active">
-      <div class="term-section-title">ARTIST DOSSIER // FURTHER</div>
-      <p class="term-text">
-        FURTHER is an electronic music alias exploring the tension between deep atmospheric sound design, cinematic rhythm, and existential narrative. Rather than operating as a traditional artist project, it functions as a transmission frequency—a framework where music intersects with speculative fiction, memory, and myth.
-      </p>
-      <p class="term-text">
-        The sound draws from raw analog textures, sweeping ambient soundscapes, and hypnotic percussion, designed not merely for passive listening, but as an immersive portal into an unfolding alternate reality.
-      </p>
-    </div>
-
-    <!-- TAB 2: DOSSIER (RELEASES & MIXES) -->
-    <div id="term-dossier" class="term-panel">
-      <div class="term-section-title">BROADCASTS & RELEASES</div>
-      <div class="term-sub-heading">ACTIVE CHAPTERS</div>
-      <ul class="term-list">
-        <li><span>// XXXXX (2027)</span> - Current Transmission</li>
-        <li><span>// THE FURTHER EXPERIENCE (2026)</span> - First InterceptedTransmission</li>
-        <li><span>// ORIGINS (Act I)</span> - Archived Protocol</li>
-      </ul>
-      <div class="term-sub-heading" style="margin-top: 20px;">MIXES & MEDIA</div>
-      <p class="term-text">
-        Intercepted audio logs and lost media are cataloged via the official transmission channel.
-      </p>
-      <a href="#" id="open-transmission-terminal" class="term-link">[ ACCESS TRANSMISSION CHANNEL ]</a>
-    </div>
-
-    <!-- TAB 3: CASE FILE (CLASSIFIED PORTFOLIOS) -->
-    <div id="term-casefile" class="term-panel">
-      <div class="term-section-title">CLASSIFIED SUBJECT // THE SPIRIT</div>
-      <div class="classified-stamp">RESTRICTED ACCREDITATION</div>
-      <p class="term-text">
-        <strong>DESIGNATION:</strong> THE SPIRIT<br>
-        <strong>ORIGIN:</strong> REDACTED<br>
-        <strong>STATUS:</strong> UNLOCATED<br>
-        <strong>THREAT LEVEL:</strong> INDETERMINATE (ASSESSMENT PENDING)<br>
-        <strong>LAST KNOWN LOCATION:</strong> EARTH-1218<br>
-        <strong>DIRECTIVE:</strong> Observe and report only. Do not engage without containment support.<br>
-      </p>
-      <p class="term-text">
-        Origins date back beyond known history, subject known to ongoing investigation and personnel operating under Operation:XXXXXXXXXX. The being exhibits anomalous properties, including temporal displacement, dimensional travel, energy manipulation, and consciousness projection. All personnel are advised to maintain a safe distance and report any sightings immediately.
-      </p>
-      <div class="term-sub-heading" style="margin-top: 20px;">FUTURE PROFILES</div>
-      <ul class="term-list">
-        <li><span>[ FILE 02 // LOCKED ]</span> - Awaiting Project XXXXXX</li>
-      </ul>
-    </div>
-  </div>
-</div>
-
-<!-- Local Audio File Slots -->
-<audio id="audio-homepage" src="FURTHER WEBSITE HOMEPAGE AUDIO.mp3" preload="auto" loop></audio>
-<audio id="audio-switch-noise" src="SWITCH NOISE FURTHER WEBSITE.mp3" preload="auto"></audio>
-<audio id="audio-warp" src="warp.mp3" preload="auto"></audio>
-<audio id="audio-hope-gone" src="ALL HOPE IS GONE WEBSITE AUDIO.mp3" preload="auto" loop></audio>
-<audio id="audio-hope-have" src="ALL WE HAVE IS HOPE WEBSITE AUDIO.mp3" preload="auto" loop></audio>
-<audio id="audio-side-a" src="side-a.mp3" preload="auto" loop></audio>
-<audio id="audio-side-b" src="side-b.mp3" preload="auto" loop></audio>
-
-<!-- Space Radio Switch (Top Right) -->
-<button id="radio-toggle" class="radio-console" type="button" aria-label="Toggle Space Radio Audio">
-  <span class="radio-led"></span>
-  <span class="radio-label">COMMS // <strong id="radio-status">OFF</strong></span>
-</button>
-
-<!-- VIEW 1: 3D CONSTELLATION HUB -->
-<main id="view-hub" class="view active">
-  <canvas id="space-canvas"></canvas>
-  <div class="hub-header">FURTHER // ARCHIVE</div>
-  <div class="hub-drag-hint">[ DRAG TO ORBIT ]</div>
-  <div id="constellation-map" class="constellation-map">
-    <div id="node-blackhole" class="node black-hole-node">
-      <div class="tooltip quote-tooltip">Wonder is the beginning of wisdom...</div>
-      <div class="black-hole">
-        <div class="accretion-disk"></div>
-        <div class="event-horizon"></div>
-      </div>
-      <span class="node-label">ORIGIN</span>
-    </div>
-    
-    <button id="node-elpis" class="node star-node" type="button" aria-label="Enter Unknown System">
-      <div id="elpis-timer-tooltip" class="tooltip timer-tooltip">000D : 00H : 00M : 00S</div>
-      <div class="star-core"></div>
-      <div class="star-ring"></div>
-      <span id="elpis-node-label" class="node-label">I // XXXXXX</span>
+  <!-- TOP RIGHT CONTROLS: COMMS, SPIRIT BOX, TERMINAL (NON-OVERLAPPING) -->
+  <div class="top-header-bar">
+    <button id="radio-toggle" class="radio-console" type="button" aria-label="Toggle Space Radio Audio">
+      <span class="radio-led"></span>
+      <span class="radio-label">COMMS // <strong id="radio-status">OFF</strong></span>
     </button>
-    
-    <div id="node-dormant-1" class="node dormant-node">
-      <div class="dormant-dot"></div>
-      <span class="node-label">II // [LOCKED]</span>
-    </div>
-    
-    <div id="node-dormant-2" class="node dormant-node">
-      <div class="dormant-dot"></div>
-      <span class="node-label">III // [LOCKED]</span>
-    </div>
-  </div>
-</main>
 
-<!-- VIEW 2: DUALITY CHAMBER -->
-<main id="view-elpis" class="view">
-  <button id="back-to-hub" class="nav-return" type="button">&lt; CONSTELLATION</button>
-  <div class="chamber-center">
-    <h1 id="duality-phrase" class="phrase-text cinematic-emerge">
-      ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.
-    </h1>
-    <div id="switch-wrapper" class="switch-container cinematic-emerge-delayed">
-      <span class="switch-tag">SIDE B</span>
-      <label class="polarity-switch" aria-label="Toggle Duality State">
-        <input type="checkbox" id="polarity-toggle" />
-        <span class="slider"></span>
-      </label>
-      <span class="switch-tag">SIDE A</span>
-    </div>
-  </div>
-</main>
-
-<!-- VIEW 3: PANDORA'S BOX CHAMBER -->
-<main id="view-pandora" class="view">
-  <button id="back-from-pandora" class="nav-return" type="button">&lt; RETURN</button>
-  <div class="pandora-container cinematic-emerge">
-    <button id="pandora-box-trigger" class="pandora-box-btn" type="button" aria-label="Inspect Pandora's Box Core">
-      <svg class="pandora-box-svg" viewBox="0 0 240 240" width="220" height="220">
-        <line x1="120" y1="85" x2="120" y2="25" class="box-ray" />
-        <line x1="95" y1="90" x2="55" y2="40" class="box-ray" />
-        <line x1="145" y1="90" x2="185" y2="40" class="box-ray" />
-        <polygon points="55,95 120,65 185,95 120,115" class="box-stroke box-lid" />
-        <ellipse cx="120" cy="108" rx="36" ry="10" class="box-core" />
-        <polygon points="60,110 120,132 120,195 60,170" class="box-stroke" />
-        <polygon points="180,110 120,132 120,195 180,170" class="box-stroke" />
-        <line x1="90" y1="121" x2="90" y2="182" class="box-detail" />
-        <line x1="150" y1="121" x2="150" y2="182" class="box-detail" />
+    <button id="spirit-box-toggle" class="terminal-toggle-btn locked-box-btn" type="button" title="Spirit Box (Locked)">
+      <svg class="header-box-icon" viewBox="0 0 30 30" width="16" height="16">
+        <rect x="4" y="8" width="22" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2" />
+        <circle cx="11" cy="15" r="3" fill="none" stroke="currentColor" stroke-width="1.5" />
+        <circle cx="21" cy="15" r="1.5" fill="none" stroke="currentColor" stroke-width="1.5" />
       </svg>
+      <span>[ SPIRIT BOX ]</span>
     </button>
-    <p class="pandora-inscription">PANDORA</p>
-    <p class="pandora-sub">WHAT REMAINS INSIDE IS BOTH CURSE AND CURE.</p>
-    <p class="pandora-hint">[ TOUCH THE LIGHT WITHIN ]</p>
-  </div>
-</main>
 
-<!-- RECOVERED LORE FRAGMENT MODAL -->
-<div id="lore-modal" class="modal hidden">
-  <div class="modal-box lore-box">
-    <button id="close-lore-modal" class="modal-close" type="button">&times;</button>
-    <p class="lore-tag">RECOVERED FRAGMENT // DRIFTING IN SPACE-TIME</p>
-    <div class="lore-divider"></div>
-    <p class="lore-text">Before the fall, we were one light suspended above the quiet...</p>
-    <p class="lore-footer">LOGGED // ARCHIVE 000</p>
+    <button id="terminal-toggle" class="terminal-toggle-btn" type="button">[ TERMINAL ]</button>
   </div>
-</div>
 
-<!-- PASSWORD MODAL FOR "KEY" -->
-<div id="key-modal" class="modal hidden">
-  <div class="modal-box">
-    <button id="close-modal" class="modal-close" type="button">&times;</button>
-    <p class="modal-prompt">ENTER CIPHER</p>
-    <form id="password-form" autocomplete="off">
-      <input type="text" spellcheck="false" id="password-input" placeholder="" />
-      <button type="submit" class="modal-submit">UNLOCK</button>
-    </form>
-    <p id="password-feedback" class="feedback-msg"></p>
-  </div>
-</div>
-
-<!-- VIEW 4: FINAL ELPIS DIAGONAL SPLIT REVEAL -->
-<main id="view-reveal" class="view">
-  <button id="back-from-reveal" class="nav-return split-nav" type="button">&lt; CONSTELLATION</button>
-  <div class="diagonal-split-bg"></div>
-  <div id="zone-side-a" class="split-hover-zone zone-light" title="Side A // Signal Pending"><span class="zone-status">SIDE A // SIGNAL STANDBY</span></div>
-  <div id="zone-side-b" class="split-hover-zone zone-dark" title="Side B // Signal Pending"><span class="zone-status">SIDE B // STANDBY</span></div>
-  <div class="reveal-content">
-    <h1 id="elpis-letter-reveal" class="reveal-title" aria-label="ELPIS">
-      SIGNAL
-      <button class="reveal-char" type="button" data-index="0" style="--i:0">E</button>
-      <button class="reveal-char" type="button" data-index="1" style="--i:1">L</button>
-      <button class="reveal-char" type="button" data-index="2" style="--i:2">P</button>
-      <button class="reveal-char" type="button" data-index="3" style="--i:3">I</button>
-      <button class="reveal-char" type="button" data-index="4" style="--i:4">S</button>
-    </h1>
-    <div id="track-transmission-box" class="track-transmission">
-      <p id="track-slot-label" class="track-slot-label">SELECT A GLYPH TO INTERCEPT TRANSMISSION</p>
-      <p id="track-title-display" class="track-title-display">-</p>
+  <!-- TERMINAL SLIDE-OUT DRAWER -->
+  <div id="terminal-drawer" class="terminal-drawer">
+    <div class="terminal-header">
+      <span class="terminal-title">SYSTEM // TERMINAL v2.04</span>
+      <button id="terminal-close" class="terminal-close-btn" type="button">[ X ]</button>
     </div>
-  </div>
-</main>
-
-<!-- VIEW 5: VINTAGE TRANSMISSION TERMINAL (F.E.D.S.I. SEC-7) -->
-<main id="view-transmission" class="view">
-  <button id="back-from-transmission" class="nav-return" type="button">&lt; RETURN TO ARCHIVE</button>
-  
-  <div class="crt-monitor-bezel">
-    <div class="crt-screen">
-      <div class="crt-scanlines"></div>
-      
-      <!-- LEFT COLUMN: ASCII LOGO & AGENT SYSTEM STATS -->
-      <div class="crt-left">
-        <pre class="ascii-logo">
-        /\
-       /  \
-      / /\ \
-     / /  \ \
-    / / /\ \ \
-   / / /__\ \ \
-  \/__________/
-  [ F.E.D.S.I ]
-        </pre>
-        <div class="crt-sys-info">
-          <div><strong>ORG:</strong> FED. BUREAU OF EXISTENTIAL SURVEILLANCE</div>
-          <div><strong>DIV:</strong> DIRECTORATE // SEC-7</div>
-          <div><strong>HOST:</strong> VOYAGER-MAINBOARD</div>
-          <div><strong>KERNEL:</strong> 9.15.04-ELPIS</div>
-          <div><strong>CLEARANCE:</strong> LEVEL-4 ARCHIVIST</div>
-          <div class="crt-status-ok">LINK: ENCRYPTED // ACTIVE</div>
-        </div>
+    <div class="terminal-nav-tabs">
+      <button class="term-tab-btn active" data-target="term-index">[ INDEX ]</button>
+      <button class="term-tab-btn" data-target="term-dossier">[ DOSSIER ]</button>
+      <button class="term-tab-btn" data-target="term-casefile">[ CASE FILE ]</button>
+    </div>
+    <div class="terminal-body">
+      <!-- TAB 1: INDEX (ARTIST BIO) -->
+      <div id="term-index" class="term-panel active">
+        <div class="term-section-title">ARTIST DOSSIER // FURTHER</div>
+        <p class="term-text">
+          FURTHER is an electronic music alias exploring the tension between deep atmospheric sound design, cinematic rhythm, and existential narrative. Rather than operating as a traditional artist project, it functions as a transmission frequency-a framework where music intersects with speculative fiction, memory, and myth.
+        </p>
+        <p class="term-text">
+          The sound draws from raw analog textures, sweeping ambient soundscapes, and hypnotic percussion, designed not merely for passive listening, but as an immersive portal into an unfolding alternate reality.
+        </p>
       </div>
-
-      <!-- RIGHT COLUMN: INTERACTIVE DIRECTORY & LOGS -->
-      <div class="crt-right">
-        <div class="crt-welcome-banner">
-          WELCOME BACK, AGENT #884-VOW.<br>
-          <span class="crt-sub-banner">SELECT DIRECTORY TO INTERCEPT FILES:</span>
-        </div>
-
-        <div id="crt-main-menu" class="crt-menu-list">
-          <button class="crt-btn" id="btn-dir-audio">[ 01 ] INTERCEPTED AUDIO LOGS</button>
-          <button class="crt-btn" id="btn-dir-footage">[ 02 ] FOUND FOOTAGE ARCHIVES</button>
-        </div>
-
-        <!-- SUBMENU: INTERCEPTED AUDIO LOGS -->
-        <div id="crt-audio-menu" class="crt-submenu hidden">
-          <div class="crt-dir-header">DIR // INTERCEPTED AUDIO LOGS</div>
-          <button class="crt-btn audio-log-item" data-log="001">&gt; AUDIO LOG 001 [ENCRYPTED]</button>
-          <button class="crt-btn audio-log-item" data-log="002">&gt; AUDIO LOG 002 [ENCRYPTED]</button>
-          <button class="crt-btn audio-log-item" data-log="003">&gt; AUDIO LOG 003 [ENCRYPTED]</button>
-          <div id="crt-audio-feedback" class="crt-alert-msg"></div>
-          <button class="crt-btn crt-back-btn" id="crt-back-from-audio">[ &lt; BACK TO ROOT ]</button>
-        </div>
-
-        <!-- SUBMENU: FOUND FOOTAGE (DATE-STAMPED YOUTUBE LINKS) -->
-        <div id="crt-footage-menu" class="crt-submenu hidden">
-          <div class="crt-dir-header">DIR // FOUND FOOTAGE (CHRONOLOGICAL)</div>
-          <a href="https://www.youtube.com/watch?v=APFlDVnda08&list=RDAPFlDVnda08&start_radio=1" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_032726.VID [RECOVERED]</a>
-          <a href="https://www.youtube.com/watch?v=xFLpYoX-gPU&list=RDxFLpYoX-gPU&start_radio=1" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_051626.VID [RECOVERED]</a>
-          <a href="https://youtu.be/nqBWMUQjBSg?si=eOHZq93BjAgM0NMn" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_072226.VID [RECOVERED]</a>
-          <button class="crt-btn crt-back-btn" id="crt-back-from-footage">[ &lt; BACK TO ROOT ]</button>
-        </div>
+      <!-- TAB 2: DOSSIER (RELEASES & MIXES) -->
+      <div id="term-dossier" class="term-panel">
+        <div class="term-section-title">BROADCASTS &amp; RELEASES</div>
+        <div class="term-sub-heading">ACTIVE CHAPTERS</div>
+        <ul class="term-list">
+          <li><span>// XXXXX (2027)</span> Current Transmission</li>
+          <li><span>// THE FURTHER EXPERIENCE (2026)</span> First Intercepted Transmission</li>
+          <li><span>// ORIGINS (Act I)</span> Archived Protocol</li>
+        </ul>
+        <div class="term-sub-heading" style="margin-top: 20px;">MIXES &amp; MEDIA</div>
+        <p class="term-text">
+          Intercepted audio logs and lost media are cataloged via the official transmission channel.
+        </p>
+        <a href="#" id="open-transmission-terminal" class="term-link">[ ACCESS TRANSMISSION CHANNEL ]</a>
+      </div>
+      <!-- TAB 3: CASE FILE (CLASSIFIED PORTFOLIOS) -->
+      <div id="term-casefile" class="term-panel">
+        <div class="term-section-title">CLASSIFIED SUBJECT // THE SPIRIT</div>
+        <div class="classified-stamp">RESTRICTED ACCREDITATION</div>
+        <p class="term-text">
+          <strong>DESIGNATION:</strong> THE SPIRIT<br>
+          <strong>ORIGIN:</strong> REDACTED<br>
+          <strong>STATUS:</strong> UNLOCATED<br>
+          <strong>THREAT LEVEL:</strong> INDETERMINATE (ASSESSMENT PENDING)<br>
+          <strong>LAST KNOWN LOCATION:</strong> EARTH-1218<br>
+          <strong>DIRECTIVE:</strong> Observe and report only. Do not engage without containment support.<br>
+        </p>
+        <p class="term-text">
+          Origins date back beyond known history, subject known to ongoing investigation and personnel operating under Operation:XXXXXXXXXX. The being exhibits anomalous properties, including temporal displacement, dimensional travel, energy manipulation, and consciousness projection. All personnel are advised to maintain a safe distance and report any sightings immediately.
+        </p>
+        <div class="term-sub-heading" style="margin-top: 20px;">FUTURE PROFILES</div>
+        <ul class="term-list">
+          <li><span>[ FILE 02 // LOCKED]</span> - Awaiting Project XXXXXX</li>
+        </ul>
       </div>
     </div>
   </div>
-</main>
-<!-- VIEW 6: POSSESSED SYSTEM TAKEOVER (THE SPIRIT) -->
-<main id="view-possessed" class="view">
-  <div class="possessed-screen-frame">
-    <div class="crt-screen possessed-crt">
-      <div class="crt-scanlines"></div>
-      <div class="possessed-content">
-        <h2 class="possessed-title glitch-text">SYSTEM // CORRUPT</h2>
-        <p class="possessed-warning">WARNING: UNAUTHORIZED ENTITY OVERRIDE DETECTED IN KERNEL.</p>
-        <div class="possessed-box">
-          <p class="spirit-whisper-text">"...you locked me in the light, but the wire remembers..."</p>
-          <p class="spirit-prompt-hint">[ CLICK THE ANOMALY TO PURGE AND CLAIM THE FREQUENCY ]</p>
-          <button id="purge-system-btn" class="crt-btn spirit-claim-btn">&gt; [ INTERCEPT TRANSMISSION // COME FIND ME ]</button>
+
+  <!-- Local Audio File Slots -->
+  <audio id="audio-homepage" src="FURTHER WEBSITE HOMEPAGE AUDIO.mp3" preload="auto" loop></audio>
+  <audio id="audio-switch-noise" src="SWITCH NOISE FURTHER WEBSITE.mp3" preload="auto"></audio>
+  <audio id="audio-warp" src="warp.mp3" preload="auto"></audio>
+  <audio id="audio-hope-gone" src="ALL HOPE IS GONE WEBSITE AUDIO.mp3" preload="auto" loop></audio>
+  <audio id="audio-hope-have" src="ALL WE HAVE IS HOPE WEBSITE AUDIO.mp3" preload="auto" loop></audio>
+  <audio id="audio-side-a" src="side-a.mp3" preload="auto" loop></audio>
+  <audio id="audio-side-b" src="side-b.mp3" preload="auto" loop></audio>
+
+  <!-- VIEW 1: 3D CONSTELLATION HUB -->
+  <main id="view-hub" class="view active">
+    <canvas id="space-canvas"></canvas>
+    <div class="hub-header">FURTHER // ARCHIVE</div>
+    <div class="hub-drag-hint">[ DRAG TO ORBIT ]</div>
+    <div id="constellation-map" class="constellation-map">
+      <div id="node-blackhole" class="node black-hole-node">
+        <div class="tooltip quote-tooltip">Wonder is the beginning of wisdom...</div>
+        <div class="black-hole">
+          <div class="accretion-disk"></div>
+          <div class="event-horizon"></div>
         </div>
+        <span class="node-label">ORIGIN</span>
+      </div>
+      <button id="node-elpis" class="node star-node" type="button" aria-label="Enter Unknown System">
+        <div id="elpis-timer-tooltip" class="tooltip timer-tooltip">000D : 00H : 00M : 00S</div>
+        <div class="star-core"></div>
+        <div class="star-ring"></div>
+        <span id="elpis-node-label" class="node-label">I // XXXXXX</span>
+      </button>
+      <div id="node-dormant-1" class="node dormant-node">
+        <div class="dormant-dot"></div>
+        <span class="node-label">II // [LOCKED]</span>
+      </div>
+      <div id="node-dormant-2" class="node dormant-node">
+        <div class="dormant-dot"></div>
+        <span class="node-label">III // [LOCKED]</span>
       </div>
     </div>
+  </main>
+
+  <!-- VIEW 2: DUALITY CHAMBER -->
+  <main id="view-elpis" class="view">
+    <button id="back-to-hub" class="nav-return" type="button">&lt; CONSTELLATION</button>
+    <div class="chamber-center">
+      <h1 id="duality-phrase" class="phrase-text cinematic-emerge">
+        ALL <span id="word-hope" class="interactive-word hope-glitch">HOPE</span> IS GONE.
+      </h1>
+      <div id="switch-wrapper" class="switch-container cinematic-emerge-delayed">
+        <span class="switch-tag">SIDE B</span>
+        <label class="polarity-switch" aria-label="Toggle Duality State">
+          <input type="checkbox" id="polarity-toggle" />
+          <span class="slider"></span>
+        </label>
+        <span class="switch-tag">SIDE A</span>
+      </div>
+    </div>
+  </main>
+
+  <!-- VIEW 3: PANDORA'S BOX CHAMBER -->
+  <main id="view-pandora" class="view">
+    <button id="back-from-pandora" class="nav-return" type="button">&lt; RETURN</button>
+    <div class="pandora-container cinematic-emerge">
+      <button id="pandora-box-trigger" class="pandora-box-btn" type="button" aria-label="Inspect Pandora's Box Core">
+        <svg class="pandora-box-svg" viewBox="0 0 240 240" width="220" height="220">
+          <line x1="120" y1="85" x2="120" y2="25" class="box-ray" />
+          <line x1="95" y1="90" x2="55" y2="40" class="box-ray" />
+          <line x1="145" y1="90" x2="185" y2="40" class="box-ray" />
+          <polygon points="55,95 120,65 185,95 120,115" class="box-stroke box-lid" />
+          <ellipse cx="120" cy="108" rx="36" ry="10" class="box-core" />
+          <polygon points="60,110 120,132 120,195 60,170" class="box-stroke" />
+          <polygon points="180,110 120,132 120,195 180,170" class="box-stroke" />
+          <line x1="90" y1="121" x2="90" y2="182" class="box-detail" />
+          <line x1="150" y1="121" x2="150" y2="182" class="box-detail" />
+        </svg>
+      </button>
+      <p class="pandora-inscription">PANDORA</p>
+      <p class="pandora-sub">WHAT REMAINS INSIDE IS BOTH CURSE AND CURE.</p>
+      <p class="pandora-hint">[ TOUCH THE LIGHT WITHIN ]</p>
+    </div>
+  </main>
+
+  <!-- RECOVERED LORE FRAGMENT MODAL -->
+  <div id="lore-modal" class="modal hidden">
+    <div class="modal-box lore-box">
+      <button id="close-lore-modal" class="modal-close" type="button">&times;</button>
+      <p class="lore-tag">RECOVERED FRAGMENT // DRIFTING IN SPACE-TIME</p>
+      <div class="lore-divider"></div>
+      <p class="lore-text">Before the fall, we were one light suspended above the quiet...</p>
+      <p class="lore-footer">LOGGED // ARCHIVE 000</p>
+    </div>
   </div>
-</main>
 
-<!-- VIEW 7: DEDICATED SPIRIT BOX INTERFACE -->
-<main id="view-spirit-box" class="view">
-  <button id="back-from-spirit-box" class="nav-return" type="button">&lt; RETURN TO ARCHIVE</button>
-  <div class="crt-monitor-bezel">
-    <div class="crt-screen">
-      <div class="crt-scanlines"></div>
-      
-      <div style="width: 100%; text-align: center;">
-        <div class="crt-dir-header">ANOMALY // SPIRIT BOX v1.04</div>
-        <div class="archive-sub-text">FREQUENCY RECEIVER // ACTIVE TRANSMISSION</div>
+  <!-- PASSWORD MODAL FOR "KEY" -->
+  <div id="key-modal" class="modal hidden">
+    <div class="modal-box">
+      <button id="close-modal" class="modal-close" type="button">&times;</button>
+      <p class="modal-prompt">ENTER CIPHER</p>
+      <form id="password-form" autocomplete="off">
+        <input type="text" spellcheck="false" id="password-input" placeholder="" />
+        <button type="submit" class="modal-submit">UNLOCK</button>
+      </form>
+      <p id="password-feedback" class="feedback-msg"></p>
+    </div>
+  </div>
 
-        <!-- FREQUENCY DISPLAY SCREEN -->
-        <div class="radio-screen">
-          <div id="freq-display" class="freq-number">104.5 MHz</div>
-          <div id="static-wave" class="static-wave-visual">▒▒░░▒▒ STATIC // SCANNING ▒▒░░▒▒</div>
-          <div id="transmission-output" class="transmission-output"></div>
+  <!-- VIEW 4: FINAL ELPIS DIAGONAL SPLIT REVEAL -->
+  <main id="view-reveal" class="view">
+    <button id="back-from-reveal" class="nav-return split-nav" type="button">&lt; CONSTELLATION</button>
+    <div class="diagonal-split-bg"></div>
+    <div id="zone-side-a" class="split-hover-zone zone-light" title="Side A // Signal Pending"><span class="zone-status">SIDE A // SIGNAL STANDBY</span></div>
+    <div id="zone-side-b" class="split-hover-zone zone-dark" title="Side B // Signal Pending"><span class="zone-status">SIDE B // STANDBY</span></div>
+    <div class="reveal-content">
+      <h1 id="elpis-letter-reveal" class="reveal-title" aria-label="ELPIS">
+        <button class="reveal-char" type="button" data-index="0" style="--i:0">E</button>
+        <button class="reveal-char" type="button" data-index="1" style="--i:1">L</button>
+        <button class="reveal-char" type="button" data-index="2" style="--i:2">P</button>
+        <button class="reveal-char" type="button" data-index="3" style="--i:3">I</button>
+        <button class="reveal-char" type="button" data-index="4" style="--i:4">S</button>
+      </h1>
+      <div id="track-transmission-box" class="track-transmission">
+        <p id="track-slot-label" class="track-slot-label">SELECT A GLYPH TO INTERCEPT TRANSMISSION</p>
+        <p id="track-title-display" class="track-title-display">-</p>
+      </div>
+    </div>
+  </main>
+
+  <!-- VIEW 5: VINTAGE TRANSMISSION TERMINAL (F.E.D.S.I. SEC-7) -->
+  <main id="view-transmission" class="view">
+    <button id="back-from-transmission" class="nav-return" type="button">&lt; RETURN TO ARCHIVE</button>
+    <div class="crt-monitor-bezel">
+      <div class="crt-screen">
+        <div class="crt-scanlines"></div>
+        <div class="crt-left">
+          <pre class="ascii-logo">
+  /\  / \  /\/\  / /  \ \  / /  /\ \  \ / /  /__\ \  \
+\/  \/  \/  \/  \/  \/  \/  \/  \/  \/  \/__________/
+                  [ F.E.D.S.I ]
+          </pre>
+          <div class="crt-sys-info">
+            <div><strong>ORG:</strong> FED. BUREAU OF EXISTENTIAL SURVEILLANCE</div>
+            <div><strong>DIV:</strong> DIRECTORATE // SEC-7</div>
+            <div><strong>HOST:</strong> VOYAGER-MAINBOARD</div>
+            <div><strong>KERNEL:</strong> 9.15.04-ELPIS</div>
+            <div><strong>CLEARANCE:</strong> LEVEL-4 ARCHIVIST</div>
+            <div class="crt-status-ok">LINK: ENCRYPTED // ACTIVE</div>
+          </div>
         </div>
-
-        <!-- TUNING DIAL CONTROLS -->
-        <div class="tuner-controls">
-          <div class="dial-label">TUNING FREQUENCY</div>
-          <input type="range" id="frequency-slider" min="88.0" max="108.0" step="0.1" value="104.5" class="freq-slider">
-          <div class="dial-markers">
-            <span>88 MHz (Deep Void)</span>
-            <span>98 MHz (Resonance)</span>
-            <span>108 MHz (The Edge)</span>
+        <div class="crt-right">
+          <div class="crt-welcome-banner">
+            WELCOME BACK, AGENT #884-VOW.<br>
+            <span class="crt-sub-banner">SELECT DIRECTORY TO INTERCEPT FILES:</span>
+          </div>
+          <div id="crt-main-menu" class="crt-menu-list">
+            <button class="crt-btn" id="btn-dir-audio">[ 01 ] INTERCEPTED AUDIO LOGS</button>
+            <button class="crt-btn" id="btn-dir-footage">[ 02 ] FOUND FOOTAGE ARCHIVES</button>
+          </div>
+          <div id="crt-audio-menu" class="crt-submenu hidden">
+            <div class="crt-dir-header">DIR // INTERCEPTED AUDIO LOGS</div>
+            <button class="crt-btn audio-log-item" data-log="001">&gt; AUDIO LOG 001 [ENCRYPTED]</button>
+            <button class="crt-btn audio-log-item" data-log="002">&gt; AUDIO LOG 002 [ENCRYPTED]</button>
+            <button class="crt-btn audio-log-item" data-log="003">&gt; AUDIO LOG 003 [ENCRYPTED]</button>
+            <div id="crt-audio-feedback" class="crt-alert-msg"></div>
+            <button class="crt-btn crt-back-btn" id="crt-back-from-audio">[ &lt; BACK TO ROOT ]</button>
+          </div>
+          <div id="crt-footage-menu" class="crt-submenu hidden">
+            <div class="crt-dir-header">DIR // FOUND FOOTAGE (CHRONOLOGICAL)</div>
+            <a href="https://www.youtube.com/watch?v=APFlDVnda08&list=RDAPFlDVnda08&start_radio=1" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_032726.VID [RECOVERED]</a>
+            <a href="https://www.youtube.com/watch?v=xFLpYoX-gPU&list=RDxFLpYoX-gPU&start_radio=1" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_051626.VID [RECOVERED]</a>
+            <a href="https://youtu.be/nqBWMUQjBSg?si=eOHZq93BjAgM0NMn" target="_blank" class="crt-btn crt-link-btn">&gt; FOOTAGE_072226.VID [RECOVERED]</a>
+            <button class="crt-btn crt-back-btn" id="crt-back-from-footage">[ &lt; BACK TO ROOT ]</button>
           </div>
         </div>
       </div>
     </div>
-  </div>
-</main>
+  </main>
 
-<!-- ORIGIN FRAGMENT ARCHIVE MODAL -->
-<div id="origin-archive-modal" class="modal hidden">
-  <div class="modal-box archive-modal-box">
-    <button id="close-archive-modal" class="modal-close">[ X ]</button>
-    <div class="modal-prompt">ORIGIN // FRAGMENT ARCHIVE</div>
-    <div class="archive-sub-text">RECOVERED ANOMALIES // CHAPTER: ELPIS</div>
-    
-    <div class="fragment-grid">
-      <!-- FRAGMENT 01: UNLOCKED (PANDORA'S BOX) -->
-      <div class="fragment-card unlocked" data-fragment="1">
-        <div class="fragment-icon">
-          <svg class="mini-artifact-svg" viewBox="0 0 60 60">
-            <rect x="10" y="20" width="40" height="28" fill="none" stroke="#eaeaea" stroke-width="1.5"/>
-            <polygon points="10,20 30,10 50,20" fill="none" stroke="#eaeaea" stroke-width="1.5"/>
-            <circle cx="30" cy="34" r="4" fill="rgba(255,255,255,0.85)"/>
-          </svg>
+  <!-- VIEW 6: POSSESSED SYSTEM TAKEOVER (THE SPIRIT) -->
+  <main id="view-possessed" class="view">
+    <button id="back-from-possessed" class="nav-return possessed-return" type="button">&lt; RETURN TO ARCHIVE</button>
+    <div class="possessed-screen-frame">
+      <div class="crt-screen possessed-crt">
+        <div class="crt-scanlines"></div>
+        <div class="possessed-content">
+          <h2 class="possessed-title glitch-text">SYSTEM // CORRUPT</h2>
+          <p class="possessed-warning">WARNING: UNAUTHORIZED ENTITY OVERRIDE DETECTED IN KERNEL.</p>
+          <div class="possessed-box">
+            <p class="spirit-whisper-text">"...you locked me in the light, but the wire remembers..."</p>
+            <p class="spirit-prompt-hint">[ CLICK THE ANOMALY TO PURGE AND CLAIM THE FREQUENCY ]</p>
+            <button id="purge-system-btn" class="crt-btn spirit-claim-btn">&gt; [ INTERCEPT TRANSMISSION // COME FIND ME ]</button>
+          </div>
         </div>
-        <div class="fragment-title">01 // PANDORA'S BOX</div>
-        <div class="fragment-status">UNLOCKED</div>
-      </div>
-
-      <!-- FRAGMENT 02: LOCKED (SPIRIT BOX) -->
-      <div class="fragment-card locked" data-fragment="2" id="card-frag-2">
-        <div class="fragment-icon">
-          <svg class="mini-artifact-svg" viewBox="0 0 60 60">
-            <rect x="12" y="16" width="36" height="28" fill="none" stroke="#666" stroke-width="1" stroke-dasharray="2 2"/>
-            <circle cx="22" cy="30" r="5" fill="none" stroke="#666" stroke-width="1"/>
-            <circle cx="38" cy="30" r="3" fill="none" stroke="#666" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="fragment-title">02 // SPIRIT BOX</div>
-        <div class="fragment-status">LOCKED // [?]</div>
-      </div>
-
-      <!-- FRAGMENT 03: LOCKED (TITANIUM BANDS) -->
-      <div class="fragment-card locked" data-fragment="3" id="card-frag-3">
-        <div class="fragment-icon">
-          <svg class="mini-artifact-svg" viewBox="0 0 60 60">
-            <ellipse cx="22" cy="30" rx="12" ry="16" fill="none" stroke="#666" stroke-width="1"/>
-            <ellipse cx="38" cy="30" rx="12" ry="16" fill="none" stroke="#666" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="fragment-title">03 // TITANIUM BANDS</div>
-        <div class="fragment-status">LOCKED // [?]</div>
-      </div>
-
-      <!-- FRAGMENT 04: LOCKED (BASALT HANDS) -->
-      <div class="fragment-card locked" data-fragment="4" id="card-frag-4">
-        <div class="fragment-icon">
-          <svg class="mini-artifact-svg" viewBox="0 0 60 60">
-            <path d="M18,45 L18,25 Q18,18 24,25 L24,45" fill="none" stroke="#666" stroke-width="1"/>
-            <path d="M42,45 L42,25 Q42,18 36,25 L36,45" fill="none" stroke="#666" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="fragment-title">04 // BASALT HANDS</div>
-        <div class="fragment-status">LOCKED // [?]</div>
-      </div>
-
-      <!-- FRAGMENT 05: LOCKED (BURNED POLAROID) -->
-      <div class="fragment-card locked" data-fragment="5" id="card-frag-5">
-        <div class="fragment-icon">
-          <svg class="mini-artifact-svg" viewBox="0 0 60 60">
-            <rect x="14" y="12" width="32" height="36" fill="none" stroke="#666" stroke-width="1"/>
-            <rect x="18" y="16" width="24" height="22" fill="none" stroke="#444" stroke-width="1"/>
-          </svg>
-        </div>
-        <div class="fragment-title">05 // BURNED POLAROID</div>
-        <div class="fragment-status">LOCKED // [?]</div>
       </div>
     </div>
+  </main>
 
-    <!-- FRAGMENT DETAIL VIEW AREA -->
-    <div id="fragment-viewer" class="fragment-viewer hidden">
-      <div id="viewer-title" class="viewer-title"></div>
-      <div id="viewer-text" class="viewer-text"></div>
-      <div id="viewer-action-container" style="margin-top: 15px; display: none;">
-        <button id="launch-spirit-box" class="term-link" style="background:none; border:none; cursor:pointer; color:#fff; font-weight:bold;">[ OPEN SPIRIT BOX INTERFACE ]</button>
+  <!-- VIEW 7: DEDICATED SPIRIT BOX INTERFACE (MONOCHROME WHITE HARDWARE) -->
+  <main id="view-spirit-box" class="view">
+    <button id="back-from-spirit-box" class="nav-return white-return" type="button">&lt; RETURN TO ARCHIVE</button>
+    <div class="sb-hardware-wrapper">
+      <div class="sb-handle"></div>
+      <div class="sb-chassis">
+        <div class="sb-top-row">
+          <div class="sb-oscilloscope">
+            <div class="sb-screen-hud">
+              <span id="freq-display" class="sb-freq-readout">104.5 MHz</span>
+              <span id="static-wave" class="sb-signal-tag">STATIC // SCANNING</span>
+            </div>
+            <canvas id="spirit-waveform-canvas" width="380" height="110"></canvas>
+            <div id="transmission-output" class="sb-whisper-bar">[ SWEEP THE DIAL TO INTERCEPT ANOMALIES ]</div>
+          </div>
+          <div class="sb-speaker-dial-panel">
+            <div class="sb-speaker-grille">
+              <div class="sb-rotary-knob-large" id="sb-knob-main" title="Click to Step Frequency">
+                <div class="sb-knob-indicator" id="sb-knob-indicator"></div>
+              </div>
+            </div>
+            <div class="sb-knob-caption">MAIN FREQUENCY</div>
+          </div>
+        </div>
+        <div class="sb-bottom-row">
+          <div class="sb-mini-knob" id="sb-knob-fine-down" title="Step Down"><span>-</span></div>
+          <div class="sb-tuner-strip">
+            <div class="sb-scale-ticks">
+              <span>88</span><span>90</span><span>92</span><span>94</span><span>96</span>
+              <span>98</span><span>100</span><span>102</span><span>104</span><span>106</span><span>108</span>
+            </div>
+            <input type="range" id="frequency-slider" min="88.0" max="108.0" step="0.1" value="104.5" class="sb-range-slider">
+          </div>
+          <div class="sb-mini-knob" id="sb-knob-fine-up" title="Step Up"><span>+</span></div>
+        </div>
       </div>
-      <button id="close-viewer" class="term-link" style="background:none; border:none; cursor:pointer; margin-top:15px;">[ RETURN TO ARCHIVE ]</button>
+    </div>
+  </main>
+
+  <!-- ORIGIN FRAGMENT ARCHIVE MODAL -->
+  <div id="origin-archive-modal" class="modal hidden">
+    <div class="modal-box archive-modal-box">
+      <button id="close-archive-modal" class="modal-close">[ X ]</button>
+      <div class="modal-prompt">ORIGIN // FRAGMENT ARCHIVE</div>
+      <div class="archive-sub-text">RECOVERED ANOMALIES // CHAPTER: ELPIS</div>
+      <div class="fragment-grid">
+        <div class="fragment-card unlocked" data-fragment="1">
+          <div class="fragment-icon">
+            <svg class="mini-artifact-svg" viewBox="0 0 60 60">
+              <rect x="10" y="20" width="40" height="28" fill="none" stroke="#eaeaea" stroke-width="1.5" />
+              <polygon points="10,20 30,10 50,20" fill="none" stroke="#eaeaea" stroke-width="1.5" />
+              <circle cx="30" cy="34" r="4" fill="rgba(255,255,255,0.85)" />
+            </svg>
+          </div>
+          <div class="fragment-title">01 // PANDORA'S BOX</div>
+          <div class="fragment-status">UNLOCKED</div>
+        </div>
+        <div class="fragment-card locked" data-fragment="2" id="card-frag-2">
+          <div class="fragment-icon">
+            <svg class="mini-artifact-svg" viewBox="0 0 60 60">
+              <rect x="12" y="16" width="36" height="28" fill="none" stroke="#666" stroke-width="1" stroke-dasharray="2 2" />
+              <circle cx="22" cy="30" r="5" fill="none" stroke="#666" stroke-width="1" />
+              <circle cx="38" cy="30" r="3" fill="none" stroke="#666" stroke-width="1" />
+            </svg>
+          </div>
+          <div class="fragment-title">02 // SPIRIT BOX</div>
+          <div class="fragment-status">LOCKED // [?]</div>
+        </div>
+        <div class="fragment-card locked" data-fragment="3" id="card-frag-3">
+          <div class="fragment-icon">
+            <svg class="mini-artifact-svg" viewBox="0 0 60 60">
+              <ellipse cx="22" cy="30" rx="12" ry="16" fill="none" stroke="#666" stroke-width="1" />
+              <ellipse cx="38" cy="30" rx="12" ry="16" fill="none" stroke="#666" stroke-width="1" />
+            </svg>
+          </div>
+          <div class="fragment-title">03 // TITANIUM BANDS</div>
+          <div class="fragment-status">LOCKED // [?]</div>
+        </div>
+        <div class="fragment-card locked" data-fragment="4" id="card-frag-4">
+          <div class="fragment-icon">
+            <svg class="mini-artifact-svg" viewBox="0 0 60 60">
+              <path d="M18,45 L18,25 Q18,18 24,25 L24,45" fill="none" stroke="#666" stroke-width="1" />
+              <path d="M42,45 L42,25 Q42,18 36,25 L36,45" fill="none" stroke="#666" stroke-width="1" />
+            </svg>
+          </div>
+          <div class="fragment-title">04 // BASALT HANDS</div>
+          <div class="fragment-status">LOCKED // [?]</div>
+        </div>
+        <div class="fragment-card locked" data-fragment="5" id="card-frag-5">
+          <div class="fragment-icon">
+            <svg class="mini-artifact-svg" viewBox="0 0 60 60">
+              <rect x="14" y="12" width="32" height="36" fill="none" stroke="#666" stroke-width="1" />
+              <rect x="18" y="16" width="24" height="22" fill="none" stroke="#444" stroke-width="1" />
+            </svg>
+          </div>
+          <div class="fragment-title">05 // BURNED POLAROID</div>
+          <div class="fragment-status">LOCKED // [?]</div>
+        </div>
+      </div>
+      <div id="fragment-viewer" class="fragment-viewer hidden">
+        <div id="viewer-title" class="viewer-title"></div>
+        <div id="viewer-text" class="viewer-text"></div>
+        <div id="viewer-action-container" style="margin-top: 15px; display: none;">
+          <button id="launch-spirit-box" class="term-link" style="background:none; border:none; cursor:pointer; color:#fff; font-weight:bold;">[ OPEN SPIRIT BOX INTERFACE ]</button>
+        </div>
+        <button id="close-viewer" class="term-link" style="background:none; border:none; cursor:pointer; margin-top:15px;">[ RETURN TO ARCHIVE ]</button>
+      </div>
     </div>
   </div>
-</div>
 
-<script src="script.js"></script>
+  <script src="script.js"></script>
 </body>
 </html>
-<!-- VIEW 6: POSSESSED SYSTEM TAKEOVER (THE SPIRIT) -->
-<main id="view-possessed" class="view">
-  <button id="back-from-possessed" class="nav-return" type="button">&lt; RETURN TO CONSTELLATION</button>
-  <div class="possessed-screen-frame">
-    <!-- (Rest of possessed screen content...) -->
-  </div>
-</main>
-<!-- PERSISTENT SPIRIT BOX HEADER BUTTON -->
-<button id="spirit-box-toggle" class="terminal-toggle-btn locked-box-btn" style="right: 155px; display: flex; align-items: center; gap: 6px;" title="Spirit Box (Locked)">
-  <svg class="header-box-icon" viewBox="0 0 30 30" width="16" height="16">
-    <rect x="4" y="8" width="22" height="14" fill="none" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2 2"/>
-    <circle cx="11" cy="15" r="3" fill="none" stroke="currentColor" stroke-width="1.5"/>
-    <circle cx="21" cy="15" r="1.5" fill="none" stroke="currentColor" stroke-width="1.5"/>
-  </svg>
-  <span>[ SPIRIT BOX ]</span>
-</button>
