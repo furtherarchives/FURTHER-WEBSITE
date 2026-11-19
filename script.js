@@ -128,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
     for (var id = 1; id <= 5; id++) {
       var card = document.querySelector('.fragment-card[data-fragment="' + id + '"]');
       if (!card) continue;
-      var statusEl = card.querySelector('.fragment-status');
+      var statusEl = card.querySelector(".fragment-status");
       if (unlockedFragments[id]) {
         card.classList.remove("locked");
         card.classList.add("unlocked");
@@ -264,6 +264,60 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     });
   }
+
+  /* CASE FILE MULTI-PAGE & UNLOCK LOGIC */
+  var otherProfileUnlocked = false;
+  var currentCasefilePage = 0;
+  var totalCasefilePages = 2;
+
+  function syncOtherCasefileUI() {
+    var lockedEl = document.getElementById("other-casefile-locked");
+    var unlockedEl = document.getElementById("other-casefile-unlocked");
+    if (lockedEl && unlockedEl) {
+      if (otherProfileUnlocked) {
+        lockedEl.classList.add("hidden");
+        unlockedEl.classList.remove("hidden");
+      } else {
+        lockedEl.classList.remove("hidden");
+        unlockedEl.classList.add("hidden");
+      }
+    }
+  }
+
+  function renderCasefilePager() {
+    var pages = document.querySelectorAll(".casefile-page");
+    var indicator = document.getElementById("casefile-indicator");
+    for (var p = 0; p < pages.length; p++) {
+      if (p === currentCasefilePage) {
+        pages[p].classList.add("active");
+      } else {
+        pages[p].classList.remove("active");
+      }
+    }
+    if (indicator) {
+      indicator.textContent = "FILE 0" + (currentCasefilePage + 1) + " / 0" + totalCasefilePages;
+    }
+    syncOtherCasefileUI();
+  }
+
+  var casefilePrev = document.getElementById("casefile-prev");
+  var casefileNext = document.getElementById("casefile-next");
+
+  if (casefilePrev) {
+    casefilePrev.addEventListener("click", function () {
+      currentCasefilePage = (currentCasefilePage - 1 + totalCasefilePages) % totalCasefilePages;
+      renderCasefilePager();
+    });
+  }
+
+  if (casefileNext) {
+    casefileNext.addEventListener("click", function () {
+      currentCasefilePage = (currentCasefilePage + 1) % totalCasefilePages;
+      renderCasefilePager();
+    });
+  }
+
+  renderCasefilePager();
 
   /* AUDIO ELEMENTS */
   var audioHomepage = document.getElementById("audio-homepage");
@@ -963,15 +1017,39 @@ document.addEventListener("DOMContentLoaded", function () {
   var waveCanvas = document.getElementById("spirit-waveform-canvas");
 
   var spiritTransmissions = {
-    "90.2": "[ ANOMALY // \"...A chess piece moves on it's own accord, something we did not calculate...the game is still in play...\" ]",
-    "94.5": "[ WHISPER // \"...you've come this far...how can i trust you?\" ]",
-    "98.0": "[ SIGNAL // \"RESONANCE ACHIEVED: Operation Prometheus stays with Oversight, F.E.D.S.I. must stay in the dark with what we know.\" ]",
-    "101.3": "[ STATIC // \"...if anyone is listening...i'm lost, only he can help me...they have me trapped...\" ]",
-    "104.5": "[ TRANSMISSION // \"You found me..I don't have long, but DO NOT TRUST OVERSIGHT..\" ]",
-    "107.1": "[ VOID // \"...Oversight is listening to us right now...\" ]"
+    "90.2": {
+      text: "[ ANOMALY // \"...A chess piece moves on it's own accord, something we did not calculate...the game is still in play...\" ]",
+      speakerClass: "speaker-witness"
+    },
+    "94.5": {
+      text: "[ WHISPER // \"...you've come this far... how can i trust you?\" ]",
+      speakerClass: "speaker-spirit"
+    },
+    "98.0": {
+      text: "[ SIGNAL // \"RESONANCE ACHIEVED: Operation Prometheus stays with Oversight, F.E.D.S.I. must stay in the dark with what we know.\" ]",
+      speakerClass: "speaker-oversight"
+    },
+    "101.3": {
+      text: "[ STATIC // \"...if anyone is listening...i'm lost, only he can help me...they have me trapped...\" ]",
+      speakerClass: "speaker-other",
+      unlocksOther: true
+    },
+    "104.5": {
+      text: "[TRANSMISSION // \"You found me.. I don't have long, but DO NOT TRUST OVERSIGHT..\" ]",
+      speakerClass: "speaker-spirit"
+    },
+    "107.1": {
+      text: "[ VOID // \"... Oversight is listening to us right now...\" ]",
+      speakerClass: "speaker-spirit"
+    }
   };
 
   var signalLockStrength = 0;
+
+  function clearSpeakerClasses(el) {
+    if (!el) return;
+    el.classList.remove("speaker-witness", "speaker-spirit", "speaker-oversight", "speaker-other");
+  }
 
   function updateSpiritFrequency(newVal) {
     var clamped = Math.max(88.0, Math.min(108.0, parseFloat(newVal)));
@@ -985,23 +1063,33 @@ document.addEventListener("DOMContentLoaded", function () {
       sbKnobIndicator.style.transform = "translateX(-50%) rotate(" + deg.toFixed(1) + "deg)";
     }
 
-    var matchedMsg = "";
+    var matchedEntry = null;
     var bestProximity = 0;
     var keys = Object.keys(spiritTransmissions);
     for (var k = 0; k < keys.length; k++) {
       var targetFreq = parseFloat(keys[k]);
       var dist = Math.abs(clamped - targetFreq);
       if (dist <= 0.35) {
-        matchedMsg = spiritTransmissions[keys[k]];
+        matchedEntry = spiritTransmissions[keys[k]];
         bestProximity = 1 - (dist / 0.35);
         break;
       }
     }
 
     signalLockStrength = bestProximity;
+    clearSpeakerClasses(transmissionOutput);
 
-    if (matchedMsg) {
-      if (transmissionOutput) transmissionOutput.textContent = matchedMsg;
+    if (matchedEntry) {
+      if (matchedEntry.unlocksOther && !otherProfileUnlocked) {
+        otherProfileUnlocked = true;
+        syncOtherCasefileUI();
+      }
+      if (transmissionOutput) {
+        transmissionOutput.textContent = matchedEntry.text;
+        if (matchedEntry.speakerClass) {
+          transmissionOutput.classList.add(matchedEntry.speakerClass);
+        }
+      }
       if (staticWave) {
         staticWave.textContent = "SIGNAL LOCKED // ANOMALY";
         staticWave.classList.add("locked");

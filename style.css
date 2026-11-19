@@ -1612,3 +1612,64 @@ input:checked + .slider::before {
   opacity: 1;
   text-shadow: 0 0 14px rgba(255, 255, 255, 0.85);
 }
+/* SPIRIT BOX SPEAKER COLOR CODING */
+.sb-whisper-bar.speaker-witness {
+  color: #eab308;
+  text-shadow: 0 0 10px rgba(234, 179, 8, 0.45);
+}
+
+.sb-whisper-bar.speaker-spirit {
+  color: #4ade80;
+  text-shadow: 0 0 10px rgba(74, 222, 128, 0.45);
+}
+
+.sb-whisper-bar.speaker-oversight {
+  color: #ff5252;
+  text-shadow: 0 0 10px rgba(255, 82, 82, 0.45);
+}
+
+.sb-whisper-bar.speaker-other {
+  color: #c084fc;
+  text-shadow: 0 0 10px rgba(192, 132, 252, 0.5);
+}
+
+/* CASE FILE MULTI-PAGE & BOTTOM ARROWS */
+.casefile-page {
+  display: none;
+}
+
+.casefile-page.active {
+  display: block;
+  animation: fadeInPanel 0.25s ease forwards;
+}
+
+.casefile-pager {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-top: 24px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.casefile-arrow-btn {
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.25);
+  color: #ffffff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  padding: 5px 14px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.casefile-arrow-btn:hover {
+  background: rgba(255, 255, 255, 0.14);
+  border-color: #ffffff;
+}
+
+.casefile-page-indicator {
+  font-size: 0.65rem;
+  letter-spacing: 0.22em;
+  color: #aaa;
+}

@@ -70,26 +70,59 @@
       </div>
       <!-- TAB 3: CASE FILE (CLASSIFIED PORTFOLIOS) -->
       <div id="term-casefile" class="term-panel">
-        <div class="term-section-title">CLASSIFIED SUBJECT // THE SPIRIT</div>
-        <div class="classified-stamp">RESTRICTED ACCREDITATION</div>
-        <p class="term-text">
-          <strong>DESIGNATION:</strong> THE SPIRIT<br>
-          <strong>ORIGIN:</strong> REDACTED<br>
-          <strong>STATUS:</strong> UNLOCATED<br>
-          <strong>THREAT LEVEL:</strong> INDETERMINATE (ASSESSMENT PENDING)<br>
-          <strong>LAST KNOWN LOCATION:</strong> EARTH-1218<br>
-          <strong>DIRECTIVE:</strong> Observe and report only. Do not engage without containment support.<br>
-        </p>
-        <p class="term-text">
-          Origins date back beyond known history, subject known to ongoing investigation and personnel operating under Operation:XXXXXXXXXX. The being exhibits anomalous properties, including temporal displacement, dimensional travel, energy manipulation, and consciousness projection. All personnel are advised to maintain a safe distance and report any sightings immediately.
-        </p>
-        <div class="term-sub-heading" style="margin-top: 20px;">FUTURE PROFILES</div>
-        <ul class="term-list">
-          <li><span>[ FILE 02 // LOCKED]</span> - Awaiting Project XXXXXX</li>
-        </ul>
+        <div id="casefile-page-0" class="casefile-page active">
+          <div class="term-section-title">CLASSIFIED SUBJECT // THE SPIRIT</div>
+          <div class="classified-stamp">RESTRICTED ACCREDITATION</div>
+          <p class="term-text">
+            <strong>DESIGNATION:</strong> THE SPIRIT<br>
+            <strong>ORIGIN:</strong> REDACTED<br>
+            <strong>STATUS:</strong> UNLOCATED<br>
+            <strong>THREAT LEVEL:</strong> INDETERMINATE (ASSESSMENT PENDING)<br>
+            <strong>LAST KNOWN LOCATION:</strong> EARTH-1218<br>
+            <strong>DIRECTIVE:</strong> Observe and report only. Do not engage without containment support.<br>
+          </p>
+          <p class="term-text">
+            Origins date back beyond known history, subject known to ongoing investigation and personnel operating under Operation:XXXXXXXXXX. The being exhibits anomalous properties, including temporal displacement, dimensional travel, energy manipulation, and consciousness projection. All personnel are advised to maintain a safe distance and report any sightings immediately.
+          </p>
+          <div class="term-sub-heading" style="margin-top: 20px;">FUTURE PROFILES</div>
+          <ul class="term-list">
+            <li><span>[ FILE 02 // LOCKED]</span> - Awaiting Project XXXXXX</li>
+          </ul>
+        </div>
+
+        <div id="casefile-page-1" class="casefile-page">
+          <div id="other-casefile-locked">
+            <div class="term-section-title">CLASSIFIED SUBJECT // [REDACTED]</div>
+            <div class="classified-stamp">SIGNAL REQUIRED // 101.3 MHz</div>
+            <p class="term-text">
+              <strong>DESIGNATION:</strong> UNIDENTIFIED PHENOMENON<br>
+              <strong>STATUS:</strong> LOCKED // FREQUENCY UNINTERCEPTED<br>
+              <strong>DIRECTIVE:</strong> Sweep the Spirit Box receiver to 101.3 MHz to decrypt this record.
+            </p>
+          </div>
+          <div id="other-casefile-unlocked" class="hidden">
+            <div class="term-section-title">CLASSIFIED SUBJECT // THE OTHER</div>
+            <div class="classified-stamp">DECRYPTED // SIGNAL INTERCEPTED</div>
+            <p class="term-text">
+              <strong>DESIGNATION:</strong> THE OTHER<br>
+              <strong>ORIGIN:</strong> REDACTED<br>
+              <strong>STATUS:</strong> REDACTED<br>
+              <strong>THREAT LEVEL:</strong> EXTREME (OVERSIGHT PRIORITY)<br>
+              <strong>LAST KNOWN LOCATION:</strong> REDACTED<br>
+              <strong>DIRECTIVE:</strong> Log all frequency anomalies. Any intel on The Other is to be reported to Oversight immediately.
+            </p>
+            <p class="term-text">
+              M.I.A, Properties [REDACTED] and behavior patterns suggest a shared origin with The Spirit, though the relationship remains unclear. Entity is of high importance to Operation: XXXXXXXXXX and is to strictly to be monitered by Oversight only. Information on The Other is classified and restricted to Level-4 clearance personnel. Any attempts to gain access to restricted files, engage and communicate with the entity without Oversight authorization will be met with immediate termination.
+            </p>
+          </div>
+        </div>
+
+        <div class="casefile-pager">
+          <button type="button" id="casefile-prev" class="casefile-arrow-btn" aria-label="Previous Case File">&larr;</button>
+          <span id="casefile-indicator" class="casefile-page-indicator">FILE 01 / 02</span>
+          <button type="button" id="casefile-next" class="casefile-arrow-btn" aria-label="Next Case File">&rarr;</button>
+        </div>
       </div>
-    </div>
-  </div>
 
   <!-- Local Audio File Slots -->
   <audio id="audio-homepage" src="FURTHER WEBSITE HOMEPAGE AUDIO.mp3" preload="auto" loop></audio>
