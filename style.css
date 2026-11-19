@@ -1695,3 +1695,10 @@ input:checked + .slider::before {
   right: 0 !important;
   transform: translateX(0) !important;
 }
+.terminal-drawer {
+  right: -450px;
+}
+
+.terminal-drawer.open {
+  right: 0;
+}

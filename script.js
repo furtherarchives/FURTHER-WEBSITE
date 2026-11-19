@@ -1229,3 +1229,37 @@ window.addEventListener("load", function () {
     });
   }
 });
+document.addEventListener("click", function (e) {
+  var drawer = document.getElementById("terminal-drawer");
+  if (!drawer) return;
+
+  var toggleBtn = e.target.closest("#terminal-toggle");
+  if (toggleBtn) {
+    drawer.classList.toggle("open");
+    return;
+  }
+
+  var closeBtn = e.target.closest("#terminal-close");
+  if (closeBtn) {
+    drawer.classList.remove("open");
+    return;
+  }
+
+  var tabBtn = e.target.closest(".term-tab-btn");
+  if (tabBtn) {
+    var targetId = tabBtn.getAttribute("data-target");
+    var allTabs = drawer.querySelectorAll(".term-tab-btn");
+    var allPanels = drawer.querySelectorAll(".term-panel");
+    for (var i = 0; i < allTabs.length; i++) {
+      allTabs[i].classList.remove("active");
+    }
+    for (var j = 0; j < allPanels.length; j++) {
+      allPanels[j].classList.remove("active");
+    }
+    tabBtn.classList.add("active");
+    var targetPanel = targetId ? document.getElementById(targetId) : null;
+    if (targetPanel) {
+      targetPanel.classList.add("active");
+    }
+  }
+});
