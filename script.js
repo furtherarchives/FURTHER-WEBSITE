@@ -1181,40 +1181,51 @@ var fragmentLoreData = {
     text: "A physical photographic print scorched black by atmospheric heat, preserving only a single glowing coordinate in an ancient forest. A remnant of the pre-XXXXXX world view before the architects vanished."
   }
 };
-document.addEventListener("DOMContentLoaded", function () {
-  var commsBtn = document.getElementById("radio-toggle");
-  var commsStatus = document.getElementById("radio-status");
-  var termBtn = document.getElementById("terminal-toggle");
-  var termDrawer = document.getElementById("terminal-drawer");
+window.addEventListener("load", function () {
+  var drawer = document.getElementById("terminal-drawer");
+  var toggleBtn = document.getElementById("terminal-toggle");
+  var closeBtn = document.getElementById("terminal-close");
+  var tabBtns = document.querySelectorAll(".term-tab-btn");
+  var panels = document.querySelectorAll(".term-panel");
 
-  if (commsBtn && !commsBtn.dataset.fixedSync) {
-    commsBtn.dataset.fixedSync = "true";
-    commsBtn.addEventListener("click", function () {
-      setTimeout(function () {
-        var isActive = commsBtn.classList.contains("active");
-        if (commsStatus) {
-          commsStatus.textContent = isActive ? "ON" : "OFF";
-        }
-        var audios = document.querySelectorAll("audio");
-        for (var i = 0; i < audios.length; i++) {
-          if (isActive) {
-            if (i === 0 && audios[i].paused) {
-              audios[i].play().catch(function () {});
-            }
-          } else {
-            audios[i].pause();
-          }
-        }
-      }, 0);
+  if (!drawer) return;
+
+  if (toggleBtn && !toggleBtn.dataset.cleanTerminal) {
+    toggleBtn.dataset.cleanTerminal = "true";
+    toggleBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      drawer.classList.toggle("open");
     });
   }
 
-  if (termBtn && termDrawer && !termBtn.dataset.fixedSync) {
-    termBtn.dataset.fixedSync = "true";
-    termBtn.addEventListener("click", function () {
-      setTimeout(function () {
-        termDrawer.classList.add("open");
-      }, 0);
+  if (closeBtn && !closeBtn.dataset.cleanTerminal) {
+    closeBtn.dataset.cleanTerminal = "true";
+    closeBtn.addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      drawer.classList.remove("open");
+    });
+  }
+
+  for (var i = 0; i < tabBtns.length; i++) {
+    if (tabBtns[i].dataset.cleanTab) continue;
+    tabBtns[i].dataset.cleanTab = "true";
+    tabBtns[i].addEventListener("click", function (e) {
+      e.preventDefault();
+      e.stopPropagation();
+      var targetId = this.getAttribute("data-target");
+      for (var j = 0; j < tabBtns.length; j++) {
+        tabBtns[j].classList.remove("active");
+      }
+      for (var k = 0; k < panels.length; k++) {
+        panels[k].classList.remove("active");
+      }
+      this.classList.add("active");
+      var targetPanel = document.getElementById(targetId);
+      if (targetPanel) {
+        targetPanel.classList.add("active");
+      }
     });
   }
 });
