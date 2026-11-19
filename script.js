@@ -963,12 +963,12 @@ document.addEventListener("DOMContentLoaded", function () {
   var waveCanvas = document.getElementById("spirit-waveform-canvas");
 
   var spiritTransmissions = {
-    "90.2": "[ ANOMALY // \"...they locked the door from the outside...\" ]",
-    "94.5": "[ WHISPER // \"...can you hear the wire breathing?...\" ]",
-    "98.0": "[ SIGNAL // \"RESONANCE ACHIEVED: HOPE WAS NEVER REAL.\" ]",
-    "101.3": "[ STATIC // \"...don't look back at the void...\" ]",
-    "104.5": "[ TRANSMISSION // \"COME FIND ME IN THE STATIC.\" ]",
-    "107.1": "[ VOID // \"...F.E.D.S.I. is listening to us right now...\" ]"
+    "90.2": "[ ANOMALY // \"...A chess piece moves on it's own accord, something we did not calculate...the game is still in play...\" ]",
+    "94.5": "[ WHISPER // \"...you've come this far...how can i trust you?\" ]",
+    "98.0": "[ SIGNAL // \"RESONANCE ACHIEVED: Operation Prometheus stays with Oversight, F.E.D.S.I. must stay in the dark with what we know.\" ]",
+    "101.3": "[ STATIC // \"...if anyone is listening...i'm lost, only he can help me...they have me trapped...\" ]",
+    "104.5": "[ TRANSMISSION // \"You found me..I don't have long, but DO NOT TRUST OVERSIGHT..\" ]",
+    "107.1": "[ VOID // \"...Oversight is listening to us right now...\" ]"
   };
 
   var signalLockStrength = 0;

@@ -1601,3 +1601,14 @@ input:checked + .slider::before {
     flex: none;
   }
 }
+/* HIGH-VISIBILITY WHITE RETURN BUTTON ON SPIRIT BOX */
+#view-spirit-box #back-from-spirit-box.nav-return {
+  color: #ffffff;
+  opacity: 0.92;
+  text-shadow: 0 0 8px rgba(255, 255, 255, 0.35);
+}
+
+#view-spirit-box #back-from-spirit-box.nav-return:hover {
+  opacity: 1;
+  text-shadow: 0 0 14px rgba(255, 255, 255, 0.85);
+}
