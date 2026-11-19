@@ -1673,3 +1673,12 @@ input:checked + .slider::before {
   letter-spacing: 0.22em;
   color: #aaa;
 }
+/* ENSURE TOP HEADER CONTROLS ALWAYS RECEIVE CLICKS */
+.top-header-bar {
+  z-index: 960;
+  pointer-events: auto;
+}
+
+.top-header-bar button {
+  pointer-events: auto;
+}
