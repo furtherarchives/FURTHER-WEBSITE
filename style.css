@@ -1682,3 +1682,12 @@ input:checked + .slider::before {
 .top-header-bar button {
   pointer-events: auto;
 }
+.top-header-bar {
+  position: fixed !important;
+  z-index: 999 !important;
+  pointer-events: auto !important;
+}
+
+.top-header-bar button {
+  pointer-events: auto !important;
+}

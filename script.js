@@ -1181,3 +1181,25 @@ var fragmentLoreData = {
     text: "A physical photographic print scorched black by atmospheric heat, preserving only a single glowing coordinate in an ancient forest. A remnant of the pre-XXXXXX world view before the architects vanished."
   }
 };
+document.addEventListener("DOMContentLoaded", function () {
+  var commsBtn = document.getElementById("radio-toggle");
+  var commsStatus = document.getElementById("radio-status");
+  if (commsBtn && !commsBtn.dataset.backupBound) {
+    commsBtn.dataset.backupBound = "true";
+    commsBtn.addEventListener("click", function () {
+      commsBtn.classList.toggle("active");
+      if (commsStatus) {
+        commsStatus.textContent = commsBtn.classList.contains("active") ? "ON" : "OFF";
+      }
+    });
+  }
+
+  var termBtn = document.getElementById("terminal-toggle");
+  var termDrawer = document.getElementById("terminal-drawer");
+  if (termBtn && termDrawer && !termBtn.dataset.backupBound) {
+    termBtn.dataset.backupBound = "true";
+    termBtn.addEventListener("click", function () {
+      termDrawer.classList.toggle("open");
+    });
+  }
+});
