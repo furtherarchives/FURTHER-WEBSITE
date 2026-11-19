@@ -1184,22 +1184,37 @@ var fragmentLoreData = {
 document.addEventListener("DOMContentLoaded", function () {
   var commsBtn = document.getElementById("radio-toggle");
   var commsStatus = document.getElementById("radio-status");
-  if (commsBtn && !commsBtn.dataset.backupBound) {
-    commsBtn.dataset.backupBound = "true";
+  var termBtn = document.getElementById("terminal-toggle");
+  var termDrawer = document.getElementById("terminal-drawer");
+
+  if (commsBtn && !commsBtn.dataset.fixedSync) {
+    commsBtn.dataset.fixedSync = "true";
     commsBtn.addEventListener("click", function () {
-      commsBtn.classList.toggle("active");
-      if (commsStatus) {
-        commsStatus.textContent = commsBtn.classList.contains("active") ? "ON" : "OFF";
-      }
+      setTimeout(function () {
+        var isActive = commsBtn.classList.contains("active");
+        if (commsStatus) {
+          commsStatus.textContent = isActive ? "ON" : "OFF";
+        }
+        var audios = document.querySelectorAll("audio");
+        for (var i = 0; i < audios.length; i++) {
+          if (isActive) {
+            if (i === 0 && audios[i].paused) {
+              audios[i].play().catch(function () {});
+            }
+          } else {
+            audios[i].pause();
+          }
+        }
+      }, 0);
     });
   }
 
-  var termBtn = document.getElementById("terminal-toggle");
-  var termDrawer = document.getElementById("terminal-drawer");
-  if (termBtn && termDrawer && !termBtn.dataset.backupBound) {
-    termBtn.dataset.backupBound = "true";
+  if (termBtn && termDrawer && !termBtn.dataset.fixedSync) {
+    termBtn.dataset.fixedSync = "true";
     termBtn.addEventListener("click", function () {
-      termDrawer.classList.toggle("open");
+      setTimeout(function () {
+        termDrawer.classList.add("open");
+      }, 0);
     });
   }
 });

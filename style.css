@@ -1691,3 +1691,7 @@ input:checked + .slider::before {
 .top-header-bar button {
   pointer-events: auto !important;
 }
+.terminal-drawer.open {
+  right: 0 !important;
+  transform: translateX(0) !important;
+}
